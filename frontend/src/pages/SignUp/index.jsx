@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Index = () => {
+export const SignUp = () => {
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -9,8 +9,8 @@ const Index = () => {
   });
 
   const handleInputChange = (e) => {
-    const { key, value } = e.target;
-    setUser({ ...user, [key]: value });
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
   };
 
   return (
@@ -75,4 +75,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+// export default Index;

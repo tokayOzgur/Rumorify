@@ -74,5 +74,3 @@ export const SignUp = () => {
     </div>
   );
 };
-
-// export default Index;

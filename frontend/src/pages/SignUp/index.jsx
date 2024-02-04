@@ -1,21 +1,40 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { setName, setEmail, setPassword } from "../../redux/features/userSlice";
 import { addUser } from "../../api/userApi";
-import { useState } from "react";
 
 export const SignUp = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [apiProgress, setApiProgress] = useState(false);
+  const [responMessage, setResponMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (user.password === passwordRepeat) {
+      setResponMessage("");
       console.log("handleSubmit" + user);
-      addUser(user).catch((e) => {
-        console.log("HATA::", e);
-      });
+      setApiProgress(true);
+      addUser(user)
+        .catch((e) => {
+          console.log("HATA::", e);
+        })
+        .then((response) => {
+          setResponMessage(response.data.message);
+        })
+        .finally(() => {
+          clearInput();
+        });
     }
+  };
+
+  const clearInput = () => {
+    dispatch(setName(""));
+    dispatch(setEmail(""));
+    dispatch(setPassword(""));
+    setPasswordRepeat("");
+    setApiProgress(false);
   };
 
   return (
@@ -54,7 +73,7 @@ export const SignUp = () => {
               type="password"
               name="passwordRepeat"
               id="passwordRepeat"
-              value={user.passwordRepeat}
+              value={passwordRepeat}
               onChange={(e) => {
                 setPasswordRepeat(e.target.value);
               }}
@@ -62,17 +81,31 @@ export const SignUp = () => {
             <label htmlFor="email">Email address:</label>
             <input
               className="form-control mb-3"
-              type="text"
+              type="email"
               id="email"
               value={user.email}
               onChange={(e) => {
                 dispatch(setEmail(e.target.value));
               }}
             />
+
+            {responMessage && (
+              <div className="alert alert-success">{responMessage}</div>
+            )}
             <button
               className="btn btn-primary"
-              disabled={user.password !== passwordRepeat}
+              disabled={
+                !user.password ||
+                user.password !== passwordRepeat ||
+                apiProgress
+              }
             >
+              {apiProgress && (
+                <span
+                  className="mx-2 spinner-border spinner-border-sm"
+                  aria-hidden="true"
+                ></span>
+              )}
               Sing Up
             </button>
           </form>

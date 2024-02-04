@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rumorify.ws.model.User;
 import com.rumorify.ws.service.UserService;
+import com.rumorify.ws.shared.GenericMessage;
 
 import lombok.AllArgsConstructor;
 
@@ -20,11 +21,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController {
 
-	private UserService userService;
+	private final UserService userService;
 
 	@PostMapping(value = "/addUser")
-	public void createUser(@RequestBody User user) {
+	public GenericMessage createUser(@RequestBody User user) {
 		userService.save(user);
+		return new GenericMessage("User added successfully");
 	}
 
 }

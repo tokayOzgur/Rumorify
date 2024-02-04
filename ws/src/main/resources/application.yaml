@@ -1,11 +1,10 @@
-# author: @tokayOzgur
+#@tokayOzgur
 
 #Active Profile
-
 spring:
   profiles:
     active:
-      -dev
+    - dev
  
 ---
 # Dev Profile Configuration
@@ -25,7 +24,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
  
 ---
@@ -36,9 +35,9 @@ spring:
     on-profile: prod
   datasource:
       driver-class-name: org.h2.Driver
-      url: jdbc:h2:file:./data/proddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      url: jdbc:h2:file:./data/proddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
       username: sa
-      password:
+      password: sa123
   h2:
     console:
       enabled: true

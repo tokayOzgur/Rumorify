@@ -10,13 +10,13 @@ export const SignUp = () => {
   const [apiProgress, setApiProgress] = useState(false);
   const [responMessage, setResponMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (user.password === passwordRepeat) {
       setResponMessage("");
       console.log("handleSubmit" + user);
       setApiProgress(true);
-      addUser(user)
+      await addUser(user)
         .catch((e) => {
           console.log("HATA::", e);
         })

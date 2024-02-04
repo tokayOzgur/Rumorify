@@ -1,0 +1,50 @@
+# author: @tokayOzgur
+
+#Active Profile
+
+spring:
+  profiles:
+    active:
+      -dev
+ 
+---
+# Dev Profile Configuration
+spring:
+  config:
+   activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/devdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password: 
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+ 
+---
+# Prod Profile Configuration
+spring:
+  config:
+   activate:
+    on-profile: prod
+  datasource:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:file:./data/proddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false

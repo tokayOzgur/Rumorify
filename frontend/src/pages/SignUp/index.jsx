@@ -9,9 +9,9 @@ export const SignUp = () => {
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
   const handleSubmit = (e) => {
-    e.prevenDefault();
+    e.preventDefault();
     if (user.password === passwordRepeat) {
-      console.log("handleSubmit" + user.isim);
+      console.log("handleSubmit" + user);
       addUser(user).catch((e) => {
         console.log("HATA::", e);
       });
@@ -19,14 +19,16 @@ export const SignUp = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-6">
+    <div className="container my-5">
+      <div className="row">
+        <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
+          <form className="card p-3" onSubmit={handleSubmit}>
+            <div className="card-header mb-3">
+              <h3>Sing Up</h3>
+            </div>
             <label htmlFor="username">Username</label>
-          </div>
-          <div className="col-6">
             <input
+              className="form-control mb-3"
               type="text"
               id="username"
               name="username"
@@ -35,12 +37,9 @@ export const SignUp = () => {
                 dispatch(setName(e.target.value));
               }}
             />
-          </div>
-          <div className="col-6">
             <label htmlFor="password">Password:</label>
-          </div>
-          <div className="col-6">
             <input
+              className="form-control mb-3"
               type="password"
               name="password"
               id="password"
@@ -49,12 +48,9 @@ export const SignUp = () => {
                 dispatch(setPassword(e.target.value));
               }}
             />
-          </div>
-          <div className="col-6">
             <label htmlFor="passwordRepeat">Password Repeat:</label>
-          </div>
-          <div className="col-6">
             <input
+              className="form-control mb-3"
               type="password"
               name="passwordRepeat"
               id="passwordRepeat"
@@ -63,12 +59,9 @@ export const SignUp = () => {
                 setPasswordRepeat(e.target.value);
               }}
             />
-          </div>
-          <div className="col-6">
             <label htmlFor="email">Email address:</label>
-          </div>
-          <div className="col-6">
             <input
+              className="form-control mb-3"
               type="text"
               id="email"
               value={user.email}
@@ -76,15 +69,15 @@ export const SignUp = () => {
                 dispatch(setEmail(e.target.value));
               }}
             />
-          </div>
-          <button
-            className="btn btn-primary"
-            disabled={user.password !== passwordRepeat}
-          >
-            Sing Up
-          </button>
+            <button
+              className="btn btn-primary"
+              disabled={user.password !== passwordRepeat}
+            >
+              Sing Up
+            </button>
+          </form>
         </div>
       </div>
-    </form>
+    </div>
   );
 };

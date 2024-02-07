@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setName, setEmail, setPassword } from "../../redux/features/userSlice";
 import { addUser } from "../../api/userApi";
 
@@ -9,24 +9,33 @@ export const SignUp = () => {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [responMessage, setResponMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({});
+  const [generalError, setGeneralError] = useState("");
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [user.username]);
 
   const handleSubmit = async (e) => {
+    clearInput();
     e.preventDefault();
     if (user.password === passwordRepeat) {
       setResponMessage("");
-      console.log("handleSubmit" + user);
       setApiProgress(true);
       await addUser(user)
         .catch((e) => {
           console.log("HATA::", e);
-          setErrorMessage(e.response.data.validationError);
+          if (e.response.data?.data && e.response.data.status === 400) {
+            setErrorMessage(e.response.data.validationError);
+          } else {
+            setGeneralError(e.response.data.message);
+          }
         })
         .then((response) => {
           setResponMessage(response.data.message);
         })
         .finally(() => {
-          clearInput();
+          apiProgress(false);
         });
     }
   };
@@ -37,6 +46,8 @@ export const SignUp = () => {
     dispatch(setPassword(""));
     setPasswordRepeat("");
     setApiProgress(false);
+    setResponMessage("");
+    setGeneralError("");
   };
 
   return (
@@ -49,13 +60,18 @@ export const SignUp = () => {
             </div>
             <label htmlFor="username">Username</label>
             <input
-              className="form-control mb-3"
+              className={
+                errorMessage.username
+                  ? "form-control mb-3 is-invalid"
+                  : "form-control mb-3"
+              }
               type="text"
               id="username"
               name="username"
               value={user.username}
               onChange={(e) => {
                 dispatch(setName(e.target.value));
+                setErrorMessage("");
               }}
             />
             <label htmlFor="password">Password:</label>
@@ -94,8 +110,8 @@ export const SignUp = () => {
             {responMessage && (
               <div className="alert alert-success">{responMessage}</div>
             )}
-            {errorMessage && (
-              <div className="alert alert-danger">{errorMessage}</div>
+            {generalError && (
+              <div className="alert alert-danger">{generalError}</div>
             )}
 
             <button

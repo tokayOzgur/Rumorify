@@ -9,6 +9,7 @@ export const SignUp = () => {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [responMessage, setResponMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +20,7 @@ export const SignUp = () => {
       await addUser(user)
         .catch((e) => {
           console.log("HATA::", e);
+          setErrorMessage(e.response.data.validationError);
         })
         .then((response) => {
           setResponMessage(response.data.message);
@@ -92,6 +94,10 @@ export const SignUp = () => {
             {responMessage && (
               <div className="alert alert-success">{responMessage}</div>
             )}
+            {errorMessage && (
+              <div className="alert alert-danger">{errorMessage}</div>
+            )}
+
             <button
               className="btn btn-primary"
               disabled={

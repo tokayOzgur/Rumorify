@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { setName, setEmail, setPassword } from "../../redux/features/userSlice";
 import { addUser } from "../../api/userApi";
+import { Input } from "../../components/SignUp/Input";
 
+//TODO: test validation error and susccess message
 export const SignUp = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -13,8 +15,28 @@ export const SignUp = () => {
   const [generalError, setGeneralError] = useState("");
 
   useEffect(() => {
-    setErrorMessage("");
+    setErrorMessage((lastErrors) => {
+      return {
+        ...lastErrors,
+        user: {
+          ...lastErrors.user,
+          username: undefined,
+        },
+      };
+    });
   }, [user.username]);
+
+  useEffect(() => {
+    setErrorMessage((lastErrors) => {
+      return {
+        ...lastErrors,
+        user: {
+          ...lastErrors.user,
+          email: undefined,
+        },
+      };
+    });
+  }, [user.email]);
 
   const handleSubmit = async (e) => {
     clearInput();
@@ -58,50 +80,38 @@ export const SignUp = () => {
             <div className="card-header mb-3">
               <h3>Sing Up</h3>
             </div>
-            <label htmlFor="username">Username</label>
-            <input
-              className={
-                errorMessage.username
-                  ? "form-control mb-3 is-invalid"
-                  : "form-control mb-3"
-              }
-              type="text"
-              id="username"
-              name="username"
-              value={user.username}
+            <Input
+              id={"username"}
+              type={"text"}
+              label={"Username"}
+              error={errorMessage.username}
               onChange={(e) => {
                 dispatch(setName(e.target.value));
-                setErrorMessage("");
               }}
             />
-            <label htmlFor="password">Password:</label>
-            <input
-              className="form-control mb-3"
-              type="password"
-              name="password"
-              id="password"
-              value={user.password}
+            <Input
+              id={"password"}
+              type={"password"}
+              label={"Password"}
+              error={errorMessage.password}
               onChange={(e) => {
                 dispatch(setPassword(e.target.value));
               }}
             />
-            <label htmlFor="passwordRepeat">Password Repeat:</label>
-            <input
-              className="form-control mb-3"
-              type="password"
-              name="passwordRepeat"
-              id="passwordRepeat"
-              value={passwordRepeat}
+            <Input
+              id={"passwordRepeat"}
+              type={"password"}
+              label={"Password Repeat"}
+              error={errorMessage.password}
               onChange={(e) => {
                 setPasswordRepeat(e.target.value);
               }}
             />
-            <label htmlFor="email">Email address:</label>
-            <input
-              className="form-control mb-3"
-              type="email"
-              id="email"
-              value={user.email}
+            <Input
+              id={"email"}
+              type={"email"}
+              label={"Email address:"}
+              error={errorMessage.email}
               onChange={(e) => {
                 dispatch(setEmail(e.target.value));
               }}

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rumorify.ws.model.User;
+import com.rumorify.ws.dto.request.CreateUserRequest;
 import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.shared.GenericMessage;
 
@@ -24,8 +24,8 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping(value = "/addUser")
-	public GenericMessage createUser(@RequestBody User user) {
-		userService.save(user);
+	public GenericMessage createUser(@RequestBody CreateUserRequest userRequest) {
+		userService.save(userRequest);
 		return new GenericMessage("User added successfully");
 	}
 

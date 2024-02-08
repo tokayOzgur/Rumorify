@@ -1,5 +1,14 @@
 package com.rumorify.ws.exception;
 
-public class ResourceNotFoundException {
-    
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
+
+/**
+ * @author: tokay
+ */
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
 }

@@ -11,7 +11,7 @@ import jakarta.validation.Constraint;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
-    String message() default "Email already exists";
+    String message() default "{rumorify.constraints.email.notunique}";
 
     Class<?>[] groups() default {};
 

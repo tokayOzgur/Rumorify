@@ -38,6 +38,18 @@ export const SignUp = () => {
     });
   }, [user.email]);
 
+  useEffect(() => {
+    setErrorMessage((lastErrors) => {
+      return {
+        ...lastErrors,
+        user: {
+          ...lastErrors.user,
+          password: undefined,
+        },
+      };
+    });
+  }, [user.password]);
+
   const handleSubmit = async (e) => {
     clearInput();
     e.preventDefault();

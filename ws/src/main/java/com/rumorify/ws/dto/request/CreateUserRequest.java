@@ -1,5 +1,7 @@
 package com.rumorify.ws.dto.request;
 
+import com.rumorify.ws.validation.userValidation.UniqueEmail;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -15,6 +17,7 @@ public class CreateUserRequest {
 
     @NotBlank
     @Email(message = "Invalid email")
+    @UniqueEmail
     private String email;
 
     @Size(min = 8, max = 50)

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { setName, setEmail, setPassword } from "../../redux/features/userSlice";
 import { addUser } from "../../api/userApi";
 import { Input } from "../../components/SignUp/Input";
@@ -49,6 +49,13 @@ export const SignUp = () => {
       };
     });
   }, [user.password]);
+
+  const passwordRepeatError = useMemo(() => {
+    if (user.password !== passwordRepeat) {
+      return "Password does not match";
+    }
+    return undefined;
+  }, [user.password, passwordRepeat]);
 
   const handleSubmit = async (e) => {
     clearInput();
@@ -114,7 +121,7 @@ export const SignUp = () => {
               id={"passwordRepeat"}
               type={"password"}
               label={"Password Repeat"}
-              error={errorMessage.password}
+              error={passwordRepeatError}
               onChange={(e) => {
                 setPasswordRepeat(e.target.value);
               }}

@@ -1,6 +1,8 @@
 
 package com.rumorify.ws.controller;
 
+import org.springframework.context.i18n.LocaleContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rumorify.ws.dto.request.CreateUserRequest;
 import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.shared.GenericMessage;
+import com.rumorify.ws.shared.Messages;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,7 +30,8 @@ public class UserController {
 	@PostMapping(value = "/addUser")
 	public GenericMessage createUser(@Valid @RequestBody CreateUserRequest userRequest) {
 		userService.save(userRequest);
-		return new GenericMessage("User added successfully");
+		return new GenericMessage(Messages.getMessageForLocale("rumorify.create.user.success.message",
+				LocaleContextHolder.getLocale()));
 	}
 
 }

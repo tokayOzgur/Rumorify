@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { setName, setEmail, setPassword } from "../../redux/features/userSlice";
 import { addUser } from "../../api/userApi";
 import { Input } from "../../components/SignUp/Input";
+import { useTranslation } from "react-i18next";
 
 //TODO: test validation error and susccess message
 export const SignUp = () => {
@@ -13,6 +14,7 @@ export const SignUp = () => {
   const [responMessage, setResponMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState({});
   const [generalError, setGeneralError] = useState("");
+  const { t } = useTranslation();
 
   useEffect(() => {
     setErrorMessage((lastErrors) => {
@@ -52,7 +54,7 @@ export const SignUp = () => {
 
   const passwordRepeatError = useMemo(() => {
     if (user.password !== passwordRepeat) {
-      return "Password does not match";
+      return this.t("passwordMismatch");
     }
     return undefined;
   }, [user.password, passwordRepeat]);
@@ -102,7 +104,7 @@ export const SignUp = () => {
             <Input
               id={"username"}
               type={"text"}
-              label={"Username"}
+              label={t("username")}
               error={errorMessage.username}
               onChange={(e) => {
                 dispatch(setName(e.target.value));
@@ -111,7 +113,7 @@ export const SignUp = () => {
             <Input
               id={"password"}
               type={"password"}
-              label={"Password"}
+              label={t("password")}
               error={errorMessage.password}
               onChange={(e) => {
                 dispatch(setPassword(e.target.value));
@@ -120,7 +122,7 @@ export const SignUp = () => {
             <Input
               id={"passwordRepeat"}
               type={"password"}
-              label={"Password Repeat"}
+              label={t("passwordRepeat")}
               error={passwordRepeatError}
               onChange={(e) => {
                 setPasswordRepeat(e.target.value);
@@ -129,7 +131,7 @@ export const SignUp = () => {
             <Input
               id={"email"}
               type={"email"}
-              label={"Email address:"}
+              label={t("email")}
               error={errorMessage.email}
               onChange={(e) => {
                 dispatch(setEmail(e.target.value));
@@ -157,7 +159,7 @@ export const SignUp = () => {
                   aria-hidden="true"
                 ></span>
               )}
-              Sing Up
+              {t("signUp")}
             </button>
           </form>
         </div>

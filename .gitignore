@@ -1,2 +1,4 @@
 .vscode/settings.json
 .vscode/launch.json
+data/devdb.mv.db
+.gitignore

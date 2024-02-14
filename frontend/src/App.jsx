@@ -1,6 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JS
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { SignUp } from "./pages/SignUp";
 import { Provider } from "react-redux";
 import React from "react";

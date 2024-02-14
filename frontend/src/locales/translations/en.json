@@ -5,5 +5,7 @@
   "password": "Password",
   "passwordRepeat": "Password Repeat",
   "passwordMismatch": "Password mismatch",
-  "genericError": "Something went wrong, please try again later"
+  "genericError": "Something went wrong, please try again later",
+  "english": "English",
+  "turkish": "Turkish"
 }

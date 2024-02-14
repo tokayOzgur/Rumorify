@@ -5,5 +5,7 @@
   "password": "Şifre",
   "passwordRepeat": "Şifre Tekrar",
   "passwordMismatch": "Şifreler uyuşmuyor",
-  "genericError": "Bir hata oluştu, lütfen daha sonra tekrar deneyin"
+  "genericError": "Bir hata oluştu, lütfen daha sonra tekrar deneyin",
+  "turkish": "Türkçe",
+  "english": "İngilizce"
 }

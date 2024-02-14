@@ -99,7 +99,7 @@ export const SignUp = () => {
         <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
           <form className="card p-3" onSubmit={handleSubmit}>
             <div className="card-header mb-3">
-              <h3>Sing Up</h3>
+              <h3>{t("signUp")}</h3>
             </div>
             <Input
               id={"username"}

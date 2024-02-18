@@ -53,9 +53,7 @@ public class UserServiceImpl implements UserService {
                 throw new ResourceNotFoundException("User not found!!");
             user.setActivationToken(UUID.randomUUID().toString());
             userRepository.saveAndFlush(user);
-            emailService.sendActivationEmail(user.getEmail(), "Account Activation",
-                    "Account has been created successfully! Please click the link to activate your account: http://localhost:8080/api/v1/users/activate/"
-                            + user.getActivationToken());
+            emailService.sendActivationEmail(user.getEmail(), user.getActivationToken());
         } catch (DataIntegrityViolationException e) {
             throw new NotUniqueEmailException();
         } catch (MailException e) {

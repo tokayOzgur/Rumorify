@@ -1,0 +1,29 @@
+package com.rumorify.ws.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+import lombok.Data;
+
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "rumorify")
+public class RumorifyProperties {
+
+        private Email email;
+        private Client client;
+
+        public static record Email(
+                        String host,
+                        // String username,
+                        // String password,
+                        String from,
+                        int port
+
+        ) {
+        }
+
+        public static record Client(
+                        String host) {
+        }
+}

@@ -3,3 +3,4 @@
 data/devdb.mv.db
 .gitignore
 data/devdb.trace.db
+.env

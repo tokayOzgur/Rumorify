@@ -4,19 +4,19 @@
 spring:
   profiles:
     active:
-    - dev
- 
+      - dev
+
 ---
 # Dev Profile Configuration
 spring:
   config:
-   activate:
+    activate:
       on-profile: dev
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:file:./data/devdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
     username: sa
-    password: 
+    password:
   h2:
     console:
       enabled: true
@@ -26,18 +26,24 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
- 
+rumorify:
+  email:
+    host: smtp.ethereal.email
+    port: 587
+    from: rumorify@tokay.com
+  client:
+    host: http://localhost:5173
 ---
 # Prod Profile Configuration
 spring:
   config:
-   activate:
-    on-profile: prod
+    activate:
+      on-profile: prod
   datasource:
-      driver-class-name: org.h2.Driver
-      url: jdbc:h2:file:./data/proddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
-      username: sa
-      password: sa123
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/proddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password: sa123
   h2:
     console:
       enabled: true

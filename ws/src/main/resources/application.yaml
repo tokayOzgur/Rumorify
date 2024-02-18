@@ -53,3 +53,10 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+rumorify:
+  email:
+    host: smtp.ethereal.email
+    port: 587
+    from: rumorify@tokay.com
+  client:
+    host: http://localhost:5173

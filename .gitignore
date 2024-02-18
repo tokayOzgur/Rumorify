@@ -2,3 +2,4 @@
 .vscode/launch.json
 data/devdb.mv.db
 .gitignore
+data/devdb.trace.db

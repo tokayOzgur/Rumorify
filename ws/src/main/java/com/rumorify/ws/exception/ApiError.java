@@ -2,8 +2,9 @@
 package com.rumorify.ws.exception;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import lombok.Data;
  *
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiError {
 	private int status;
 
@@ -21,6 +23,6 @@ public class ApiError {
 
 	private long timestam = new Date().getTime();
 
-	private Map<String, String> validationErrors = new HashMap<>();
-	
+	private Map<String, String> validationErrors = null;
+
 }

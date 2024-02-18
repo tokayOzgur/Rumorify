@@ -11,7 +11,7 @@ import com.rumorify.ws.shared.Messages;
  * @author: tokay
  */
 public class NotUniqueEmailException extends RuntimeException {
-    public NotUniqueEmailException(String message) {
+    public NotUniqueEmailException() {
         super(Messages.getMessageForLocale("rumorify.error.validation", LocaleContextHolder.getLocale()));
     }
 

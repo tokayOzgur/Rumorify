@@ -1,4 +1,4 @@
-package com.rumorify.ws.dto.request.responses;
+package com.rumorify.ws.dto.responses;
 
 import lombok.Data;
 

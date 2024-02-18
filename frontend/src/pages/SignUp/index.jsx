@@ -68,8 +68,12 @@ export const SignUp = () => {
       await addUser(user)
         .catch((e) => {
           console.log("HATA::", e);
-          if (e.response.data?.data && e.response.data.status === 400) {
-            setErrorMessage(e.response.data.validationError);
+          if (e.response.data?.data) {
+            if (e.response.data.status === 400) {
+              setErrorMessage(e.response.data.validationError);
+            } else {
+              setGeneralError(e.response.data.message);
+            }
           } else {
             setGeneralError(e.response.data.message);
           }
@@ -78,7 +82,7 @@ export const SignUp = () => {
           setResponMessage(response.data.message);
         })
         .finally(() => {
-          apiProgress(false);
+          setApiProgress(false);
         });
     }
   };

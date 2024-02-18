@@ -1,17 +1,24 @@
 package com.rumorify.ws.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.request.CreateUserRequest;
-import com.rumorify.ws.dto.request.responses.GetUserByUserNameResponse;
+import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
+import com.rumorify.ws.exception.ActivationNotificationException;
+import com.rumorify.ws.exception.NotUniqueEmailException;
+import com.rumorify.ws.exception.ResourceNotFoundException;
 import com.rumorify.ws.model.User;
 import com.rumorify.ws.repository.UserRepository;
+import com.rumorify.ws.service.EmailService;
 import com.rumorify.ws.service.ModelMapperService;
 import com.rumorify.ws.service.UserService;
-import com.rumorify.ws.exception.ResourceNotFoundException;
+
+import jakarta.transaction.Transactional;
 
 /**
  * @author tokay
@@ -22,6 +29,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapperService mapper;
+    @Autowired
+    private EmailService emailService;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -33,12 +42,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackOn = MailException.class)
     public void save(CreateUserRequest userRequest) {
-        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        User user = mapper.forRequest().map(userRequest, User.class);
-        if (user == null)
-            throw new ResourceNotFoundException("User not found with username: " + userRequest.getUsername());
-        userRepository.save(user);
+        try {
+            userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+            User user = mapper.forRequest().map(userRequest, User.class);
+            if (user == null)
+                throw new ResourceNotFoundException("User not found!!");
+            userRepository.saveAndFlush(user);
+            emailService.sendActivationEmail(user.getEmail(), "Account Activation",
+                    "Account has been created successfully");
+        } catch (DataIntegrityViolationException e) {
+            throw new NotUniqueEmailException();
+        } catch (MailException e) {
+            throw new ActivationNotificationException();
+        }
     }
 
     @Override

@@ -7,5 +7,7 @@
   "passwordMismatch": "Password mismatch",
   "genericError": "Something went wrong, please try again later",
   "english": "English",
-  "turkish": "Turkish"
+  "turkish": "Turkish",
+  "preferences": "Preferences",
+  "activation": "Activation"
 }

@@ -7,5 +7,7 @@
   "passwordMismatch": "Şifreler uyuşmuyor",
   "genericError": "Bir hata oluştu, lütfen daha sonra tekrar deneyin",
   "turkish": "Türkçe",
-  "english": "İngilizce"
+  "english": "İngilizce",
+  "preferences": "Tercihler",
+  "activation": "Aktivasyon"
 }

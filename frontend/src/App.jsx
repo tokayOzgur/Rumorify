@@ -1,11 +1,11 @@
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { SignUp } from "./pages/SignUp";
-import { Provider } from "react-redux";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import React from "react";
+import { Provider } from "react-redux";
+import "./App.css";
 import { store } from "./redux/store";
 import { Navbar } from "./shared/components/Navbar";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <Provider store={store}>
         <div className="cotanier-fluid">
           <Navbar />
-          <SignUp />
+          <Outlet />
         </div>
       </Provider>
     </React.StrictMode>

@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.config.RumorifyProperties;
@@ -12,6 +13,8 @@ import com.rumorify.ws.service.EmailService;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImp implements EmailService {
@@ -21,6 +24,17 @@ public class EmailServiceImp implements EmailService {
 
     @Autowired
     private RumorifyProperties rumorifyProp;
+
+    // TODO: Replace this with a proper template engine
+    String activationEmail = """
+            <html>
+                <body>
+                    <h1>Activate your account</h1>
+                    <p>To activate your account, please click the following link:</p>
+                    <a href="${url}">Activate</a>
+                </body>
+            </html>
+            """;
 
     @PostConstruct
     public void initialize() {
@@ -36,14 +50,20 @@ public class EmailServiceImp implements EmailService {
 
     @Override
     public void sendActivationEmail(String email, String activationToken) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(rumorifyProp.getEmail().from());
-        mailMessage.setTo(email);
-        mailMessage.setSubject("Rumorify Account Activation");
-        mailMessage.setText("To activate your account, please click the following link: "
-                + rumorifyProp.getClient().host() + "/activate?token=" + activationToken);
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mailMessage = new MimeMessageHelper(mimeMessage, "UTF-8");
+        try {
+            String activationUrl = rumorifyProp.getClient().host() + "/activate?token=" + activationToken;
+            String mailText = activationEmail.replace("${url}", activationUrl);
+            mailMessage.setFrom(rumorifyProp.getEmail().from());
+            mailMessage.setTo(email);
+            mailMessage.setSubject("Rumorify Account Activation");
+            mailMessage.setText(mailText, true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
-        this.mailSender.send(mailMessage);
+        this.mailSender.send(mimeMessage);
     }
 
 }

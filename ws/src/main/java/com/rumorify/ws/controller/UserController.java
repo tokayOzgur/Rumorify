@@ -14,7 +14,6 @@ import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.shared.GenericMessage;
 import com.rumorify.ws.shared.Messages;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -29,7 +28,7 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping(value = "/addUser")
-	public GenericMessage createUser(@Valid @RequestBody CreateUserRequest userRequest) {
+	public GenericMessage createUser(@RequestBody CreateUserRequest userRequest) {
 		userService.save(userRequest);
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.create.user.success.message",
 				LocaleContextHolder.getLocale()));

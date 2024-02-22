@@ -22,8 +22,7 @@ public class ErrorHandler {
             ActivationNotificationException.class,
             NotUniqueEmailException.class,
             InvalidTokenException.class,
-            ResourceNotFoundException.class,
-
+            ResourceNotFoundException.class
     })
     ResponseEntity<ApiError> handleCustomException(Exception exception, HttpServletRequest request) {
         ApiError error = new ApiError();

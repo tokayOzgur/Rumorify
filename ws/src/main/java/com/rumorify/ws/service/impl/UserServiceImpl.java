@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserByUserNameResponse findByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException());
         return mapper.forResponse().map(user, GetUserByUserNameResponse.class);
     }
 
@@ -51,8 +51,9 @@ public class UserServiceImpl implements UserService {
             userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
             User user = mapper.forRequest().map(userRequest, User.class);
             if (user == null)
-                throw new ResourceNotFoundException("User not found!!");
+                throw new ResourceNotFoundException();
             user.setActivationToken(UUID.randomUUID().toString());
+            user.setActive(false);
             userRepository.saveAndFlush(user);
             emailService.sendActivationEmail(user.getEmail(), user.getActivationToken());
         } catch (DataIntegrityViolationException e) {
@@ -63,10 +64,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void activeUser(String token) {
-        User userInDb = userRepository.findByActivationToken(token)
-                .orElseThrow(() -> new InvalidTokenException());
-
+    public void activateUser(String token) {
+        User inDB = userRepository.findByActivationToken(token).orElseThrow(() -> new InvalidTokenException());
+        if (inDB == null) {
+            throw new InvalidTokenException();
+        }
+        inDB.setActive(true);
+        inDB.setActivationToken(null);
+        userRepository.save(inDB);
     }
 
     @Override

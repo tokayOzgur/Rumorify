@@ -18,5 +18,5 @@ public interface UserService {
 
 	public void deleteByUsername(String username);
 
-    public void activeUser(String token);
+    public void activateUser(String token);
 }

@@ -37,7 +37,7 @@ public class UserController {
 
 	@PatchMapping(value = "/{token}/active")
 	public GenericMessage activateUser(@PathVariable String token) {
-		userService.activeUser(token);
+		userService.activateUser(token);
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.activate.user.success.message",
 				LocaleContextHolder.getLocale()));
 	}

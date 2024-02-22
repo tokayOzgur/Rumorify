@@ -17,4 +17,6 @@ public interface UserService {
 	public void updateByUsername(User user);
 
 	public void deleteByUsername(String username);
+
+    public void activeUser(String token);
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.rumorify.ws.dto.request.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
 import com.rumorify.ws.exception.ActivationNotificationException;
+import com.rumorify.ws.exception.InvalidTokenException;
 import com.rumorify.ws.exception.NotUniqueEmailException;
 import com.rumorify.ws.exception.ResourceNotFoundException;
 import com.rumorify.ws.model.User;
@@ -62,6 +63,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void activeUser(String token) {
+        User userInDb = userRepository.findByActivationToken(token)
+                .orElseThrow(() -> new InvalidTokenException());
+
+    }
+
+    @Override
     public void updateByUsername(User user) {
         throw new UnsupportedOperationException("Unimplemented method 'updateByUsername'");
     }
@@ -70,4 +78,5 @@ public class UserServiceImpl implements UserService {
     public void deleteByUsername(String username) {
         throw new UnsupportedOperationException("Unimplemented method 'deleteByUsername'");
     }
+
 }

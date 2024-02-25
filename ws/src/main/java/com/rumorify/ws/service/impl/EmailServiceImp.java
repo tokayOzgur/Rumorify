@@ -52,7 +52,7 @@ public class EmailServiceImp implements EmailService {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mailMessage = new MimeMessageHelper(mimeMessage, "UTF-8");
         try {
-            String activationUrl = rumorifyProp.getClient().host() + "/activate?token=" + activationToken;
+            String activationUrl = rumorifyProp.getClient().host() + "/activation/" + activationToken;
             String mailText = activationEmail.replace("${url}", activationUrl);
             mailMessage.setFrom(rumorifyProp.getEmail().from());
             mailMessage.setTo(email);

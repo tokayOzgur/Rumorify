@@ -1,9 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import { setName, setEmail, setPassword } from "../../redux/features/userSlice";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../api/userApi";
 import { Input } from "../../components/SignUp/Input";
-import { useTranslation } from "react-i18next";
+import { setEmail, setName, setPassword } from "../../redux/features/userSlice";
+import { Alert } from "../../shared/components/Alert";
+import { Spinner } from "../../shared/components/Spinner";
 
 //TODO: test validation error and susccess message
 export const SignUp = () => {
@@ -143,10 +145,10 @@ export const SignUp = () => {
             />
 
             {responMessage && (
-              <div className="alert alert-success">{responMessage}</div>
+              <Alert styleType="success">{responMessage}</Alert>
             )}
             {generalError && (
-              <div className="alert alert-danger">{generalError}</div>
+              <Alert styleType="success-danger">{generalError}</Alert>
             )}
 
             <button
@@ -157,12 +159,7 @@ export const SignUp = () => {
                 apiProgress
               }
             >
-              {apiProgress && (
-                <span
-                  className="mx-2 spinner-border spinner-border-sm"
-                  aria-hidden="true"
-                ></span>
-              )}
+              {apiProgress && <Spinner size="sm" />}
               {t("signUp")}
             </button>
           </form>

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { activateUser } from "../../api/userApi";
+import { Alert } from "../../shared/components/Alert";
+import { Spinner } from "../../shared/components/Spinner";
 
 export const Activation = () => {
   const { t } = useTranslation();
@@ -28,19 +30,11 @@ export const Activation = () => {
       <div className="row">
         <div className="col-12">
           <h1>{t("Activation")}</h1>
-          {apiProgress && (
-            <span className="spinner-border" aria-hidden="true"></span>
-          )}
+          {apiProgress && <Spinner size="md"/>}
           {successMessage && (
-            <div className="alert alert-success" role="alert">
-              {successMessage}
-            </div>
+            <Alert styleType="success">{successMessage}</Alert>
           )}
-          {errorMessage && (
-            <div className="alert alert-danger" role="alert">
-              {errorMessage}
-            </div>
-          )}
+          {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
         </div>
       </div>
     </div>

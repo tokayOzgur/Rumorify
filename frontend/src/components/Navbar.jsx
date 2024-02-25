@@ -1,5 +1,5 @@
 import { LanguageSelector } from "./LanguageSelector";
-import logo from "../../assets/a.png";
+import logo from "../assets/a.png";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -53,11 +53,6 @@ export const Navbar = () => {
                   </li>
                   <LanguageSelector />
                 </ul>
-              </li>
-              <li>
-                <Link className="nav-link" to={"/aktivation"}>
-                  {t("activation")}
-                </Link>
               </li>
             </ul>
             <div className="d-flex mx-2">

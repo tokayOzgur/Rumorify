@@ -20,7 +20,7 @@ export default createBrowserRouter([
       },
       {
         path: "/activation/:token",
-        Component: () => Activation,
+        Component: Activation,
       },
     ],
   },

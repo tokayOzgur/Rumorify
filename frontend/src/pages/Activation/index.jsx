@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { activateUser } from "../../api/userApi";
-import { Alert } from "../../shared/components/Alert";
-import { Spinner } from "../../shared/components/Spinner";
+import { activateUser } from "@/api/userApi";
+import { Alert } from "@/shared/components/Alert";
+import { Spinner } from "@/shared/components/Spinner";
 
 export const Activation = () => {
   const { t } = useTranslation();

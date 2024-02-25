@@ -1,5 +1,5 @@
 import { LanguageSelector } from "./LanguageSelector";
-import logo from "../../assets/a.png";
+import logo from "@/assets/a.png";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 

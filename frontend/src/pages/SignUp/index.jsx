@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../api/userApi";
-import { Input } from "../../components/SignUp/Input";
-import { setEmail, setName, setPassword } from "../../redux/features/userSlice";
-import { Alert } from "../../shared/components/Alert";
-import { Spinner } from "../../shared/components/Spinner";
+import { addUser } from "@/api/userApi";
+import { Input } from "@/components/SignUp/Input";
+import { setEmail, setName, setPassword } from "@/redux/features/userSlice";
+import { Alert } from "@/shared/components/Alert";
+import { Spinner } from "@/shared/components/Spinner";
 
 //TODO: test validation error and susccess message
 export const SignUp = () => {
@@ -56,10 +56,10 @@ export const SignUp = () => {
 
   const passwordRepeatError = useMemo(() => {
     if (user.password !== passwordRepeat) {
-      return this.t("passwordMismatch");
+      return t("passwordMismatch");
     }
     return undefined;
-  }, [user.password, passwordRepeat]);
+  }, [user.password, passwordRepeat, t]);
 
   const handleSubmit = async (e) => {
     clearInput();

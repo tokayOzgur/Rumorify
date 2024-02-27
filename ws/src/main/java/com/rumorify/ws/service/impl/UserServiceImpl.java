@@ -1,5 +1,6 @@
 package com.rumorify.ws.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.request.CreateUserRequest;
+import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
+import com.rumorify.ws.dto.responses.GetAllUserResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
 import com.rumorify.ws.exception.ActivationNotificationException;
 import com.rumorify.ws.exception.InvalidTokenException;
@@ -82,6 +85,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteByUsername(String username) {
         throw new UnsupportedOperationException("Unimplemented method 'deleteByUsername'");
+    }
+
+    @Override
+    public List<GetAllActiveUsersResponse> findAllByActive(boolean active) {
+        return userRepository.findAllByActive(active).stream()
+                .map(user -> this.mapper.forResponse().map(user, GetAllActiveUsersResponse.class))
+                .toList();
+    }
+
+    @Override
+    public List<GetAllUserResponse> findAll() {
+        return userRepository.findAll().stream()
+                .map(user -> this.mapper.forResponse().map(user, GetAllUserResponse.class))
+                .toList();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.rumorify.ws.dto.request;
+package com.rumorify.ws.dto.requests;
 
 import com.rumorify.ws.validation.userValidation.UniqueEmail;
 

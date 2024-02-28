@@ -3,6 +3,9 @@ package com.rumorify.ws.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.rumorify.ws.dto.request.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
@@ -24,7 +27,7 @@ public interface UserService {
 
 	public void activateUser(String token);
 
-	public List<GetAllActiveUsersResponse> findAllByActive(boolean active);
+	public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable);
 
 	public List<GetAllUserResponse> findAll();
 }

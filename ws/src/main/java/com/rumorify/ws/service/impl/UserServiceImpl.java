@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -88,10 +90,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetAllActiveUsersResponse> findAllByActive(boolean active) {
-        return userRepository.findAllByActive(active).stream()
-                .map(user -> this.mapper.forResponse().map(user, GetAllActiveUsersResponse.class))
-                .toList();
+    public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable) {
+        Page<User> userPage = userRepository.findAllByActive(true, pageable);
+        return userPage.map(user -> this.mapper.forResponse().map(user, GetAllActiveUsersResponse.class));
     }
 
     @Override

@@ -4,6 +4,8 @@ package com.rumorify.ws.controller;
 import java.util.List;
 
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,8 +54,8 @@ public class UserController {
 	}
 
 	@GetMapping
-	public List<GetAllActiveUsersResponse> findAllActiveUser() {
-		return userService.findAllByActive(true);
+	public Page<GetAllActiveUsersResponse> findAllActiveUser(Pageable pageable) {
+		return userService.findAllByActive(pageable);
 	}
 
 }

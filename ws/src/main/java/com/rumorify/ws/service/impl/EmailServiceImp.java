@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.config.RumorifyProperties;
+import com.rumorify.ws.exception.ActivationNotificationException;
 import com.rumorify.ws.service.EmailService;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -54,12 +55,14 @@ public class EmailServiceImp implements EmailService {
         try {
             String activationUrl = rumorifyProp.getClient().host() + "/activation/" + activationToken;
             String mailText = activationEmail.replace("${url}", activationUrl);
+            // TODO: check variables
             mailMessage.setFrom(rumorifyProp.getEmail().from());
             mailMessage.setTo(email);
             mailMessage.setSubject("Rumorify Account Activation");
             mailMessage.setText(mailText, true);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            // TODO: fix this error handling
+            throw new ActivationNotificationException();
         }
 
         this.mailSender.send(mimeMessage);

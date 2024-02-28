@@ -16,12 +16,12 @@ export const UserList = () => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [getUsers]);
 
   return (
     <div className="container">
       <div className="row">
-        <div className="list-group border p-3">
+        <div className="list-group border p-2">
           {userPage.content.map((user) => (
             <a
               href="#"
@@ -38,7 +38,7 @@ export const UserList = () => {
               </small>
             </a>
           ))}
-          <div className="btn-group m-3">
+          <div className="btn-group m-1">
             <button
               className="btn btn-warning"
               disabled={userPage.first}

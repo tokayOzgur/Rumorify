@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 
-export const fetchUsers = () => {
-  return axiosInstance.get("");
+export const fetchUsers = (page = 0, size = 3) => {
+  return axiosInstance.get("", { params: { page, size } });
 };
 
 export const fetchUserById = (id) => {

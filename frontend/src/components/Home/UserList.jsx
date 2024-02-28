@@ -1,4 +1,6 @@
 import { fetchUsers } from "@/api/userApi";
+import { Spinner } from "@/shared/components/Spinner";
+import { Alert } from "@/shared/components/Alert";
 import { useCallback, useEffect, useState } from "react";
 
 export const UserList = () => {
@@ -8,10 +10,22 @@ export const UserList = () => {
     number: 0,
     first: false,
   });
+  const [apiProgress, setApiProgress] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const getUsers = useCallback(async (page) => {
-    const response = await fetchUsers(page);
-    setUserPage(response.data);
+    setApiProgress(true);
+
+    fetchUsers(page)
+      .then((response) => {
+        setUserPage(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        // TODO use translate for error message
+        setErrorMessage("Something went wrong! " + error.message);
+      })
+      .finally(() => setApiProgress(false));
   }, []);
 
   useEffect(() => {
@@ -38,26 +52,31 @@ export const UserList = () => {
               </small>
             </a>
           ))}
-          <div className="btn-group m-1">
-            <button
-              className="btn btn-warning"
-              disabled={userPage.first}
-              onClick={() => {
-                getUsers(--userPage.number);
-              }}
-            >
-              Previous
-            </button>
-            <button
-              className="btn btn-primary"
-              disabled={userPage.last}
-              onClick={() => {
-                getUsers(++userPage.number);
-              }}
-            >
-              Next
-            </button>
-          </div>
+          {apiProgress ? (
+            <Spinner size="lg m-auto" />
+          ) : (
+            <div className="btn-group m-1">
+              <button
+                className="btn btn-warning"
+                disabled={userPage.first}
+                onClick={() => {
+                  getUsers(--userPage.number);
+                }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-primary"
+                disabled={userPage.last}
+                onClick={() => {
+                  getUsers(++userPage.number);
+                }}
+              >
+                Next
+              </button>
+            </div>
+          )}
+          {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
         </div>
       </div>
     </div>

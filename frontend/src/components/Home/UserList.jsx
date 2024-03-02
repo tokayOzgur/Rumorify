@@ -2,6 +2,7 @@ import { fetchUsers } from "@/api/userApi";
 import { Spinner } from "@/shared/components/Spinner";
 import { Alert } from "@/shared/components/Alert";
 import { useCallback, useEffect, useState } from "react";
+import { UserListItem } from "./UserListItem";
 
 export const UserList = () => {
   const [userPage, setUserPage] = useState({
@@ -37,20 +38,7 @@ export const UserList = () => {
       <div className="row">
         <div className="list-group border p-2">
           {userPage.content.map((user) => (
-            <a
-              href="#"
-              className="list-group-item list-group-item-action"
-              key={user.id}
-            >
-              <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{user.name}</h5>
-                <small className="text-body-secondary">3 days ago</small>
-              </div>
-              <p className="mb-1">{user.email}</p>
-              <small className="text-body-secondary">
-                And some muted small print.
-              </small>
-            </a>
+            <UserListItem key={user.id} user={user} />
           ))}
           {apiProgress ? (
             <Spinner size="lg m-auto" />

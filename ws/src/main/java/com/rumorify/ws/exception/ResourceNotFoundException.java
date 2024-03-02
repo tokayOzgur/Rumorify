@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException() {
-        super(Messages.getMessageForLocale("rumorify.resource.notfound.error.message", LocaleContextHolder.getLocale()));
+        super(Messages.getMessageForLocale("rumorify.resource.notfound.error.message",
+                LocaleContextHolder.getLocale()));
     }
 }

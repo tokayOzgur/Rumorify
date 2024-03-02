@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
+import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.shared.GenericMessage;
 import com.rumorify.ws.shared.Messages;
@@ -56,6 +57,11 @@ public class UserController {
 	@GetMapping
 	public Page<GetAllActiveUsersResponse> findAllActiveUser(Pageable pageable) {
 		return userService.findAllByActive(pageable);
+	}
+
+	@GetMapping(value = "/{id}")
+	public GetUserByIdResponse findById(@PathVariable int id) {
+		return userService.findById(id);
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
+import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
 import com.rumorify.ws.model.User;
 
@@ -30,4 +31,6 @@ public interface UserService {
 	public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable);
 
 	public List<GetAllUserResponse> findAll();
+
+	public GetUserByIdResponse findById(int id);
 }

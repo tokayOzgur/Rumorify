@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
+import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
 import com.rumorify.ws.exception.ActivationNotificationException;
 import com.rumorify.ws.exception.InvalidTokenException;
 import com.rumorify.ws.exception.NotUniqueEmailException;
 import com.rumorify.ws.exception.ResourceNotFoundException;
+import com.rumorify.ws.exception.UserNotFoundException;
 import com.rumorify.ws.model.User;
 import com.rumorify.ws.repository.UserRepository;
 import com.rumorify.ws.service.EmailService;
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserByUserNameResponse findByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException());
+                .orElseThrow(() -> new UserNotFoundException(username));
         return mapper.forResponse().map(user, GetUserByUserNameResponse.class);
     }
 
@@ -100,6 +102,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream()
                 .map(user -> this.mapper.forResponse().map(user, GetAllUserResponse.class))
                 .toList();
+    }
+
+    @Override
+    public GetUserByIdResponse findById(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return mapper.forResponse().map(user, GetUserByIdResponse.class);
     }
 
 }

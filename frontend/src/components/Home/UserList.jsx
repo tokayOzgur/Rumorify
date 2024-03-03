@@ -3,8 +3,10 @@ import { Spinner } from "@/shared/components/Spinner";
 import { Alert } from "@/shared/components/Alert";
 import { useCallback, useEffect, useState } from "react";
 import { UserListItem } from "./UserListItem";
+import { useTranslation } from "react-i18next";
 
 export const UserList = () => {
+  const { t } = useTranslation();
   const [userPage, setUserPage] = useState({
     content: [],
     last: false,
@@ -24,7 +26,7 @@ export const UserList = () => {
       .catch((error) => {
         console.log(error);
         // TODO use translate for error message
-        setErrorMessage("Something went wrong! " + error.message);
+        setErrorMessage(t("userNotFound"));
       })
       .finally(() => setApiProgress(false));
   }, []);

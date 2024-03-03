@@ -9,5 +9,6 @@
   "turkish": "Türkçe",
   "english": "İngilizce",
   "preferences": "Tercihler",
-  "activation": "Aktivasyon"
+  "activation": "Aktivasyon",
+  "userNotFound": "Kullanıcı bulunamadı"
 }

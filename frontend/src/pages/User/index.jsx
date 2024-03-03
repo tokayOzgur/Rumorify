@@ -2,6 +2,7 @@ import { fetchUserById } from "@/api/userApi";
 import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";
 import React, { Component, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 export class UserClass extends Component {
@@ -19,7 +20,7 @@ export class UserClass extends Component {
     } catch (error) {
       console.log(error);
       this.setState({
-        errorMessage: "Something went wrong! " + error.response.data.message,
+        errorMessage: this.props.t("userNotFound"),
       });
     } finally {
       this.setState({ apiProgress: false });
@@ -41,5 +42,7 @@ export class UserClass extends Component {
 
 export const User = () => {
   const { id } = useParams();
-  return <UserClass id={id} />;
+  const { t } = useTranslation();
+
+  return <UserClass id={id} t={t} />;
 };

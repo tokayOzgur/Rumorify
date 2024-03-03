@@ -1,16 +1,17 @@
 import defaultProfileImage from "@/assets/defUser.png";
+import { Link } from "react-router-dom";
 
 export const UserListItem = ({ user }) => {
   return (
-    <a
-      href="#"
+    <Link
       className="list-group-item list-group-item-action"
       key={user.id}
+      to={`/user/${user.id}`}
     >
       <div className="row">
         <div className="col-2">
           <img
-            src={defaultProfileImage}
+            src={user.image ? user.image : defaultProfileImage}
             className="img-fluid rounded-circle"
             width={40}
           />
@@ -22,9 +23,13 @@ export const UserListItem = ({ user }) => {
             <small className="text-body-secondary">3 days ago</small>
           </div>
         </div>
+        <div className="col-12">
+          <i className="mb-1">{user.email}</i>
+          <small className="text-body-secondary mx-5 ">
+            {user.profileDescription}
+          </small>
+        </div>
       </div>
-      <i className="mb-1">{user.email}</i>
-      <small className="text-body-secondary">{user.profileDescription}</small>
-    </a>
+    </Link>
   );
 };

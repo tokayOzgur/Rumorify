@@ -27,6 +27,9 @@ public class WsApplication {
 			for (int i = 0; i < 25; i++) {
 				User user = new User();
 				user.setUsername("User " + i);
+				user.setFirstName("firstName " + i);
+				user.setLastName("lastName " + i);
+				user.setProfileDescription("Hi! I'm user " + i);
 				user.setEmail("user" + i + "@gmail.com");
 				user.setPassword(passwordEncoder.encode("P4assword!"));
 				user.setActive(true);

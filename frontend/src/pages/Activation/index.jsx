@@ -6,6 +6,7 @@ import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";
 
 export const Activation = () => {
+  //TODO: use useRouteParamApiRequest hook
   const { t } = useTranslation();
   const { token } = useParams();
   const [apiProgress, setApiProgress] = useState(false);
@@ -30,7 +31,7 @@ export const Activation = () => {
       <div className="row">
         <div className="col-12">
           <h1>{t("Activation")}</h1>
-          {apiProgress && <Spinner size="md"/>}
+          {apiProgress && <Spinner size="md" />}
           {successMessage && (
             <Alert styleType="success">{successMessage}</Alert>
           )}

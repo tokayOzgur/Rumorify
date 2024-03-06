@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
+import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
 import com.rumorify.ws.exception.ActivationNotificationException;
@@ -108,6 +109,12 @@ public class UserServiceImpl implements UserService {
     public GetUserByIdResponse findById(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         return mapper.forResponse().map(user, GetUserByIdResponse.class);
+    }
+
+    @Override
+    public GetUserByEmailResponse findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+        return mapper.forResponse().map(user, GetUserByEmailResponse.class);
     }
 
 }

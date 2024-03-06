@@ -1,4 +1,4 @@
-import { UserList } from "@/components/Home/UserList";
+import { UserList } from "@/pages/Home/components/UserList";
 
 export const Home = () => {
   return (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Input } from "../SignUp/components/Input";
+import { Input } from "@/shared/components/Input";
+import { Button } from "@/shared/components/Button";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,28 +33,26 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     clearInput();
     e.preventDefault();
-    if (password === passwordRepeat) {
-      setApiProgress(true);
-      //   await addUser(user)
-      //     .catch((e) => {
-      //       console.log("HATA::", e);
-      //       if (e.response.data?.data) {
-      //         if (e.response.data.status === 400) {
-      //           setErrorMessage(e.response.data.validationError);
-      //         } else {
-      //           setGeneralError(e.response.data.message);
-      //         }
-      //       } else {
-      //         setGeneralError(e.response.data.message);
-      //       }
-      //     })
-      //     .then((response) => {
-      //       setResponMessage(response.data.message);
-      //     })
-      //     .finally(() => {
-      //       setApiProgress(false);
-      //     });
-    }
+    setApiProgress(true);
+    //   await addUser(user)
+    //     .catch((e) => {
+    //       console.log("HATA::", e);
+    //       if (e.response.data?.data) {
+    //         if (e.response.data.status === 400) {
+    //           setErrorMessage(e.response.data.validationError);
+    //         } else {
+    //           setGeneralError(e.response.data.message);
+    //         }
+    //       } else {
+    //         setGeneralError(e.response.data.message);
+    //       }
+    //     })
+    //     .then((response) => {
+    //       setResponMessage(response.data.message);
+    //     })
+    //     .finally(() => {
+    //       setApiProgress(false);
+    //     });
   };
 
   const clearInput = () => {
@@ -93,13 +92,12 @@ export const Login = () => {
               <Alert styleType="success-danger">{generalError}</Alert>
             )}
 
-            <button
-              className="btn btn-primary"
-              disabled={!password || password !== passwordRepeat || apiProgress}
-            >
-              {apiProgress && <Spinner size="sm" />}
-              {t("login")}
-            </button>
+            <Button
+              disabled={!password || !email}
+              apiProgress={apiProgress}
+              btnClass={"btn btn-primary"}
+              children={t("login")}
+            />
           </form>
         </div>
       </div>

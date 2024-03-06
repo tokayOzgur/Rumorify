@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "@/api/userApi";
-import { Input } from "@/pages/SignUp/components/Input";
+import { Input } from "@/shared/components/Input";
 import { setEmail, setName, setPassword } from "@/redux/features/userSlice";
 import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";
+import { Button } from "@/shared/components/Button";
 
 //TODO: test validation error and susccess message
 export const SignUp = () => {
@@ -151,17 +152,12 @@ export const SignUp = () => {
               <Alert styleType="success-danger">{generalError}</Alert>
             )}
 
-            <button
-              className="btn btn-primary"
-              disabled={
-                !user.password ||
-                user.password !== passwordRepeat ||
-                apiProgress
-              }
-            >
-              {apiProgress && <Spinner size="sm" />}
-              {t("signUp")}
-            </button>
+            <Button
+              children={t("signUp")}
+              disabled={!user.password || user.password !== passwordRepeat}
+              apiProgress={apiProgress}
+              btnClass={"btn btn-primary"}
+            />
           </form>
         </div>
       </div>

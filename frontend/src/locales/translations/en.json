@@ -10,5 +10,7 @@
   "turkish": "Turkish",
   "preferences": "Preferences",
   "activation": "Activation",
-  "userNotFoundError": "User not found"
+  "userNotFoundError": "User not found",
+  "login": "Login"
+
 }

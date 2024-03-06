@@ -55,7 +55,10 @@ export const Navbar = () => {
                 </ul>
               </li>
             </ul>
-            <div className="d-flex mx-2">
+            <div className="d-flex">
+              <Link className="nav-link mx-3" to="/login">
+                {t("login")}
+              </Link>
               <Link className="nav-link" to="/signup">
                 {t("signUp")}
               </Link>

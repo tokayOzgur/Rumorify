@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "@/api/userApi";
-import { Input } from "@/components/SignUp/Input";
+import { Input } from "@/pages/SignUp/components/Input";
 import { setEmail, setName, setPassword } from "@/redux/features/userSlice";
 import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";

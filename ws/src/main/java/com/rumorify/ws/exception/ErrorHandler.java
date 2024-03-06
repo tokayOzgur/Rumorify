@@ -23,7 +23,8 @@ public class ErrorHandler {
             NotUniqueEmailException.class,
             InvalidTokenException.class,
             ResourceNotFoundException.class,
-            UserNotFoundException.class
+            UserNotFoundException.class,
+            AuthenticationException.class
     })
     ResponseEntity<ApiError> handleCustomException(Exception exception, HttpServletRequest request) {
         ApiError error = new ApiError();
@@ -48,6 +49,8 @@ public class ErrorHandler {
             error.setStatus(404);
         } else if (exception instanceof UserNotFoundException) {
             error.setStatus(404);
+        } else if (exception instanceof AuthenticationException) {
+            error.setStatus(401);
         }
         // else if (exception instanceof AuthenticationException) {
         // apiError.setStatus(401);

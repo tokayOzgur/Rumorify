@@ -1,12 +1,13 @@
 package com.rumorify.ws.service;
 
 import com.rumorify.ws.dto.requests.CredentialsRequest;
+import com.rumorify.ws.dto.responses.AuthResponse;
 
 /**
  * @author tokay
  */
 public interface AuthService {
 
-    void authenticate(CredentialsRequest credentials);
-    
+    AuthResponse authenticate(CredentialsRequest credentials);
+
 }

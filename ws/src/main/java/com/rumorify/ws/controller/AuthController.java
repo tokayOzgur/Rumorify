@@ -3,6 +3,7 @@ package com.rumorify.ws.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rumorify.ws.dto.requests.CredentialsRequest;
+import com.rumorify.ws.dto.responses.AuthResponse;
 import com.rumorify.ws.service.AuthService;
 
 import lombok.AllArgsConstructor;
@@ -21,11 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthController {
 
     final AuthService authService;
-    
+
     @PostMapping
-    public String handleAuthentication(@RequestBody CredentialsRequest credentials) {
-        authService.authenticate(credentials);
-        return null;
+    public AuthResponse handleAuthentication(@RequestBody CredentialsRequest credentials) {
+        return authService.authenticate(credentials);
     }
 
 }

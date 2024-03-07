@@ -6,6 +6,7 @@ import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.AuthResponse;
 import com.rumorify.ws.service.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class AuthController {
     final AuthService authService;
 
     @PostMapping
-    public AuthResponse handleAuthentication(@RequestBody CredentialsRequest credentials) {
+    public AuthResponse handleAuthentication(@Valid @RequestBody CredentialsRequest credentials) {
         return authService.authenticate(credentials);
     }
 

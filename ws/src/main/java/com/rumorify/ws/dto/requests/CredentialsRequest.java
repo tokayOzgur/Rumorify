@@ -1,4 +1,7 @@
 package com.rumorify.ws.dto.requests;
 
-public record CredentialsRequest( String email, String password) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record CredentialsRequest(@Email String email, @NotBlank String password) {
 }

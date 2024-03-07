@@ -52,9 +52,6 @@ public class ErrorHandler {
         } else if (exception instanceof AuthenticationException) {
             error.setStatus(401);
         }
-        // else if (exception instanceof AuthenticationException) {
-        // apiError.setStatus(401);
-        // }
 
         return ResponseEntity.status(error.getStatus()).body(error);
     }

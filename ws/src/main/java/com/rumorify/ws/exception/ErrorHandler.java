@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ErrorHandler {
     @ExceptionHandler({
+            MethodArgumentNotValidException.class,
             ActivationNotificationException.class,
             NotUniqueEmailException.class,
             InvalidTokenException.class,

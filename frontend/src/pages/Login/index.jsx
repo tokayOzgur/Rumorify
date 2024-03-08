@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/shared/components/Input";
 import { Button } from "@/shared/components/Button";
+import { login } from "@/api/authApi";
+import { Alert } from "@/shared/components/Alert";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -34,25 +36,25 @@ export const Login = () => {
     clearInput();
     e.preventDefault();
     setApiProgress(true);
-    //   await addUser(user)
-    //     .catch((e) => {
-    //       console.log("HATA::", e);
-    //       if (e.response.data?.data) {
-    //         if (e.response.data.status === 400) {
-    //           setErrorMessage(e.response.data.validationError);
-    //         } else {
-    //           setGeneralError(e.response.data.message);
-    //         }
-    //       } else {
-    //         setGeneralError(e.response.data.message);
-    //       }
-    //     })
-    //     .then((response) => {
-    //       setResponMessage(response.data.message);
-    //     })
-    //     .finally(() => {
-    //       setApiProgress(false);
-    //     });
+    await login({ email, password })
+      .catch((e) => {
+        console.log("HATA::", e);
+        if (e.response.data?.data) {
+          if (e.response.data.status === 400) {
+            setErrorMessage(e.response.data.validationError);
+          } else {
+            setGeneralError(e.response.data.message);
+          }
+        } else {
+          setGeneralError(e.response.data.message);
+        }
+      })
+      .then((response) => {
+        setResponMessage(response.data.message);
+      })
+      .finally(() => {
+        setApiProgress(false);
+      });
   };
 
   const clearInput = () => {
@@ -89,7 +91,7 @@ export const Login = () => {
             />
 
             {generalError && (
-              <Alert styleType="success-danger">{generalError}</Alert>
+              <Alert styleType="danger">{generalError}</Alert>
             )}
 
             <Button

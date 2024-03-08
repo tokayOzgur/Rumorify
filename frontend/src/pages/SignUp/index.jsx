@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "@/api/user/userApi";
+import { addUser } from "@/api/userApi";
 import { Input } from "@/shared/components/Input";
 import { setEmail, setName, setPassword } from "@/redux/features/userSlice";
 import { Alert } from "@/shared/components/Alert";

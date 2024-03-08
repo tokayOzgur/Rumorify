@@ -1,4 +1,4 @@
-import { fetchUsers } from "@/api/user/userApi";
+import { fetchUsers } from "@/api/userApi";
 import { Spinner } from "@/shared/components/Spinner";
 import { Alert } from "@/shared/components/Alert";
 import { useCallback, useEffect, useState } from "react";

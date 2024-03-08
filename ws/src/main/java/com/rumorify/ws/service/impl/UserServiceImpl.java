@@ -19,6 +19,7 @@ import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
 import com.rumorify.ws.exception.ActivationNotificationException;
+import com.rumorify.ws.exception.AuthenticationException;
 import com.rumorify.ws.exception.InvalidTokenException;
 import com.rumorify.ws.exception.NotUniqueEmailException;
 import com.rumorify.ws.exception.ResourceNotFoundException;
@@ -113,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetUserByEmailResponse findByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AuthenticationException());
         return mapper.forResponse().map(user, GetUserByEmailResponse.class);
     }
 

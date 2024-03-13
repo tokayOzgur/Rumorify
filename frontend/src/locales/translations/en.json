@@ -11,6 +11,8 @@
   "preferences": "Preferences",
   "activation": "Activation",
   "userNotFoundError": "User not found",
-  "login": "Login"
-
+  "login": "Login",
+  "logout": "Logout",
+  "myprofile": "My Profile",
+  "edit": "Edit"
 }

@@ -11,5 +11,8 @@
   "preferences": "Tercihler",
   "activation": "Aktivasyon",
   "userNotFound": "Kullanıcı bulunamadı",
-  "login": "Giriş Yap"
+  "login": "Giriş Yap",
+  "logout": "Çıkış Yap",
+  "myprofile": "Profilim",
+  "edit": "Düzenle"
 }

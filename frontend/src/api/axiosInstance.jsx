@@ -7,6 +7,7 @@ const instance = axios.create({
   headers: {
     "X-Custom-Header": "foobar",
     "Accept-Language": i18nInstance.language,
+    "Content-Type": "application/json",
   },
 });
 

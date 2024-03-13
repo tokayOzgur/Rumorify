@@ -33,6 +33,7 @@ public class WsApplication {
 				user.setEmail("user" + i + "@gmail.com");
 				user.setPassword(passwordEncoder.encode("P4assword!"));
 				user.setActive(true);
+				user.setImage("https://i.pravatar.cc/600?img=" + i);
 				userRepository.save(user);
 			}
 		};

@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse authenticate(CredentialsRequest credentials) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         GetUserByEmailResponse inDB = userService.findByEmail(credentials.email());
-        if (!passwordEncoder.matches(credentials.password(), inDB.getPassword()))
+        if (!passwordEncoder.matches(credentials.password(), inDB.getPassword()) || inDB == null)
             throw new AuthenticationException();
 
         Token token = tokenService.generateToken(inDB, credentials);

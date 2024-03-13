@@ -1,17 +1,15 @@
+import { addUser } from "@/api/userApi";
+import { Alert } from "@/shared/components/Alert";
+import { Button } from "@/shared/components/Button";
+import { Input } from "@/shared/components/Input";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "@/api/userApi";
-import { Input } from "@/shared/components/Input";
-import { setEmail, setName, setPassword } from "@/redux/features/userSlice";
-import { Alert } from "@/shared/components/Alert";
-import { Spinner } from "@/shared/components/Spinner";
-import { Button } from "@/shared/components/Button";
 
 //TODO: test validation error and susccess message
 export const SignUp = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [responMessage, setResponMessage] = useState("");
@@ -23,54 +21,44 @@ export const SignUp = () => {
     setErrorMessage((lastErrors) => {
       return {
         ...lastErrors,
-        user: {
-          ...lastErrors.user,
-          username: undefined,
-        },
+        username: undefined,
       };
     });
-  }, [user.username]);
+  }, [username]);
 
   useEffect(() => {
     setErrorMessage((lastErrors) => {
       return {
         ...lastErrors,
-        user: {
-          ...lastErrors.user,
-          email: undefined,
-        },
+        email: undefined,
       };
     });
-  }, [user.email]);
+  }, [email]);
 
   useEffect(() => {
     setErrorMessage((lastErrors) => {
       return {
         ...lastErrors,
-        user: {
-          ...lastErrors.user,
-          password: undefined,
-        },
+        password: undefined,
       };
     });
-  }, [user.password]);
+  }, [password]);
 
   const passwordRepeatError = useMemo(() => {
-    if (user.password !== passwordRepeat) {
+    if (password !== passwordRepeat) {
       return t("passwordMismatch");
     }
     return undefined;
-  }, [user.password, passwordRepeat, t]);
+  }, [password, passwordRepeat, t]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     clearInput();
     e.preventDefault();
-    if (user.password === passwordRepeat) {
+    if (password === passwordRepeat) {
       setResponMessage("");
       setApiProgress(true);
-      await addUser(user)
+      addUser({ username, email, password })
         .catch((e) => {
-          console.log("HATA::", e);
           if (e.response.data?.data) {
             if (e.response.data.status === 400) {
               setErrorMessage(e.response.data.validationError);
@@ -91,9 +79,9 @@ export const SignUp = () => {
   };
 
   const clearInput = () => {
-    dispatch(setName(""));
-    dispatch(setEmail(""));
-    dispatch(setPassword(""));
+    setUsername("");
+    setEmail("");
+    setPassword("");
     setPasswordRepeat("");
     setApiProgress(false);
     setResponMessage("");
@@ -154,7 +142,7 @@ export const SignUp = () => {
 
             <Button
               children={t("signUp")}
-              disabled={!user.password || user.password !== passwordRepeat}
+              disabled={!password || password !== passwordRepeat}
               apiProgress={apiProgress}
               btnClass={"btn btn-primary"}
             />

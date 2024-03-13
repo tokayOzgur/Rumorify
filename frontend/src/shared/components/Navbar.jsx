@@ -2,9 +2,17 @@ import { LanguageSelector } from "./LanguageSelector";
 import logo from "@/assets/a.png";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "@/features/auth/authSlice";
 
 export const Navbar = () => {
   const { t } = useTranslation();
+  const authState = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+
+  const onClickLogout = () => {
+    dispatch(logoutSuccess());
+  };
 
   return (
     <div className="m-2 shadow-sm">
@@ -56,12 +64,30 @@ export const Navbar = () => {
               </li>
             </ul>
             <div className="d-flex">
-              <Link className="nav-link mx-3" to="/login">
-                {t("login")}
-              </Link>
-              <Link className="nav-link" to="/signup">
-                {t("signUp")}
-              </Link>
+              {authState.id === 0 && (
+                <>
+                  <Link className="nav-link mx-3" to="/login">
+                    {t("login")}
+                  </Link>
+                  <Link className="nav-link" to="/signup">
+                    {t("signUp")}
+                  </Link>
+                </>
+              )}
+              {authState.id > 0 && (
+                <>
+                  <Link className="nav-link mx-3" to={`/user/${authState.id}`}>
+                    {t("myprofile")}
+                  </Link>
+                  <span
+                    className="nav-link"
+                    role="button"
+                    onClick={onClickLogout}
+                  >
+                    {t("logout")}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,9 @@ import { Input } from "@/shared/components/Input";
 import { Button } from "@/shared/components/Button";
 import { login } from "@/api/authApi";
 import { Alert } from "@/shared/components/Alert";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "@/features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +16,8 @@ export const Login = () => {
   const [errorMessage, setErrorMessage] = useState({});
   const [generalError, setGeneralError] = useState("");
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setErrorMessage((lastErrors) => {
@@ -32,11 +37,16 @@ export const Login = () => {
     });
   }, [password]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     clearInput();
     e.preventDefault();
     setApiProgress(true);
-    await login({ email, password })
+    login({ email, password })
+      .then((response) => {
+        console.log("response::", response.data.user);
+        dispatch(loginSuccess(response.data.user));
+        navigate("/");
+      })
       .catch((e) => {
         console.log("HATA::", e);
         if (e.response.data?.data) {
@@ -48,9 +58,6 @@ export const Login = () => {
         } else {
           setGeneralError(e.response.data.message);
         }
-      })
-      .then((response) => {
-        setResponMessage(response.data.message);
       })
       .finally(() => {
         setApiProgress(false);
@@ -90,12 +97,10 @@ export const Login = () => {
               }}
             />
 
-            {generalError && (
-              <Alert styleType="danger">{generalError}</Alert>
-            )}
+            {generalError && <Alert styleType="danger">{generalError}</Alert>}
 
             <Button
-              disabled={!password || !email}
+              disabled={!email || !password || apiProgress}
               apiProgress={apiProgress}
               btnClass={"btn btn-primary"}
               children={t("login")}

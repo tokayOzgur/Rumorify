@@ -1,3 +1,4 @@
+import { setToken } from "@/api/axiosInstance";
 import { loadAuthState } from "@/shared/state/storage";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -6,13 +7,14 @@ export const authSlice = createSlice({
   initialState: loadAuthState(),
   reducers: {
     loginSuccess: (state, action) => {
-      state.id = action.payload.id;
-      state.username = action.payload.username;
-      state.email = action.payload.email;
-      state.image = action.payload.image;
-      console.log(state.id, state.username, state.email, state.image)
+      setToken(action.payload.token);
+      state.id = action.payload.user.id;
+      state.username = action.payload.user.username;
+      state.email = action.payload.user.email;
+      state.image = action.payload.user.image;
     },
     logoutSuccess: (state, action) => {
+      setToken(null);
       state.id = 0;
       delete state.username;
       delete state.email;

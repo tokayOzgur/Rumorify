@@ -43,8 +43,8 @@ export const Login = () => {
     setApiProgress(true);
     login({ email, password })
       .then((response) => {
-        console.log("response::", response.data.user);
-        dispatch(loginSuccess(response.data.user));
+        console.log("response::", response.data);
+        dispatch(loginSuccess(response.data));
         navigate("/");
       })
       .catch((e) => {

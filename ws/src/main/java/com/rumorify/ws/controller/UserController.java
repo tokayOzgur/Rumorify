@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
 import com.rumorify.ws.dto.responses.GetUserByIdResponse;
+import com.rumorify.ws.service.TokenService;
 import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.shared.GenericMessage;
 import com.rumorify.ws.shared.Messages;
@@ -34,8 +36,11 @@ import lombok.AllArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	private final TokenService tokenService;
 
-	@PostMapping(value = "/addUser")
+	// TODO: edit the all paths to be more RESTful
+
+	@PostMapping
 	public GenericMessage createUser(@RequestBody CreateUserRequest userRequest) {
 		userService.save(userRequest);
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.create.user.success.message",
@@ -55,8 +60,9 @@ public class UserController {
 	}
 
 	@GetMapping
-	public Page<GetAllActiveUsersResponse> findAllActiveUser(Pageable pageable) {
-		return userService.findAllByActive(pageable);
+	public Page<GetAllActiveUsersResponse> findAllActiveUser(Pageable pageable,
+			@RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+		return userService.findAllByActive(pageable, tokenService.verifyToken(authorizationHeader));
 	}
 
 	@GetMapping(value = "/{id}")

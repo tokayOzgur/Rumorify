@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	Optional<User> findByActivationToken(String token);
 
-	Page<User> findAllByActive(boolean active, Pageable pageable);
+	Page<User> findAllByActiveAndIdNot(boolean active, Pageable pageable, int id);
 
 }

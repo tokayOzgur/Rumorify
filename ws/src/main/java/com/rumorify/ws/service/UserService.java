@@ -29,7 +29,7 @@ public interface UserService {
 
 	public void activateUser(String token);
 
-	public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable);
+	public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable, int id);
 
 	public List<GetAllUserResponse> findAll();
 

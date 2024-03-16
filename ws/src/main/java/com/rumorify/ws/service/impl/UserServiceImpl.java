@@ -94,8 +94,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable) {
-        Page<User> userPage = userRepository.findAllByActive(true, pageable);
+    public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable, int id) {
+        Page<User> userPage = userRepository.findAllByActiveAndIdNot(true, pageable, id);
         return userPage.map(user -> this.mapper.forResponse().map(user, GetAllActiveUsersResponse.class));
     }
 

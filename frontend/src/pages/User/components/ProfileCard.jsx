@@ -49,6 +49,8 @@ export const ProfileCard = ({ user }) => {
   };
 
   return (
+    // TODO: Add a component for the edit form
+    // TODO2: Add a component for the info profile
     <div className="card m-5">
       {errorMessage && <Alert styleType="danger" children={errorMessage} />}
       {successMessage && (

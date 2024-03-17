@@ -77,7 +77,12 @@ export const Navbar = () => {
               {authState.id > 0 && (
                 <>
                   <Link className="nav-link mx-3" to={`/user/${authState.id}`}>
-                    {t("myprofile")}
+                    <img
+                      src={authState.image}
+                      alt="profile_image"
+                      width={30}
+                      className="rounded-circle"
+                    />
                   </Link>
                   <span
                     className="nav-link"

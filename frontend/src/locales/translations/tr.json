@@ -14,5 +14,11 @@
   "login": "Giriş Yap",
   "logout": "Çıkış Yap",
   "myprofile": "Profilim",
-  "edit": "Düzenle"
+  "edit": "Düzenle",
+  "description": "Açıklama",
+  "save": "Kaydet",
+  "cancel": "İptal",
+  "delete": "Sil",
+  "firstName": "Ad",
+  "lastName": "Soyad"
 }

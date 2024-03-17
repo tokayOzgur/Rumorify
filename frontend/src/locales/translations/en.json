@@ -14,5 +14,12 @@
   "login": "Login",
   "logout": "Logout",
   "myprofile": "My Profile",
-  "edit": "Edit"
+  "edit": "Edit",
+  "delete": "Delete",
+  "save": "Save",
+  "cancel": "Cancel",
+  "description": "Description",
+  "firstName": "First Name",
+  "lastName": "Last Name"
+
 }

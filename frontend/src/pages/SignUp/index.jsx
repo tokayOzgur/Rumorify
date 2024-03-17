@@ -102,7 +102,7 @@ export const SignUp = () => {
               label={t("username")}
               error={errorMessage.username}
               onChange={(e) => {
-                dispatch(setName(e.target.value));
+                setUsername(e.target.value);
               }}
             />
             <Input
@@ -111,7 +111,7 @@ export const SignUp = () => {
               label={t("password")}
               error={errorMessage.password}
               onChange={(e) => {
-                dispatch(setPassword(e.target.value));
+                setPassword(e.target.value);
               }}
             />
             <Input
@@ -129,7 +129,7 @@ export const SignUp = () => {
               label={t("email")}
               error={errorMessage.email}
               onChange={(e) => {
-                dispatch(setEmail(e.target.value));
+               setEmail(e.target.value);
               }}
             />
 
@@ -137,7 +137,7 @@ export const SignUp = () => {
               <Alert styleType="success">{responMessage}</Alert>
             )}
             {generalError && (
-              <Alert styleType="success-danger">{generalError}</Alert>
+              <Alert styleType="danger">{generalError}</Alert>
             )}
 
             <Button

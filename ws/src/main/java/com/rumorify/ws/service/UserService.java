@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.rumorify.ws.dto.requests.CreateUserRequest;
+import com.rumorify.ws.dto.requests.UpdateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
-import com.rumorify.ws.model.User;
 
 /**
  * @author tokay
@@ -23,9 +23,9 @@ public interface UserService {
 
 	public void save(CreateUserRequest user);
 
-	public void updateByUsername(User user);
+	public void updateByUserId(int id, UpdateUserRequest entity);
 
-	public void deleteByUsername(String username);
+	public void deleteByUserId(int id);
 
 	public void activateUser(String token);
 

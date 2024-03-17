@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.requests.CreateUserRequest;
+import com.rumorify.ws.dto.requests.UpdateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
@@ -84,13 +85,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateByUsername(User user) {
-        throw new UnsupportedOperationException("Unimplemented method 'updateByUsername'");
+    public void updateByUserId(int id, UpdateUserRequest entity) {
+        User inDb = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        if (inDb == null) throw new ResourceNotFoundException();
+        if (entity.getFirstName() != null) inDb.setFirstName(entity.getFirstName());
+        if (entity.getLastName() != null) inDb.setLastName(entity.getLastName());
+        if (entity.getUsername() != null) inDb.setUsername(entity.getUsername());
+        if (entity.getProfileDescription() != null) inDb.setProfileDescription(entity.getProfileDescription());
+        userRepository.save(inDb);
     }
 
     @Override
-    public void deleteByUsername(String username) {
+    public void deleteByUserId(int id) {
         throw new UnsupportedOperationException("Unimplemented method 'deleteByUsername'");
+
     }
 
     @Override

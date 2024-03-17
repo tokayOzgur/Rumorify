@@ -13,7 +13,7 @@ export const addUser = (userData) => {
 };
 
 export const updateUser = (id, userData) => {
-  return axiosInstance.put(`/users/update/${id}`, userData);
+  return axiosInstance.put(`/users/${id}`, userData);
 };
 
 export const deleteUserByID = (id) => {

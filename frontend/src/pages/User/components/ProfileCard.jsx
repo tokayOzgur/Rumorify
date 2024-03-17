@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import defaultProfileImage from "@/assets/defUser.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/shared/components/Button";
 import { Input } from "@/shared/components/Input";
 import { updateUser } from "@/api/userApi";
 import { Alert } from "@/shared/components/Alert";
+import { userUpdateSuccess } from "@/features/auth/authSlice";
 
 export const ProfileCard = ({ user }) => {
   const authState = useSelector((store) => store.auth);
@@ -21,6 +22,7 @@ export const ProfileCard = ({ user }) => {
   const [newLastName, setNewLastName] = useState(user.lastName);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const dispatch = useDispatch();
 
   const handleUpdate = () => {
     setApiProgress(true);
@@ -32,8 +34,8 @@ export const ProfileCard = ({ user }) => {
     user.lastName = newLastName;
     updateUser(user.id, user)
       .then((response) => {
-        console.log("response::", response);
-        setSuccessMessage("User updated successfully");
+        setSuccessMessage(response.data.message);
+        dispatch(userUpdateSuccess(user));
       })
       .catch((error) => {
         console.log("error::", error);

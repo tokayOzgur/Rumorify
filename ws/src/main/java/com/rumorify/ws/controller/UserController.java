@@ -82,7 +82,7 @@ public class UserController {
 					LocaleContextHolder.getLocale()));
 		}
 		userService.updateByUserId(id, entity);
-		return new GenericMessage(Messages.getMessageForLocale("rumorify.create.user.success.message",
+		return new GenericMessage(Messages.getMessageForLocale("rumorify.update.user.success.message",
 				LocaleContextHolder.getLocale()));
 
 	}

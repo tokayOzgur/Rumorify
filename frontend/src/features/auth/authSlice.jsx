@@ -20,8 +20,14 @@ export const authSlice = createSlice({
       delete state.email;
       delete state.image;
     },
+    userUpdateSuccess: (state, action) => {
+      console.log(action.payload)
+      state.username = action.payload.username;
+      state.image = action.payload.image;
+    },
   },
 });
 
-export const { loginSuccess, logoutSuccess } = authSlice.actions;
+export const { loginSuccess, logoutSuccess, userUpdateSuccess } =
+  authSlice.actions;
 export default authSlice.reducer;

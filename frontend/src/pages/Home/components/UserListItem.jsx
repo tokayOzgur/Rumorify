@@ -1,4 +1,5 @@
 import defaultProfileImage from "@/assets/defUser.png";
+import { ProfileImage } from "@/shared/components/ProfileImage";
 import { Link } from "react-router-dom";
 
 export const UserListItem = ({ user }) => {
@@ -10,10 +11,11 @@ export const UserListItem = ({ user }) => {
     >
       <div className="row">
         <div className="col-2">
-          <img
+          <ProfileImage
             src={user.image ? user.image : defaultProfileImage}
-            className="img-fluid rounded-circle"
             width={40}
+            className={"img-fluid rounded-circle"}
+            alt={`image_${user.username}`}
           />
         </div>
         <div className="col-10 ">

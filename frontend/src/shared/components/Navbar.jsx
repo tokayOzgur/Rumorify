@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "@/features/auth/authSlice";
+import { ProfileImage } from "./ProfileImage";
 
 export const Navbar = () => {
   const { t } = useTranslation();
@@ -77,11 +78,11 @@ export const Navbar = () => {
               {authState.id > 0 && (
                 <>
                   <Link className="nav-link mx-3" to={`/user/${authState.id}`}>
-                    <img
+                    <ProfileImage
+                      alt={"profile-image"}
                       src={authState.image}
-                      alt="profile_image"
                       width={30}
-                      className="rounded-circle"
+                      className={"rounded-circle"}
                     />
                   </Link>
                   <span

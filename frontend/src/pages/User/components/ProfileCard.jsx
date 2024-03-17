@@ -7,6 +7,7 @@ import { Input } from "@/shared/components/Input";
 import { updateUser } from "@/api/userApi";
 import { Alert } from "@/shared/components/Alert";
 import { userUpdateSuccess } from "@/features/auth/authSlice";
+import { ProfileImage } from "@/shared/components/ProfileImage";
 
 export const ProfileCard = ({ user }) => {
   const authState = useSelector((store) => store.auth);
@@ -55,10 +56,11 @@ export const ProfileCard = ({ user }) => {
       )}
       <div className="row no-gutters">
         <div className="col-md-4">
-          <img
+          <ProfileImage
             src={user.image ? user.image : defaultProfileImage}
-            className="card-img"
             alt={`image_${user.username}`}
+            width={200}
+            className="card-img"
           />
         </div>
         <div className="col-md-8">

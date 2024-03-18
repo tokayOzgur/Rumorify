@@ -1,6 +1,5 @@
 package com.rumorify.ws.service.impl;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +13,16 @@ import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.token.Token;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 @Service
-@Data
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AuthResponse authenticate(CredentialsRequest credentials) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         GetUserByEmailResponse inDB = userService.findByEmail(credentials.email());
         if (!passwordEncoder.matches(credentials.password(), inDB.getPassword()) || inDB == null)
             throw new AuthenticationException();

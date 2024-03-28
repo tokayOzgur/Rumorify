@@ -33,6 +33,9 @@ rumorify:
     from: rumorify@tokay.com
   client:
     host: http://localhost:5173
+logging:
+  level:
+    org.springframework.security: DEBUG
 ---
 # Prod Profile Configuration
 spring:

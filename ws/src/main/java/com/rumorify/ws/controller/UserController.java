@@ -27,6 +27,7 @@ import com.rumorify.ws.service.UserService;
 import com.rumorify.ws.shared.GenericMessage;
 import com.rumorify.ws.shared.Messages;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -75,7 +76,7 @@ public class UserController {
 	// TODO: check PreAuthorize annotation
 	@PutMapping("/{id}")
 	@PreAuthorize("#id == principal.id")
-	public GenericMessage updateUserById(@PathVariable int id, @RequestBody UpdateUserRequest entity) {
+	public GenericMessage updateUserById(@PathVariable int id, @Valid @RequestBody UpdateUserRequest entity) {
 		userService.updateByUserId(id, entity);
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.update.user.success.message",
 				LocaleContextHolder.getLocale()));

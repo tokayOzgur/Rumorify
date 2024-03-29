@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class User {
 	private String password;
 	private boolean active;
 	private String activationToken;
+	@Lob
 	private String image;
 	private String profileDescription;
 }

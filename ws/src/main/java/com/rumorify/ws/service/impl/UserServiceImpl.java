@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
         if (entity.getLastName() != null) inDb.setLastName(entity.getLastName());
         if (entity.getUsername() != null) inDb.setUsername(entity.getUsername());
         if (entity.getProfileDescription() != null) inDb.setProfileDescription(entity.getProfileDescription());
+        if (entity.getImage() != null) inDb.setImage(entity.getImage());
         userRepository.save(inDb);
     }
 

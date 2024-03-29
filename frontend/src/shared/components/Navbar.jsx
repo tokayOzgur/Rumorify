@@ -82,6 +82,7 @@ export const Navbar = () => {
                       alt={"profile-image"}
                       src={authState.image}
                       width={30}
+                      height={30}
                       className={"rounded-circle"}
                     />
                   </Link>

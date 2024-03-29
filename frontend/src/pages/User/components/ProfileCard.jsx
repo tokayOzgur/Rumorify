@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import defaultProfileImage from "@/assets/defUser.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/shared/components/Button";
@@ -21,7 +20,8 @@ export const ProfileCard = ({ user }) => {
   );
   const [newFirstName, setNewFirstName] = useState(user.firstName);
   const [newLastName, setNewLastName] = useState(user.lastName);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [newImage, setNewImage] = useState(user.image);
+  const [errorMessage, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
 
@@ -33,37 +33,74 @@ export const ProfileCard = ({ user }) => {
     user.profileDescription = newProfileDescription;
     user.firstName = newFirstName;
     user.lastName = newLastName;
+    user.image = newImage;
     updateUser(user.id, user)
       .then((response) => {
         setSuccessMessage(response.data.message);
         dispatch(userUpdateSuccess(user));
+        setEditMode(false);
       })
       .catch((error) => {
-        console.log("error::", error);
-        setErrorMessage(error.response.data.validationError);
+        setErrorMessage(error.response.data.validationErrors);
+        console.log(errorMessage);
       })
       .finally(() => {
         setApiProgress(false);
-        setEditMode(false);
       });
+  };
+
+  const updateUserImage = (e) => {
+    if (e.target.files.length < 1) {
+      return;
+    }
+    const file = e.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      setNewImage(fileReader.result);
+    };
+    fileReader.readAsDataURL(file);
+  };
+
+  const handeleCancel = () => {
+    setEditMode(false);
+    setErrorMessage("");
+    setSuccessMessage("");
+    setNewUsername(user.username);
+    setNewProfileDescription(user.profileDescription);
+    setNewFirstName(user.firstName);
+    setNewLastName(user.lastName);
+    setNewImage(user.image);
   };
 
   return (
     // TODO: Add a component for the edit form
     // TODO2: Add a component for the info profile
+    // TODO3: Check validation for the form
     <div className="card m-5">
-      {errorMessage && <Alert styleType="danger" children={errorMessage} />}
+      {errorMessage.image && (
+        <Alert styleType="danger" children={errorMessage.image} />
+      )}
       {successMessage && (
         <Alert styleType="success" children={successMessage} />
       )}
       <div className="row no-gutters">
         <div className="col-md-4">
           <ProfileImage
-            src={user.image ? user.image : defaultProfileImage}
+            src={newImage}
             alt={`image_${user.username}`}
             width={200}
             className="card-img"
           />
+          {editMode && (
+            <Input
+              id={"profileImageId"}
+              type={"file"}
+              label={t("profileImage")}
+              onChange={(e) => {
+                updateUserImage(e);
+              }}
+            />
+          )}
         </div>
         <div className="col-md-8">
           <div className="card-body">
@@ -88,6 +125,7 @@ export const ProfileCard = ({ user }) => {
                   onChange={(e) => {
                     setNewUsername(e.target.value);
                   }}
+                  error={errorMessage.username}
                 />
                 <Input
                   label={t("description")}
@@ -97,6 +135,7 @@ export const ProfileCard = ({ user }) => {
                   onChange={(e) => {
                     setNewProfileDescription(e.target.value);
                   }}
+                  error={errorMessage.profileDescription}
                 />
                 <Input
                   label={t("firstName")}
@@ -106,6 +145,7 @@ export const ProfileCard = ({ user }) => {
                   onChange={(e) => {
                     setNewFirstName(e.target.value);
                   }}
+                  error={errorMessage.firstName}
                 />
                 <Input
                   label={t("lastName")}
@@ -115,6 +155,7 @@ export const ProfileCard = ({ user }) => {
                   onChange={(e) => {
                     setNewLastName(e.target.value);
                   }}
+                  error={errorMessage.lastName}
                 />
                 <Button
                   btnClass={"primary float-end my-2"}
@@ -125,7 +166,7 @@ export const ProfileCard = ({ user }) => {
                 <Button
                   btnClass={"outline-secondary mx-2 my-2 float-end"}
                   onClick={() => {
-                    setEditMode(false);
+                    handeleCancel();
                   }}
                   children={t("cancel")}
                 />

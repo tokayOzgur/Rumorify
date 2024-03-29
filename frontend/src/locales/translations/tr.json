@@ -20,5 +20,6 @@
   "cancel": "İptal",
   "delete": "Sil",
   "firstName": "Ad",
-  "lastName": "Soyad"
+  "lastName": "Soyad",
+  "profileImage": "Profil Resmi"
 }

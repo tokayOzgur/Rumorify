@@ -26,6 +26,10 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+  output:
+    ansi:
+      enabled: always
+
 rumorify:
   email:
     host: smtp.ethereal.email

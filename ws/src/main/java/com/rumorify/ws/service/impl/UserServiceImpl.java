@@ -23,6 +23,7 @@ import com.rumorify.ws.exception.InvalidTokenException;
 import com.rumorify.ws.exception.NotUniqueEmailException;
 import com.rumorify.ws.exception.ResourceNotFoundException;
 import com.rumorify.ws.exception.UserNotFoundException;
+import com.rumorify.ws.file.FileService;
 import com.rumorify.ws.model.User;
 import com.rumorify.ws.repository.UserRepository;
 import com.rumorify.ws.service.EmailService;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     private ModelMapperService mapper;
     private EmailService emailService;
     private PasswordEncoder passwordEncoder;
-
+    private final FileService fileService;
     @Override
     public GetUserByUserNameResponse findByUsername(String username) {
         User user = userRepository.findByUsername(username)
@@ -88,7 +89,11 @@ public class UserServiceImpl implements UserService {
         if (entity.getLastName() != null) inDb.setLastName(entity.getLastName());
         if (entity.getUsername() != null) inDb.setUsername(entity.getUsername());
         if (entity.getProfileDescription() != null) inDb.setProfileDescription(entity.getProfileDescription());
-        if (entity.getImage() != null) inDb.setImage(entity.getImage());
+        if (entity.getImage() != null) {
+            String fileName= fileService.saveBase4StringAsFile(entity.getImage());
+            inDb.setImage(fileName);
+        };
+
         userRepository.save(inDb);
     }
 

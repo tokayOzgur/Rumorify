@@ -8,45 +8,50 @@ import { Alert } from "@/shared/components/Alert";
 import { userUpdateSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "@/shared/components/ProfileImage";
 
+// TODO handle the image upload
 export const ProfileCard = ({ user }) => {
   const authState = useSelector((store) => store.auth);
   const { t } = useTranslation();
   const [apiProgress, setApiProgress] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const isEditable = !editMode && authState.id === user.id;
-  const [newUsername, setNewUsername] = useState(user.username);
-  const [newProfileDescription, setNewProfileDescription] = useState(
-    user.profileDescription
-  );
-  const [newFirstName, setNewFirstName] = useState(user.firstName);
-  const [newLastName, setNewLastName] = useState(user.lastName);
-  const [newImage, setNewImage] = useState(user.image);
   const [errorMessage, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
 
-  const handleUpdate = () => {
-    setApiProgress(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-    user.username = newUsername;
-    user.profileDescription = newProfileDescription;
-    user.firstName = newFirstName;
-    user.lastName = newLastName;
-    user.image = newImage;
-    updateUser(user.id, user)
-      .then((response) => {
-        setSuccessMessage(response.data.message);
-        dispatch(userUpdateSuccess(user));
-        setEditMode(false);
-      })
-      .catch((error) => {
-        setErrorMessage(error.response.data.validationErrors);
-        console.log(errorMessage);
-      })
-      .finally(() => {
-        setApiProgress(false);
-      });
+  const [newUsername, setNewUsername] = useState(user.username);
+  const [newProfileDescription, setNewProfileDescription] = useState(
+    user.profileDescription
+  );
+  const [newFirstName, setNewFirstName] = useState();
+  const [newLastName, setNewLastName] = useState();
+  const [newImage, setNewImage] = useState();
+
+  const handleUpdate = async () => {
+    try {
+      setApiProgress(true);
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      const updatedUser = {
+        ...user,
+        username: newUsername,
+        profileDescription: newProfileDescription,
+        firstName: newFirstName,
+        lastName: newLastName,
+        image: newImage,
+      };
+      const response = await updateUser(user.id, updatedUser);
+      setSuccessMessage(response.data.message);
+      console.log("updatedUser", updatedUser);
+      dispatch(userUpdateSuccess(updatedUser));
+      setEditMode(false);
+      handeleCancel();
+    } catch (error) {
+      setErrorMessage(error.response.data.validationErrors);
+    } finally {
+      setApiProgress(false);
+    }
   };
 
   const updateUserImage = (e) => {
@@ -77,16 +82,14 @@ export const ProfileCard = ({ user }) => {
     // TODO2: Add a component for the info profile
     // TODO3: Check validation for the form
     <div className="card m-5">
-      {errorMessage.image && (
-        <Alert styleType="danger" children={errorMessage.image} />
-      )}
       {successMessage && (
         <Alert styleType="success" children={successMessage} />
       )}
       <div className="row no-gutters">
         <div className="col-md-4">
           <ProfileImage
-            src={newImage}
+            src={user.image}
+            tempSrc={newImage}
             alt={`image_${user.username}`}
             width={200}
             className="card-img"
@@ -99,6 +102,7 @@ export const ProfileCard = ({ user }) => {
               onChange={(e) => {
                 updateUserImage(e);
               }}
+              error={errorMessage.image}
             />
           )}
         </div>

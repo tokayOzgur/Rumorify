@@ -12,6 +12,7 @@ public class RumorifyProperties {
 
         private Email email;
         private Client client;
+        private Storage storage = new Storage();
 
         public static record Email(
                         String host,
@@ -26,4 +27,13 @@ public class RumorifyProperties {
         public static record Client(
                         String host) {
         }
+
+        @Data
+        public static class Storage {
+                String root = "uploads";
+                String profile = "profile";
+                String post = "post";
+
+        }
+
 }

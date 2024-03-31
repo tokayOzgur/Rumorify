@@ -21,7 +21,6 @@ export const authSlice = createSlice({
       delete state.image;
     },
     userUpdateSuccess: (state, action) => {
-      console.log(action.payload)
       state.username = action.payload.username;
       state.image = action.payload.image;
     },

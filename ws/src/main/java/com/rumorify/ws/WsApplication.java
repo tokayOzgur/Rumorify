@@ -30,19 +30,9 @@ public class WsApplication {
 				user.setEmail("user" + i + "@gmail.com");
 				user.setPassword(passwordEncoder.encode("P4ssword!"));
 				user.setActive(true);
-				user.setImage("https://i.pravatar.cc/600?img=" + i);
+				user.setImage("");
 				userRepository.save(user);
 			}
-			User user = new User();
-			user.setUsername("User " + 26);
-			user.setFirstName("firstName " + 26);
-			user.setLastName("lastName " + 26);
-			user.setProfileDescription("Hi! I'm user " + 26);
-			user.setEmail("user" + 26 + "@gmail.com");
-			user.setPassword(passwordEncoder.encode("P4ssword!"));
-			user.setActive(false);
-			user.setImage("https://i.pravatar.cc/600?img=" + 26);
-			userRepository.save(user);
 		};
 	}
 }

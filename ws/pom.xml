@@ -85,6 +85,14 @@
 			<artifactId>dotenv-java</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+
+		<!-- Tika for files type  -->
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-core</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

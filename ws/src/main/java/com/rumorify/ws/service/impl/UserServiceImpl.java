@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
         if (entity.getUsername() != null) inDb.setUsername(entity.getUsername());
         if (entity.getProfileDescription() != null) inDb.setProfileDescription(entity.getProfileDescription());
         if (entity.getImage() != null) {
+            fileService.deleteFile(inDb.getImage());
             String fileName= fileService.saveBase4StringAsFile(entity.getImage());
             inDb.setImage(fileName);
         };

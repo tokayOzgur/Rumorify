@@ -73,7 +73,6 @@ public class UserController {
 		return userService.findById(id);
 	}
 
-	// TODO: check PreAuthorize annotation
 	@PutMapping("/{id}")
 	@PreAuthorize("#id == principal.id")
 	public GenericMessage updateUserById(@PathVariable int id, @Valid @RequestBody UpdateUserRequest entity) {

@@ -1,5 +1,7 @@
 package com.rumorify.ws.dto.requests;
 
+import com.rumorify.ws.validation.file.FileType;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -25,5 +27,6 @@ public class UpdateUserRequest {
     private String profileDescription;
     @NotBlank
     @NotEmpty
+    @FileType(types = { "jpeg", "png" })
     private String image;
 }

@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 @Configuration
 @AllArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-        private final RumorifyProperties props;
 
         @Override
         public void addCorsMappings(@NonNull CorsRegistry registry) {

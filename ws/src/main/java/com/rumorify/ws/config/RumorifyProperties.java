@@ -31,8 +31,8 @@ public class RumorifyProperties {
         @Data
         public static class Storage {
                 String root = "uploads";
-                String profile = "profile";
-                String post = "post";
+                String profile = "profiles";
+                String post = "posts";
 
         }
 

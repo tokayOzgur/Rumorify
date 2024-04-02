@@ -9,7 +9,7 @@ import { userUpdateSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "@/shared/components/ProfileImage";
 
 // TODO handle the image upload
-export const ProfileCard = ({ user }) => {
+export const ProfileCard = ({ user, loadUser }) => {
   const authState = useSelector((store) => store.auth);
   const { t } = useTranslation();
   const [apiProgress, setApiProgress] = useState(false);
@@ -23,9 +23,15 @@ export const ProfileCard = ({ user }) => {
   const [newProfileDescription, setNewProfileDescription] = useState(
     user.profileDescription
   );
-  const [newFirstName, setNewFirstName] = useState();
-  const [newLastName, setNewLastName] = useState();
-  const [newImage, setNewImage] = useState();
+  const [newFirstName, setNewFirstName] = useState(user.firstName);
+  const [newLastName, setNewLastName] = useState(user.lastName);
+  const [newImage, setNewImage] = useState(user.image);
+
+  const refreshValues = () => {
+    loadUser();
+    console.log(user)
+    dispatch(userUpdateSuccess(user));
+  };
 
   const handleUpdate = async () => {
     try {
@@ -44,9 +50,8 @@ export const ProfileCard = ({ user }) => {
       const response = await updateUser(user.id, updatedUser);
       setSuccessMessage(response.data.message);
       console.log("updatedUser", updatedUser);
-      dispatch(userUpdateSuccess(updatedUser));
+      refreshValues();
       setEditMode(false);
-      handeleCancel();
     } catch (error) {
       setErrorMessage(error.response.data.validationErrors);
     } finally {
@@ -89,7 +94,6 @@ export const ProfileCard = ({ user }) => {
         <div className="col-md-4">
           <ProfileImage
             src={user.image}
-            tempSrc={newImage}
             alt={`image_${user.username}`}
             width={200}
             className="card-img"

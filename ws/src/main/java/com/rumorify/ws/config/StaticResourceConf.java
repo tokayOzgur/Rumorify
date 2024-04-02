@@ -21,11 +21,9 @@ public class StaticResourceConf implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String path = Paths.get(props.getStorage().getRoot()).toAbsolutePath().toString();
-
-        registry.addResourceHandler("/assets/**").addResourceLocations("file:" + path + "/")
-                .setCacheControl(CacheControl.maxAge(
-                        365, TimeUnit.DAYS));
+        String rootPath = Paths.get(props.getStorage().getRoot()).toAbsolutePath().toString();
+        registry.addResourceHandler("/assets/**").addResourceLocations("file:" + rootPath + "/")
+                .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
     }
 
     @Bean

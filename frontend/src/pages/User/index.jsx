@@ -14,20 +14,20 @@ export function User() {
   const [apiProgress, setApiProgress] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    const loadUser = async () => {
-      setApiProgress(true);
-      try {
-        const response = await fetchUserById(id);
-        setUser(response.data);
-      } catch (error) {
-        console.log(error);
-        setErrorMessage(t("userNotFound"));
-      } finally {
-        setApiProgress(false);
-      }
-    };
+  const loadUser = async () => {
+    setApiProgress(true);
+    try {
+      const response = await fetchUserById(id);
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(t("userNotFound"));
+    } finally {
+      setApiProgress(false);
+    }
+  };
 
+  useEffect(() => {
     loadUser();
   }, [id]);
 
@@ -35,7 +35,9 @@ export function User() {
     <div className="container">
       {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
       {apiProgress && <Spinner size="lg m-auto" />}
-      {user && <ProfileCard user={user} />}
+      {user && (
+        <ProfileCard user={user} loadUser={loadUser} />
+      )}
     </div>
   );
 }

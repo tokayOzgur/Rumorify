@@ -1,19 +1,14 @@
 import React from "react";
 import defaultProfileImage from "@/assets/defUser.png";
 
-export const ProfileImage = ({
-  width,
-  height,
-  className,
-  alt,
-  src,
-  tempSrc,
-}) => {
-  const profileImage = src ? `/assets/profiles/${src}` : defaultProfileImage;
+export const ProfileImage = ({ width, height, className, alt, src }) => {
+  const profileImage = src
+    ? `http://localhost:8080/assets/profiles/${src}`
+    : defaultProfileImage;
   console.log("profileImage", profileImage);
   return (
     <img
-      src={tempSrc || profileImage}
+      src={profileImage}
       alt={alt}
       width={width}
       height={height}

@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.AuthResponse;
 import com.rumorify.ws.service.AuthService;
+import com.rumorify.ws.shared.GenericMessage;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -27,6 +29,12 @@ public class AuthController {
     @PostMapping
     public AuthResponse handleAuthentication(@Valid @RequestBody CredentialsRequest credentials) {
         return authService.authenticate(credentials);
+    }
+
+    @PostMapping("/logout")
+    GenericMessage logout(@RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        authService.logout(authorizationHeader);
+        return new GenericMessage("User logged out successfully!");
     }
 
 }

@@ -1,12 +1,12 @@
 package com.rumorify.ws.service.impl;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
-import com.rumorify.ws.exception.ResourceNotFoundException;
 import com.rumorify.ws.exception.UserNotFoundException;
 import com.rumorify.ws.model.Token;
 import com.rumorify.ws.model.User;
@@ -34,11 +34,25 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public int verifyToken(String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer "))
+        var tokenInDb = getToken(authorizationHeader);
+        if (!tokenInDb.isPresent())
             return 0;
-        String token = authorizationHeader.split(" ")[1];
-        return tokenRepository.findById(token).orElseThrow(() -> new ResourceNotFoundException()).getUser().getId();
-
+        return tokenInDb.get().getUser().getId();
     }
 
+    @Override
+    public void logout(String authorizationHeader) {
+
+        var tokenInDb = getToken(authorizationHeader);
+        if (!tokenInDb.isPresent())
+            return;
+        tokenRepository.delete(tokenInDb.get());
+    }
+
+    private Optional<Token> getToken(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer "))
+            return Optional.empty();
+        String token = authorizationHeader.split(" ")[1];
+        return tokenRepository.findById(token);
+    }
 }

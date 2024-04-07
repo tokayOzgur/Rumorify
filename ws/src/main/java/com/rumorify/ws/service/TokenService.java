@@ -8,4 +8,6 @@ public interface TokenService {
     public Token generateToken(GetUserByEmailResponse user, CredentialsRequest credentials);
 
     public int verifyToken(String authorizationHeader);
+
+    public void logout(String authorizationHeader);
 }

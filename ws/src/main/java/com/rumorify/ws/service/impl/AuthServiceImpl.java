@@ -31,4 +31,9 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder().token(token).user(inDB).build();
     }
 
+    @Override
+    public void logout(String authorizationHeader) {
+        tokenService.logout(authorizationHeader);
+    }
+
 }

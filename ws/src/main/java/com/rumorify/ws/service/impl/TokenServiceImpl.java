@@ -1,43 +1,44 @@
 package com.rumorify.ws.service.impl;
 
-import java.util.Base64;
+import java.util.UUID;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
+import com.rumorify.ws.exception.ResourceNotFoundException;
+import com.rumorify.ws.exception.UserNotFoundException;
+import com.rumorify.ws.model.Token;
+import com.rumorify.ws.model.User;
+import com.rumorify.ws.repository.TokenRepository;
+import com.rumorify.ws.repository.UserRepository;
 import com.rumorify.ws.service.TokenService;
-import com.rumorify.ws.service.UserService;
-import com.rumorify.ws.token.Token;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
-    private final UserService tokenService;
-    private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Token generateToken(GetUserByEmailResponse user, CredentialsRequest credentials) {
-        String token = Base64.getEncoder()
-                .encodeToString((credentials.email() + ":" + credentials.password()).getBytes());
-        return new Token("Basic", token);
+        String randomValue = UUID.randomUUID().toString();
+        User inDb = userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException(user.getId()));
+        Token token = new Token();
+        token.setToken(randomValue);
+        token.setUser(inDb);
+        return tokenRepository.save(token);
     }
 
     @Override
     public int verifyToken(String authorizationHeader) {
-        if (authorizationHeader == null)
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer "))
             return 0;
-        String base64encoded = authorizationHeader.split("Basic ")[1];
-        String decoded = new String(Base64.getDecoder().decode(base64encoded));
-        CredentialsRequest credentials = new CredentialsRequest(decoded.split(":")[0], decoded.split(":")[1]);
-        GetUserByEmailResponse inDB = tokenService.findByEmail(credentials.email());
+        String token = authorizationHeader.split(" ")[1];
+        return tokenRepository.findById(token).orElseThrow(() -> new ResourceNotFoundException()).getUser().getId();
 
-        if (inDB != null && passwordEncoder.matches(credentials.password(), inDB.getPassword()))
-            return inDB.getId();
-        return 0;
     }
 
 }

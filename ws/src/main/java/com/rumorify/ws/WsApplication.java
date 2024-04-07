@@ -22,16 +22,18 @@ public class WsApplication {
 	CommandLineRunner userCreator(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 			for (int i = 1; i < 25; i++) {
-				User user = new User();
-				user.setUsername("User " + i);
-				user.setFirstName("firstName " + i);
-				user.setLastName("lastName " + i);
-				user.setProfileDescription("Hi! I'm user " + i);
-				user.setEmail("user" + i + "@gmail.com");
-				user.setPassword(passwordEncoder.encode("P4ssword!"));
-				user.setActive(true);
-				user.setImage("");
-				userRepository.save(user);
+				if (!userRepository.existsById(i)) {
+					User user = new User();
+					user.setUsername("User " + i);
+					user.setFirstName("firstName " + i);
+					user.setLastName("lastName " + i);
+					user.setProfileDescription("Hi! I'm user " + i);
+					user.setEmail("user" + i + "@gmail.com");
+					user.setPassword(passwordEncoder.encode("P4ssword!"));
+					user.setActive(true);
+					user.setImage("");
+					userRepository.save(user);
+				}
 			}
 		};
 	}

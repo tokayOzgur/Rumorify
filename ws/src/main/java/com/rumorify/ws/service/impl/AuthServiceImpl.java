@@ -7,10 +7,10 @@ import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.AuthResponse;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.exception.AuthenticationException;
+import com.rumorify.ws.model.Token;
 import com.rumorify.ws.service.AuthService;
 import com.rumorify.ws.service.TokenService;
 import com.rumorify.ws.service.UserService;
-import com.rumorify.ws.token.Token;
 
 import lombok.AllArgsConstructor;
 

@@ -21,6 +21,8 @@
   "description": "Description",
   "firstName": "First Name",
   "lastName": "Last Name",
-  "profileImage": "Profile Image"
+  "profileImage": "Profile Image",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account?"
 
 }

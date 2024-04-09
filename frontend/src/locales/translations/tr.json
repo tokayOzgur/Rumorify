@@ -21,5 +21,7 @@
   "delete": "Sil",
   "firstName": "Ad",
   "lastName": "Soyad",
-  "profileImage": "Profil Resmi"
+  "profileImage": "Profil Resmi",
+  "deleteAccount": "Hesabı Sil",
+  "deleteAccountConfirmation": "Hesabınızı silmek istediğinize emin misiniz?"
 }

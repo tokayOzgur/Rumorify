@@ -11,5 +11,6 @@ public class GetUserByEmailResponse {
     private String password;
     private String email;
     private String image;
-    private String active;
+    private boolean active;
+    private boolean isDeleted;
 }

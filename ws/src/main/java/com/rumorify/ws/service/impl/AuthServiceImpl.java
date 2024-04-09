@@ -24,7 +24,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse authenticate(CredentialsRequest credentials) {
         GetUserByEmailResponse inDB = userService.findByEmail(credentials.email());
-        if (!passwordEncoder.matches(credentials.password(), inDB.getPassword()) || inDB == null)
+
+        if (inDB == null || !passwordEncoder.matches(credentials.password(), inDB.getPassword()))
+            throw new AuthenticationException();
+
+        if (!inDB.isActive() || inDB.isDeleted())
             throw new AuthenticationException();
 
         Token token = tokenService.generateToken(inDB, credentials);

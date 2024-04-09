@@ -35,6 +35,9 @@ export const authSlice = createSlice({
     },
     userUpdateSuccess: (state, action) => {
       state.username = action.payload.username;
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
+      state.profileDescription = action.payload.profileDescription;
       state.image = action.payload.image;
     },
   },
@@ -44,16 +47,14 @@ export const { loginSuccess, logoutSuccess, userUpdateSuccess } =
   authSlice.actions;
 export default authSlice.reducer;
 
+// TODO: Cookie ile State yönetimini araştır.
 export const fetchCurrentUser = () => async (dispatch) => {
   try {
     const response = await getCurrentUser();
     dispatch(loginSuccess(response.data));
   } catch (err) {
     if (err.response && err.response.status === 401) {
-      console.log("logoutSuccess çalıştı");
       dispatch(logoutSuccess());
-    } else {
-      console.log("fetchCurrentUser error::", err);
     }
   }
 };

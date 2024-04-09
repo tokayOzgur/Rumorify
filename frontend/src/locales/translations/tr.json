@@ -23,5 +23,6 @@
   "lastName": "Soyad",
   "profileImage": "Profil Resmi",
   "deleteAccount": "Hesabı Sil",
-  "deleteAccountConfirmation": "Hesabınızı silmek istediğinize emin misiniz?"
+  "deleteAccountConfirmation": "Hesabınızı silmek istediğinize emin misiniz?",
+  "errorOccurred": "Bir hata oluştu"
 }

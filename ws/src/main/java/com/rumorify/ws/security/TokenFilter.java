@@ -27,10 +27,11 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
-            int userId = tokenService.verifyToken(authorizationHeader);
+        String tokenWithPrefix = getTokenWithPrefix(request);
+        if (tokenWithPrefix != null) {
+            int userId = tokenService.verifyToken(tokenWithPrefix);
             if (userId != 0) {
+                // TODO: aktif userlar için kontrol ekle
                 System.out.println("User with id " + userId + " is authenticated");
                 CurrentUser currentUser = new CurrentUser(User.builder().id(userId).build());
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -42,6 +43,20 @@ public class TokenFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    // TODO null dönüyor
+    private String getTokenWithPrefix(HttpServletRequest request) {
+        var cookies = request.getCookies();
+        if (cookies != null) {
+            for (var cookie : cookies) {
+                if (cookie.getName().equals("rumor-token") && cookie.getValue() != null
+                        && !cookie.getValue().isEmpty()) {
+                    return "AnyPrefix " + cookie.getValue();
+                }
+            }
+        }
+        return request.getHeader("Authorization");
     }
 
 }

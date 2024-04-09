@@ -7,6 +7,7 @@ import { updateUser } from "@/api/userApi";
 import { Alert } from "@/shared/components/Alert";
 import { userUpdateSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "@/shared/components/ProfileImage";
+import { UserDelete } from "./UserDelete";
 
 // TODO handle the image upload
 export const ProfileCard = ({ user, loadUser }) => {
@@ -178,6 +179,7 @@ export const ProfileCard = ({ user, loadUser }) => {
                   }}
                   children={t("cancel")}
                 />
+                <UserDelete id={user.id} />
               </>
             ) : (
               <>

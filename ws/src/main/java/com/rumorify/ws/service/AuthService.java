@@ -12,4 +12,6 @@ public interface AuthService {
 
     void logout(String authorizationHeader);
 
+    AuthResponse getCurrentUser(String cookieValue);
+
 }

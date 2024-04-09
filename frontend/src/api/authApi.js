@@ -6,4 +6,8 @@ export const login = (credentials) => {
 
 export const logout = () => {
   return axiosInstance.delete(`/auth`);
-}
+};
+
+export const getCurrentUser = () => {
+  return axiosInstance.get(`/auth`);
+};

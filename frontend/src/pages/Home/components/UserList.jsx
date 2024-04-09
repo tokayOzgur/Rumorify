@@ -36,9 +36,10 @@ export const UserList = () => {
     <div className="container">
       <div className="row">
         <div className="list-group border p-2">
-          {userPage.content.map((user) => (
-            <UserListItem key={user.id} user={user} />
-          ))}
+          {userPage &&
+            userPage.content.map((user) => (
+              <UserListItem key={user.id} user={user} />
+            ))}
           {apiProgress ? (
             <Spinner size="lg m-auto" />
           ) : (
@@ -50,7 +51,7 @@ export const UserList = () => {
                   getUsers(--userPage.number);
                 }}
               >
-                Previous
+                {t("previous")}
               </button>
               <button
                 className="btn btn-primary"
@@ -59,7 +60,7 @@ export const UserList = () => {
                   getUsers(++userPage.number);
                 }}
               >
-                Next
+                {t("next")}
               </button>
             </div>
           )}

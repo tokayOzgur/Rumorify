@@ -1,21 +1,23 @@
-import { LanguageSelector } from "./LanguageSelector";
+import { logout } from "@/api/authApi";
 import logo from "@/assets/a.png";
-import { Link } from "react-router-dom";
+import { logoutSuccess } from "@/features/auth/authSlice";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentUser, logoutSuccess } from "@/features/auth/authSlice";
+import { Link } from "react-router-dom";
+import { LanguageSelector } from "./LanguageSelector";
 import { ProfileImage } from "./ProfileImage";
-import { logout } from "@/api/authApi";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const { t } = useTranslation();
   const authState = useSelector((store) => store.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onClickLogout = async () => {
     try {
       await logout();
+      navigate("/")
     } catch (err) {
       //TODO: handle error
       console.log(err);
@@ -23,11 +25,6 @@ export const Navbar = () => {
       dispatch(logoutSuccess());
     }
   };
-
-  useEffect(() => {
-    console.log("fetchCurrentUser useEffect Navbar da tetiklendi");
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
 
   return (
     <div className="m-2 shadow-sm">

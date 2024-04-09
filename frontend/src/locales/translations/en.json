@@ -24,5 +24,7 @@
   "profileImage": "Profile Image",
   "deleteAccount": "Delete Account",
   "deleteAccountConfirmation": "Are you sure you want to delete your account?",
-  "errorOccurred": "An error occurred"
+  "errorOccurred": "An error occurred",
+  "previous": "Previous",
+  "next": "Next"
 }

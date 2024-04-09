@@ -32,6 +32,7 @@ public class TokenServiceImpl implements TokenService {
         return tokenRepository.save(token);
     }
 
+    // TODO: return user not id
     @Override
     public int verifyToken(String authorizationHeader) {
         var tokenInDb = getToken(authorizationHeader);
@@ -42,7 +43,6 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void logout(String authorizationHeader) {
-
         var tokenInDb = getToken(authorizationHeader);
         if (!tokenInDb.isPresent())
             return;
@@ -50,7 +50,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private Optional<Token> getToken(String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer "))
+        if (authorizationHeader == null)
             return Optional.empty();
         String token = authorizationHeader.split(" ")[1];
         return tokenRepository.findById(token);

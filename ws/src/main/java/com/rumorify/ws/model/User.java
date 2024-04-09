@@ -1,11 +1,15 @@
 
 package com.rumorify.ws.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -36,8 +40,12 @@ public class User {
 	private String email;
 	private String password;
 	private boolean active;
+	private boolean isDeleted;
 	private String activationToken;
 	@Lob
 	private String image;
 	private String profileDescription;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	private List<Token> tokens;
 }

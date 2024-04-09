@@ -16,19 +16,16 @@ export const UserList = () => {
   const [apiProgress, setApiProgress] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  //TODO: edit getUsers method
   const getUsers = useCallback(async (page) => {
     setApiProgress(true);
-    fetchUsers(page)
-      .then((response) => {
-        setUserPage(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        // TODO use translate for error message
-        setErrorMessage(t("userNotFound"));
-      })
-      .finally(() => setApiProgress(false));
+    try {
+      const response = await fetchUsers(page);
+      setUserPage(response.data);
+    } catch (err) {
+      setErrorMessage(t("errorOccurred"));
+    } finally {
+      setApiProgress(false);
+    }
   }, []);
 
   useEffect(() => {

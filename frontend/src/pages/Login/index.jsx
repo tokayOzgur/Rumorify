@@ -37,30 +37,27 @@ export const Login = () => {
     });
   }, [password]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     clearInput();
     e.preventDefault();
     setApiProgress(true);
-    login({ email, password })
-      .then((response) => {
-        dispatch(loginSuccess(response.data));
-        navigate("/");
-      })
-      .catch((e) => {
-        console.log("HATA::", e);
-        if (e.response.data?.data) {
-          if (e.response.data.status === 400) {
-            setErrorMessage(e.response.data.validationError);
-          } else {
-            setGeneralError(e.response.data.message);
-          }
+    try {
+      const response = await login({ email, password });
+      dispatch(loginSuccess(response.data));
+      navigate("/");
+    } catch (err) {
+      if (err.response.data?.data) {
+        if (err.response.data.status === 400) {
+          setErrorMessage(err.response.data.validationError);
         } else {
-          setGeneralError(e.response.data.message);
+          setGeneralError(err.response.data.message);
         }
-      })
-      .finally(() => {
-        setApiProgress(false);
-      });
+      } else {
+        setGeneralError(err.response.data.message);
+      }
+    } finally {
+      setApiProgress(false);
+    }
   };
 
   const clearInput = () => {

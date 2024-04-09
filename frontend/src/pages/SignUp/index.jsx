@@ -57,24 +57,22 @@ export const SignUp = () => {
     if (password === passwordRepeat) {
       setResponMessage("");
       setApiProgress(true);
-      addUser({ username, email, password })
-        .catch((e) => {
-          if (e.response.data?.data) {
-            if (e.response.data.status === 400) {
-              setErrorMessage(e.response.data.validationError);
-            } else {
-              setGeneralError(e.response.data.message);
-            }
+      try {
+        const response = addUser({ username, email, password });
+        setResponMessage(response.data.message);
+      } catch (err) {
+        if (e.response.data?.data) {
+          if (e.response.data.status === 400) {
+            setErrorMessage(e.response.data.validationError);
           } else {
             setGeneralError(e.response.data.message);
           }
-        })
-        .then((response) => {
-          setResponMessage(response.data.message);
-        })
-        .finally(() => {
-          setApiProgress(false);
-        });
+        } else {
+          setGeneralError(e.response.data.message);
+        }
+      } finally {
+        setApiProgress(false);
+      }
     }
   };
 
@@ -129,16 +127,14 @@ export const SignUp = () => {
               label={t("email")}
               error={errorMessage.email}
               onChange={(e) => {
-               setEmail(e.target.value);
+                setEmail(e.target.value);
               }}
             />
 
             {responMessage && (
               <Alert styleType="success">{responMessage}</Alert>
             )}
-            {generalError && (
-              <Alert styleType="danger">{generalError}</Alert>
-            )}
+            {generalError && <Alert styleType="danger">{generalError}</Alert>}
 
             <Button
               children={t("signUp")}

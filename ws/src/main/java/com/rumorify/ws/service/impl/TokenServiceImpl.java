@@ -55,4 +55,9 @@ public class TokenServiceImpl implements TokenService {
         String token = authorizationHeader.split(" ")[1];
         return tokenRepository.findById(token);
     }
+
+    @Override
+    public Token findToken(String cookieValue) {
+        return tokenRepository.findById(cookieValue).orElse(null);
+    }
 }

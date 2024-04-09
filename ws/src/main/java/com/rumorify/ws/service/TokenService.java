@@ -10,4 +10,6 @@ public interface TokenService {
     public int verifyToken(String authorizationHeader);
 
     public void logout(String authorizationHeader);
+
+    public Token findToken(String cookieValue);
 }

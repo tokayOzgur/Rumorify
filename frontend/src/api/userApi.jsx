@@ -17,7 +17,7 @@ export const updateUser = (id, userData) => {
 };
 
 export const deleteUserByID = (id) => {
-  return axiosInstance.delete(`/users/delete/${id}`);
+  return axiosInstance.delete(`/users/${id}`);
 };
 
 export const activateUser = (token) => {

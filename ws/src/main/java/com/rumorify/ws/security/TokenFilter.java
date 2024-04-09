@@ -45,7 +45,6 @@ public class TokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // TODO null dönüyor
     private String getTokenWithPrefix(HttpServletRequest request) {
         var cookies = request.getCookies();
         if (cookies != null) {

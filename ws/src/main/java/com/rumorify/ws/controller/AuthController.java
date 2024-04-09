@@ -18,6 +18,7 @@ import com.rumorify.ws.shared.GenericMessage;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author tokay
@@ -43,7 +44,6 @@ public class AuthController {
             @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
             @CookieValue(name = "rumor-token", required = false) String cookieValue) {
 
-        System.err.println("********************" + cookieValue);
         var tokenWithPrefix = authorizationHeader;
         if (cookieValue != null && !cookieValue.isEmpty())
             tokenWithPrefix = "AnyPrefix " + cookieValue;
@@ -53,6 +53,13 @@ public class AuthController {
         authService.logout(tokenWithPrefix);
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new GenericMessage("User logged out successfully!"));
+    }
+
+    @GetMapping
+    public ResponseEntity<AuthResponse> getCurrentUser(
+            @CookieValue(name = "rumor-token", required = true) String cookieValue) {
+        AuthResponse authResponse = authService.getCurrentUser(cookieValue);
+        return ResponseEntity.ok().body(authResponse);
     }
 
 }

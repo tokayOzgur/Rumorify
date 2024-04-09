@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class AuthResponse {
 
-    GetUserByEmailResponse user;
+    GetUserByIdResponse user;
     Token token;
 
 }

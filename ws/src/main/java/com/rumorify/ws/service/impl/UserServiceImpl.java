@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
     private PasswordEncoder passwordEncoder;
     private final FileService fileService;
+
     @Override
     public GetUserByUserNameResponse findByUsername(String username) {
         User user = userRepository.findByUsername(username)
@@ -84,29 +85,40 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateByUserId(int id, UpdateUserRequest entity) {
         User inDb = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        if (inDb == null) throw new ResourceNotFoundException();
-        if (entity.getFirstName() != null) inDb.setFirstName(entity.getFirstName());
-        if (entity.getLastName() != null) inDb.setLastName(entity.getLastName());
-        if (entity.getUsername() != null) inDb.setUsername(entity.getUsername());
-        if (entity.getProfileDescription() != null) inDb.setProfileDescription(entity.getProfileDescription());
+        if (inDb == null)
+            throw new ResourceNotFoundException();
+        if (entity.getFirstName() != null)
+            inDb.setFirstName(entity.getFirstName());
+        if (entity.getLastName() != null)
+            inDb.setLastName(entity.getLastName());
+        if (entity.getUsername() != null)
+            inDb.setUsername(entity.getUsername());
+        if (entity.getProfileDescription() != null)
+            inDb.setProfileDescription(entity.getProfileDescription());
         if (entity.getImage() != null) {
             fileService.deleteFile(inDb.getImage());
-            String fileName= fileService.saveBase4StringAsFile(entity.getImage());
+            String fileName = fileService.saveBase4StringAsFile(entity.getImage());
             inDb.setImage(fileName);
-        };
+        }
+        ;
 
         userRepository.save(inDb);
     }
 
     @Override
     public void deleteByUserId(int id) {
-        throw new UnsupportedOperationException("Unimplemented method 'deleteByUsername'");
+        User inDb = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        if (inDb == null)
+            throw new ResourceNotFoundException();
+        inDb.setDeleted(true);
+        fileService.deleteFile(inDb.getImage());
+        userRepository.save(inDb);
 
     }
 
     @Override
     public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable, int id) {
-        Page<User> userPage = userRepository.findAllByActiveAndIdNot(true, pageable, id);
+        Page<User> userPage = userRepository.findAllByActiveAndIsDeletedAndIdNot(true, false, pageable, id);
         return userPage.map(user -> this.mapper.forResponse().map(user, GetAllActiveUsersResponse.class));
     }
 

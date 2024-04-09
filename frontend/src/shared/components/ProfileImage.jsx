@@ -5,7 +5,6 @@ export const ProfileImage = ({ width, height, className, alt, src }) => {
   const profileImage = src
     ? `http://localhost:8080/assets/profiles/${src}`
     : defaultProfileImage;
-  console.log("profileImage", profileImage);
   return (
     <img
       src={profileImage}

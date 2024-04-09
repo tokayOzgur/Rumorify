@@ -5,14 +5,22 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "./ProfileImage";
+import { logout } from "@/api/authApi";
 
 export const Navbar = () => {
   const { t } = useTranslation();
   const authState = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
-  const onClickLogout = () => {
-    dispatch(logoutSuccess());
+  const onClickLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      //TODO: handle error
+      console.log(err);
+    } finally {
+      dispatch(logoutSuccess());
+    }
   };
 
   return (

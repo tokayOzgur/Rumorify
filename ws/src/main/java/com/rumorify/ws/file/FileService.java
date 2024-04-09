@@ -46,7 +46,7 @@ public class FileService {
     }
 
     public void deleteFile(String image) {
-        if (image == null)
+        if (image == null || image.isEmpty())
             return;
         Path path = getFilePath(image);
         try {

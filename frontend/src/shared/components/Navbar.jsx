@@ -3,9 +3,10 @@ import logo from "@/assets/a.png";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutSuccess } from "@/features/auth/authSlice";
+import { fetchCurrentUser, logoutSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "./ProfileImage";
 import { logout } from "@/api/authApi";
+import { useEffect } from "react";
 
 export const Navbar = () => {
   const { t } = useTranslation();
@@ -22,6 +23,11 @@ export const Navbar = () => {
       dispatch(logoutSuccess());
     }
   };
+
+  useEffect(() => {
+    console.log("fetchCurrentUser useEffect Navbar da tetiklendi");
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   return (
     <div className="m-2 shadow-sm">

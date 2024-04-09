@@ -1,27 +1,13 @@
 import axios from "axios";
 import { i18nInstance } from "@/locales";
-import { loadToken, storeToken } from "@/shared/state/storage";
 
-let authToken = loadToken();
-export const setToken = (token) => {
-  authToken = token;
-  storeToken(token);
-};
-
-const instance = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
-  timeout: 1000,
-  headers: {
-    "X-Custom-Header": "foobar",
-    "Accept-Language": i18nInstance.language,
-    "Content-Type": "application/json",
-  },
-});
+const instance = axios.create();
 
 instance.interceptors.request.use((config) => {
-  if (authToken) {
-    config.headers["Authorization"] = `${authToken.prefix} ${authToken.token}`;
-  }
+  config.baseURL = "http://localhost:8080/api/v1";
+  config.timeout = 1000;
+  config.headers["Accept-Language"] = i18nInstance.language;
+  config.withCredentials = true;
   return config;
 });
 

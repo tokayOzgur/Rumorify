@@ -13,20 +13,5 @@ export const loadAuthState = () => {
   }
 };
 
-export const storeToken = (token) => {
-  if (token) {
-    localStorage.setItem("token", JSON.stringify(token));
-  } else {
-    localStorage.removeItem("token");
-  }
-};
 
-export const loadToken = () => {
-  const tokenInStorage = localStorage.getItem("token");
-  if (!tokenInStorage) return null;
-  try {
-    return JSON.parse(tokenInStorage);
-  } catch (error) {
-    return null;
-  }
-};
+// TODO: Projeden localStorage'ı tamamen kaldır!

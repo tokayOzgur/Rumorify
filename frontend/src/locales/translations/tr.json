@@ -26,5 +26,13 @@
   "deleteAccountConfirmation": "Hesabınızı silmek istediğinize emin misiniz?",
   "errorOccurred": "Bir hata oluştu",
   "previous": "Önceki",
-  "next": "Sonraki"
+  "next": "Sonraki",
+  "aboutUs": "Hakkımızda",
+  "contact": "İletişim",
+  "home": "Anasayfa",
+  "search": "Ara",
+  "searchResults": "Arama Sonuçları",
+  "aboutUsText": "Rumorify, mahalle, sokak, kasaba ve aynı şehirde yaşayan insanların bir araya gelerek kendilerini ifade edebilecekleri, sorunlarını dile getirebilecekleri ve çözüm yolları arayabilecekleri bir platformdur. Topluluğumuzu güçlendirerek birlikte daha güzel bir çevre yaratmayı hedefliyoruz. \nRumorify ile yaşadığınız yerdeki güncel konuları takip edebilir, kendi düşüncelerinizi paylaşabilir ve komşularınızla doğrudan iletişime geçebilirsiniz. Platformumuz, kullanıcılarının seslerini duyurabilecekleri, etkinlikler düzenleyebilecekleri ve yerel sorunlar için ortak çözümler geliştirebilecekleri interaktif bir alan sunar. \nKendi mahallenizden başlayarak, toplumunuzu şekillendirmek için bir adım atın. Rumorify, siz ve komşularınız arasında sağlam bir bağ kurmanıza yardımcı olacak, sorunların üstesinden gelinmesine ve daha iyi bir topluluk oluşturulmasına olanak tanıyacak araçlardan oluşan geniş bir yelpaze sunar. Hemen Rumorify’a katılın, yerel topluluğunuzla bağlantı kurun ve yaşadığınız yerin daha da iyileştirilmesi için birlikte harekete geçin!",
+  "ourMission": "Misyonumuz",
+  "ourMissionText": "Rumorify'nin misyonu, mahalleler, sokaklar, kasabalar ve şehirlerde yaşayan insanları bir araya getirerek, topluluklarının iyileştirilmesi için aktif bir şekilde iletişim kurmalarını ve işbirliği yapmalarını sağlamaktır. Platformumuz, kullanıcıların yerel sorunlarını dile getirebilmeleri, çözümler üretebilmeleri ve birbirleriyle etkileşim içinde olabilmeleri için güçlü bir altyapı sunar. \nAmacımız, herkesin sesinin duyulduğu, sorunların kolektif zekâ ile çözüldüğü ve etkinliklerin birlikte organize edildiği canlı ve dinamik bir topluluk ortamı yaratmaktır. Rumorify ile, yerel düzeyde fark yaratın, komşularınızla güçlü bağlar kurun ve topluluğunuzun daha yaşanabilir bir yer haline gelmesi için birlikte çalışın."
 }

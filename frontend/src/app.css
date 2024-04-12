@@ -1,0 +1,23 @@
+html, body {
+    height: 100%; /* Tam ekran yüksekliği sağlar */
+    margin: 0; /* Varsayılan tarayıcı boşluklarını kaldırır */
+    padding: 0; /* Varsayılan padding'i kaldırır */
+  }
+  
+  #main-container {
+    display: flex; /* Flexbox kullanımını etkinleştirir */
+    flex-direction: column; /* İçerikleri dikey eksende sıralar */
+    min-height: 100%; /* Ana konteyner için minimum yükseklik */
+  }
+  
+  #content {
+    flex: 1; /* İçeriğin tüm kullanılabilir alanı kaplamasını sağlar */
+    padding: 20px; /* İçeriğe padding verir */
+  }
+  
+  footer {
+    background: #ccc; /* Footer arka plan rengi */
+    padding: 10px 20px; /* Footer padding */
+    text-align: center; /* Metni ortalar */
+  }
+  

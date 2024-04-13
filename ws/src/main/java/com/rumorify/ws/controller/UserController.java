@@ -42,8 +42,6 @@ public class UserController {
 
 	private final UserService userService;
 
-	// TODO: edit the all paths to be more RESTful
-
 	@PostMapping
 	public GenericMessage createUser(@RequestBody CreateUserRequest userRequest) {
 		userService.save(userRequest);

@@ -30,12 +30,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AuthController {
     private final AuthService authService;
 
-    // TODO: projeden Authorization ve localStorage çıkarılacak
+    // TODO: projeden localStorage çıkarılacak
     @PostMapping
     public ResponseEntity<AuthResponse> handleAuthentication(@Valid @RequestBody CredentialsRequest credentials) {
         AuthResponse authResponse = authService.authenticate(credentials);
         ResponseCookie cookie = ResponseCookie.from("rumor-token", authResponse.getToken().getToken())
                 .path("/").sameSite("None").secure(true).httpOnly(true).build();
+        authResponse.setToken(null);
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(authResponse);
     }
 
@@ -59,6 +60,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> getCurrentUser(
             @CookieValue(name = "rumor-token", required = true) String cookieValue) {
         AuthResponse authResponse = authService.getCurrentUser(cookieValue);
+        authResponse.setToken(null);
         return ResponseEntity.ok().body(authResponse);
     }
 

@@ -1,6 +1,7 @@
 package com.rumorify.ws.controller;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -54,8 +55,10 @@ public class AuthController {
     @GetMapping
     public ResponseEntity<AuthResponse> getCurrentUser(
             @CookieValue(name = "rumor-token", required = true) String cookieValue) {
+        if (cookieValue == null || cookieValue.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         AuthResponse authResponse = authService.getCurrentUser(cookieValue);
-        authResponse.setToken(null);
         return ResponseEntity.ok().body(authResponse);
     }
 

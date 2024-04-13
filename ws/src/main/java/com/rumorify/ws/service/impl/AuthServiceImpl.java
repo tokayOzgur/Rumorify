@@ -49,9 +49,9 @@ public class AuthServiceImpl implements AuthService {
         Token token = tokenService.findToken(cookieValue);
         if (token == null)
             throw new AuthenticationException();
+
         GetUserByIdResponse userResp = mapper.forResponse().map(token.getUser(), GetUserByIdResponse.class);
-        return AuthResponse.builder().token(token).user(userResp)
-                .build();
+        return AuthResponse.builder().user(userResp).build();
     }
 
 }

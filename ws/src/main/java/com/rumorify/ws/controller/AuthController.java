@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AuthController {
     private final AuthService authService;
 
-    // TODO: projeden localStorage çıkarılacak
     @PostMapping
     public ResponseEntity<AuthResponse> handleAuthentication(@Valid @RequestBody CredentialsRequest credentials) {
         AuthResponse authResponse = authService.authenticate(credentials);
@@ -42,16 +40,13 @@ public class AuthController {
 
     @DeleteMapping
     public ResponseEntity<GenericMessage> logout(
-            @RequestHeader(name = "Authorization", required = false) String authorizationHeader,
             @CookieValue(name = "rumor-token", required = false) String cookieValue) {
-
-        var tokenWithPrefix = authorizationHeader;
-        if (cookieValue != null && !cookieValue.isEmpty())
-            tokenWithPrefix = "AnyPrefix " + cookieValue;
-
+        if (cookieValue != null && !cookieValue.isEmpty()) {
+            var tokenWithPrefix = "AnyPrefix " + cookieValue;
+            authService.logout(tokenWithPrefix);
+        }
         ResponseCookie cookie = ResponseCookie.from("rumor-token", "")
                 .path("/").httpOnly(true).maxAge(0).build();
-        authService.logout(tokenWithPrefix);
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new GenericMessage("User logged out successfully!"));
     }

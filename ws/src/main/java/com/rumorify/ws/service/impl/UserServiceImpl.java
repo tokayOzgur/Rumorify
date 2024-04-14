@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.requests.PasswordResetRequest;
+import com.rumorify.ws.dto.requests.UpdatePasswordRequest;
 import com.rumorify.ws.dto.requests.UpdateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
@@ -147,6 +148,15 @@ public class UserServiceImpl implements UserService {
         userInDb.setPasswordResetToken(UUID.randomUUID().toString());
         userRepository.save(userInDb);
         emailService.sendTokenEmail(passwordResetRequest.getEmail(), userInDb.getPasswordResetToken(), 1);
+    }
+
+    @Override
+    public void updatePassword(String token, UpdatePasswordRequest request) {
+        User userInDb = userRepository.findByPasswordResetToken(token).orElseThrow(() -> new InvalidTokenException());
+        if (userInDb == null) throw new InvalidTokenException();
+        userInDb.setPassword(passwordEncoder.encode(request.getPassword()));
+        userInDb.setPasswordResetToken(null);
+        userRepository.save(userInDb);
     }
 
 }

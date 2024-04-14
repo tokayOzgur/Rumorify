@@ -36,6 +36,16 @@ public class EmailServiceImp implements EmailService {
             </html>
             """;
 
+    String passwordResetEmail = """
+            <html>
+                <body>
+                    <h1>Reset your password</h1>
+                    <p>To reset your password, please click the following link:</p>
+                    <a href="${url}">Reset</a>
+                </body>
+            </html>
+            """;
+
     @PostConstruct
     public void initialize() {
         this.mailSender = new JavaMailSenderImpl();
@@ -49,22 +59,29 @@ public class EmailServiceImp implements EmailService {
     }
 
     @Override
-    public void sendActivationEmail(String email, String activationToken) {
+    public void sendTokenEmail(String email, String token, int templateId) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mailMessage = new MimeMessageHelper(mimeMessage, "UTF-8");
         try {
-            String activationUrl = rumorifyProp.getClient().host() + "/activation/" + activationToken;
-            String mailText = activationEmail.replace("${url}", activationUrl);
-            // TODO: check variables
+            String activationUrl = "";
+            String mailText = "";
+            String mailSubject = "";
+            if (templateId == 0) {
+                activationUrl = rumorifyProp.getClient().host() + "/activation/" + token;
+                mailText = activationEmail.replace("${url}", activationUrl);
+                mailSubject = "Rumorify Account Activation";
+            } else if (templateId == 1) {
+                activationUrl = rumorifyProp.getClient().host() + "/update-password/" + token;
+                mailText = passwordResetEmail.replace("${url}", activationUrl);
+                mailSubject = "Rumorify Password Reset";
+            }
             mailMessage.setFrom(rumorifyProp.getEmail().from());
             mailMessage.setTo(email);
-            mailMessage.setSubject("Rumorify Account Activation");
+            mailMessage.setSubject(mailSubject);
             mailMessage.setText(mailText, true);
         } catch (MessagingException e) {
-            // TODO: fix this error handling
             throw new ActivationNotificationException();
         }
-
         this.mailSender.send(mimeMessage);
     }
 

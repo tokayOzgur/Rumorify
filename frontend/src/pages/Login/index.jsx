@@ -115,7 +115,7 @@ export const Login = () => {
             </div>
             <div className="col-12 text-center ">
               <Link
-                to={"/passwordreset"}
+                to={"/password-reset"}
                 className="font-monospace text-opacity-75 text-primary text-decoration-none"
               >
                 <span className="mx-2">{t("forgotPassword")}</span>

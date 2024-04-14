@@ -8,6 +8,7 @@ import { Login } from "@/pages/Login";
 import { Introduction } from "@/pages/Introduction";
 import { RequireAuth } from "./RequireAuth.jsx";
 import { Authenticated } from "./Authenticated.jsx";
+import { PasswordResetRequest } from "@/pages/PasswordReset/PasswordResetRequest";
 
 export default createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export default createBrowserRouter([
             <Activation />
           </Authenticated>
         ),
+      },
+      {
+        path:"/password-reset",
+        element: <PasswordResetRequest />
       },
       {
         path: "/user/:id",

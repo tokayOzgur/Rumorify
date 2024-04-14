@@ -45,5 +45,7 @@
   "noAccount": "Don't have an account?",
   "alreadyHaveAccount": "Already have an account?",
   "forgotPassword": "Forgot Password?",
-  "resetPassword": "Reset Password"
+  "resetPassword": "Reset Password",
+  "updatePassword": "Update Password",
+  "update": "Update"
 }

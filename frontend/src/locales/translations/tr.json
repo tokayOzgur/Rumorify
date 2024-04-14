@@ -45,5 +45,7 @@
   "noAccount": "Hesabınız yok mu?",
   "alreadyHaveAccount": "Zaten bir hesabınız var mı?",
   "forgotPassword": "Şiremi unuttum!",
-  "resetPassword": "Şifre Sıfırlama"
+  "resetPassword": "Şifre Sıfırlama",
+  "updatePassword": "Şifre Güncelleme",
+  "update": "Güncelle"
 }

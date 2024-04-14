@@ -23,3 +23,7 @@ export const deleteUserByID = (id) => {
 export const activateUser = (token) => {
   return axiosInstance.patch(`/users/activation/${token}`);
 };
+
+export const requestPasswordReset = (email) => {
+  return axiosInstance.post("/users/password-reset", { email });
+};

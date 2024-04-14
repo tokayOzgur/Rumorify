@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rumorify.ws.config.CurrentUser;
 import com.rumorify.ws.dto.requests.CreateUserRequest;
 import com.rumorify.ws.dto.requests.PasswordResetRequest;
+import com.rumorify.ws.dto.requests.UpdatePasswordRequest;
 import com.rumorify.ws.dto.requests.UpdateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
@@ -95,4 +96,12 @@ public class UserController {
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.reset.password.success.message",
 				LocaleContextHolder.getLocale()));
 	}
+
+	@PatchMapping("/password/{token}")
+	public GenericMessage updatePassword(@PathVariable String token, @Valid @RequestBody UpdatePasswordRequest request) {
+		userService.updatePassword(token, request);
+		return new GenericMessage(Messages.getMessageForLocale("rumorify.update.password.success.message",
+				LocaleContextHolder.getLocale()));
+	}
+	
 }

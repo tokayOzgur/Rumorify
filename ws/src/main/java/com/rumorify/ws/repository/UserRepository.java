@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	Optional<User> findByActivationToken(String token);
 
+	Optional<User> findByPasswordResetToken(String token);
+
 	Page<User> findAllByActiveAndIsDeletedAndIdNot(boolean active, boolean isDeleted, Pageable pageable, int id);
 
 }

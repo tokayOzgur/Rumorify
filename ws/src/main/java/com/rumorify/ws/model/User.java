@@ -42,6 +42,7 @@ public class User {
 	private boolean active;
 	private boolean isDeleted;
 	private String activationToken;
+	private String passwordResetToken;
 	@Lob
 	private String image;
 	private String profileDescription;

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.config.RumorifyProperties;
+import com.rumorify.ws.exception.FileServiceException;
 
 @Service
 public class FileService {
@@ -31,10 +32,8 @@ public class FileService {
             os.close();
             return fileName;
         } catch (IOException e) {
-            // TODO: handle exception
-            e.printStackTrace();
+            throw new FileServiceException("rumorify.error.file.save"); // TODO: test et
         }
-        return null;
     }
 
     public String getFileType(String value) {
@@ -52,8 +51,7 @@ public class FileService {
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            // TODO: handle exception
-            e.printStackTrace();
+            throw new FileServiceException("rumorify.error.file.delete"); // TODO: test et
         }
     }
 

@@ -44,5 +44,6 @@
   "footerText": "Strengthen Your Community.",
   "noAccount": "Don't have an account?",
   "alreadyHaveAccount": "Already have an account?",
-  "forgotPassword": "Forgot Password?"
+  "forgotPassword": "Forgot Password?",
+  "resetPassword": "Reset Password"
 }

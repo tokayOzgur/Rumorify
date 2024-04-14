@@ -100,8 +100,6 @@ public class UserServiceImpl implements UserService {
             String fileName = fileService.saveBase4StringAsFile(entity.getImage());
             inDb.setImage(fileName);
         }
-        ;
-
         userRepository.save(inDb);
     }
 

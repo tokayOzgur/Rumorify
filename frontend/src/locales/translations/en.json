@@ -41,5 +41,8 @@
   "allRightsReserved": "© 2024 Rumorify. All rights reserved.",
   "privacyPolicy": "Privacy Policy",
   "termsOfUse": "Terms of Use",
-  "footerText": "Strengthen Your Community."
+  "footerText": "Strengthen Your Community.",
+  "noAccount": "Don't have an account?",
+  "alreadyHaveAccount": "Already have an account?",
+  "forgotPassword": "Forgot Password?"
 }

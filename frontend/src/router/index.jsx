@@ -9,6 +9,7 @@ import { Introduction } from "@/pages/Introduction";
 import { RequireAuth } from "./RequireAuth.jsx";
 import { Authenticated } from "./Authenticated.jsx";
 import { PasswordResetRequest } from "@/pages/PasswordReset/PasswordResetRequest";
+import { NewPassword } from "@/pages/PasswordReset/NewPassword";
 
 export default createBrowserRouter([
   {
@@ -45,8 +46,12 @@ export default createBrowserRouter([
         ),
       },
       {
-        path:"/password-reset",
-        element: <PasswordResetRequest />
+        path: "/update-password/:token",
+        element: <NewPassword />,
+      },
+      {
+        path: "/password-reset",
+        element: <PasswordResetRequest />,
       },
       {
         path: "/user/:id",

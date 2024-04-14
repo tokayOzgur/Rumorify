@@ -32,13 +32,12 @@ public class TokenServiceImpl implements TokenService {
         return tokenRepository.save(token);
     }
 
-    // TODO: return user not id
     @Override
-    public int verifyToken(String authorizationHeader) {
+    public User verifyToken(String authorizationHeader) {
         var tokenInDb = getToken(authorizationHeader);
         if (!tokenInDb.isPresent())
-            return 0;
-        return tokenInDb.get().getUser().getId();
+            return null;
+        return tokenInDb.get().getUser();
     }
 
     @Override

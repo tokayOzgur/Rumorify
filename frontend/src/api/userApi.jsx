@@ -27,3 +27,7 @@ export const activateUser = (token) => {
 export const requestPasswordReset = (email) => {
   return axiosInstance.post("/users/password-reset", { email });
 };
+
+export const updatePassword = (token, password) => {
+  return axiosInstance.patch(`/users/password/${token}`, { password });
+};

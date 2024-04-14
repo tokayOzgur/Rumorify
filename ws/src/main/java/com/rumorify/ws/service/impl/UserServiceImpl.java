@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.requests.CreateUserRequest;
+import com.rumorify.ws.dto.requests.PasswordResetRequest;
 import com.rumorify.ws.dto.requests.UpdateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
             user.setActivationToken(UUID.randomUUID().toString());
             user.setActive(false);
             userRepository.saveAndFlush(user);
-            emailService.sendActivationEmail(user.getEmail(), user.getActivationToken());
+            emailService.sendTokenEmail(user.getEmail(), user.getActivationToken(), 0);
         } catch (DataIntegrityViolationException e) {
             throw new NotUniqueEmailException();
         } catch (MailException e) {
@@ -137,6 +138,15 @@ public class UserServiceImpl implements UserService {
     public GetUserByEmailResponse findByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new AuthenticationException());
         return mapper.forResponse().map(user, GetUserByEmailResponse.class);
+    }
+
+    @Override
+    public void resetPassword(PasswordResetRequest passwordResetRequest) {
+        User userInDb = userRepository.findByEmail(passwordResetRequest.getEmail()).orElseThrow(() -> new ResourceNotFoundException());
+        if (userInDb.isDeleted() || !userInDb.isActive()) throw new AuthenticationException(); //TODO: accessDenied exception class throw et
+        userInDb.setPasswordResetToken(UUID.randomUUID().toString());
+        userRepository.save(userInDb);
+        emailService.sendTokenEmail(passwordResetRequest.getEmail(), userInDb.getPasswordResetToken(), 1);
     }
 
 }

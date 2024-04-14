@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.rumorify.ws.dto.requests.CreateUserRequest;
+import com.rumorify.ws.dto.requests.PasswordResetRequest;
 import com.rumorify.ws.dto.requests.UpdateUserRequest;
 import com.rumorify.ws.dto.responses.GetAllActiveUsersResponse;
 import com.rumorify.ws.dto.responses.GetAllUserResponse;
@@ -36,4 +37,6 @@ public interface UserService {
 	public GetUserByIdResponse findById(int id);
 
 	public GetUserByEmailResponse findByEmail(String email);
+
+    public void resetPassword(PasswordResetRequest email);
 }

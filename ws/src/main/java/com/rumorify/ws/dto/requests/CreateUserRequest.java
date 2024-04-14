@@ -21,6 +21,6 @@ public class CreateUserRequest {
     private String email;
 
     @Size(min = 8, max = 50, message = "{rumorify.constraints.password.size}")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "{rumorify.constraints.password.pattern}")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d!@#$%^&*()_+]{8,}$", message = "{rumorify.constraints.password.pattern}")
     private String password;
 }

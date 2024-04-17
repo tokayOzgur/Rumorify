@@ -6,6 +6,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ function App() {
         <Outlet />
       </div>
       <Footer />
+      <ToastContainer position="top-center" theme="light" />
     </div>
   );
 }

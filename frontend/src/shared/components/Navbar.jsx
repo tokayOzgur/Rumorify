@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { LanguageSelector } from "./LanguageSelector";
 import { ProfileImage } from "./ProfileImage";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Navbar = () => {
   const { t } = useTranslation();
@@ -17,10 +18,9 @@ export const Navbar = () => {
   const onClickLogout = async () => {
     try {
       await logout();
-      navigate("/")
+      navigate("/");
     } catch (err) {
-      //TODO: handle error
-      console.log(err);
+      toast.error(err.message);
     } finally {
       dispatch(logoutSuccess());
     }

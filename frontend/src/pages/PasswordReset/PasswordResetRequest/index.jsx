@@ -1,30 +1,25 @@
 import { requestPasswordReset } from "@/api/userApi";
-import { Alert } from "@/shared/components/Alert";
 import { Button } from "@/shared/components/Button";
 import { Input } from "@/shared/components/Input";
 import { Spinner } from "@/shared/components/Spinner";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 export const PasswordResetRequest = () => {
   const [email, setEmail] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiProgress(true);
     try {
-      setErrorMessage("");
-      setSuccessMessage("");
       const response = await requestPasswordReset(email);
-      console.log("response", response);
-      setSuccessMessage(response.data.message);
+      toast.success(response.data.message);
       setEmail("");
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setApiProgress(false);
     }
@@ -57,10 +52,6 @@ export const PasswordResetRequest = () => {
               </Button>
             </form>
             {apiProgress && <Spinner size="md" />}
-            {successMessage && (
-              <Alert styleType="success">{successMessage}</Alert>
-            )}
-            {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
           </div>
         </div>
       </div>

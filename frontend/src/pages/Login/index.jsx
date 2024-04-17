@@ -7,6 +7,7 @@ import { Alert } from "@/shared/components/Alert";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +15,6 @@ export const Login = () => {
 
   const [apiProgress, setApiProgress] = useState(false);
   const [errorMessage, setErrorMessage] = useState({});
-  const [generalError, setGeneralError] = useState("");
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,10 +50,10 @@ export const Login = () => {
         if (err.response.data.status === 400) {
           setErrorMessage(err.response.data.validationError);
         } else {
-          setGeneralError(err.response.data.message);
+          toast.error(err.response.data.message);
         }
       } else {
-        setGeneralError(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     } finally {
       setApiProgress(false);
@@ -64,7 +64,6 @@ export const Login = () => {
     setEmail("");
     setPassword("");
     setApiProgress(false);
-    setGeneralError("");
   };
   return (
     <div className="container my-5">
@@ -94,7 +93,6 @@ export const Login = () => {
                 }}
               />
 
-              {generalError && <Alert styleType="danger">{generalError}</Alert>}
               <div className="col-12">
                 <Button
                   disabled={!email || !password || apiProgress}

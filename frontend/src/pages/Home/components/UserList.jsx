@@ -14,7 +14,6 @@ export const UserList = () => {
     first: false,
   });
   const [apiProgress, setApiProgress] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const getUsers = useCallback(async (page) => {
     setApiProgress(true);
@@ -22,7 +21,7 @@ export const UserList = () => {
       const response = await fetchUsers(page);
       setUserPage(response.data);
     } catch (err) {
-      setErrorMessage(t("errorOccurred"));
+      toast.error(t("errorOccurred") + err.message);
     } finally {
       setApiProgress(false);
     }
@@ -64,7 +63,6 @@ export const UserList = () => {
               </button>
             </div>
           )}
-          {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
         </div>
       </div>
     </div>

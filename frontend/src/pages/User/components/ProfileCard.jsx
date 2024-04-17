@@ -8,6 +8,7 @@ import { Alert } from "@/shared/components/Alert";
 import { userUpdateSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "@/shared/components/ProfileImage";
 import { UserDelete } from "./UserDelete";
+import { toast } from "react-toastify";
 
 // TODO handle the image upload
 export const ProfileCard = ({ user, loadUser }) => {
@@ -17,7 +18,6 @@ export const ProfileCard = ({ user, loadUser }) => {
   const [editMode, setEditMode] = useState(false);
   const isEditable = !editMode && authState.id === user.id;
   const [errorMessage, setErrorMessage] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
 
   const [newUsername, setNewUsername] = useState(user.username);
@@ -30,15 +30,13 @@ export const ProfileCard = ({ user, loadUser }) => {
 
   const refreshValues = () => {
     loadUser();
-    console.log(user)
+    console.log(user);
     dispatch(userUpdateSuccess(user));
   };
 
   const handleUpdate = async () => {
     try {
       setApiProgress(true);
-      setErrorMessage("");
-      setSuccessMessage("");
 
       const updatedUser = {
         ...user,
@@ -49,12 +47,19 @@ export const ProfileCard = ({ user, loadUser }) => {
         image: newImage,
       };
       const response = await updateUser(user.id, updatedUser);
-      setSuccessMessage(response.data.message);
-      console.log("updatedUser", updatedUser);
+      toast.success(response.data.message);
       refreshValues();
       setEditMode(false);
     } catch (error) {
-      setErrorMessage(error.response.data.validationErrors);
+      if (e.response.data?.data) {
+        if (e.response.data.status === 400) {
+          setErrorMessage(e.response.data.validationError);
+        } else {
+          toast.error(e.response.data.message);
+        }
+      } else {
+        toast.error(e.response.data.message);
+      }
     } finally {
       setApiProgress(false);
     }
@@ -75,7 +80,6 @@ export const ProfileCard = ({ user, loadUser }) => {
   const handeleCancel = () => {
     setEditMode(false);
     setErrorMessage("");
-    setSuccessMessage("");
     setNewUsername(user.username);
     setNewProfileDescription(user.profileDescription);
     setNewFirstName(user.firstName);
@@ -88,9 +92,6 @@ export const ProfileCard = ({ user, loadUser }) => {
     // TODO2: Add a component for the info profile
     // TODO3: Check validation for the form
     <div className="card m-5">
-      {successMessage && (
-        <Alert styleType="success" children={successMessage} />
-      )}
       <div className="row no-gutters">
         <div className="col-md-4">
           <ProfileImage

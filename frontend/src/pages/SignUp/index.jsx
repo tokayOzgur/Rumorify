@@ -5,6 +5,7 @@ import { Input } from "@/shared/components/Input";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 //TODO: test validation error and susccess message
 export const SignUp = () => {
@@ -13,9 +14,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
-  const [responMessage, setResponMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState({});
-  const [generalError, setGeneralError] = useState("");
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -56,20 +55,19 @@ export const SignUp = () => {
     clearInput();
     e.preventDefault();
     if (password === passwordRepeat) {
-      setResponMessage("");
       setApiProgress(true);
       try {
         const response = addUser({ username, email, password });
-        setResponMessage(response.data.message);
+        toast.success(response.data.message);
       } catch (err) {
         if (e.response.data?.data) {
           if (e.response.data.status === 400) {
             setErrorMessage(e.response.data.validationError);
           } else {
-            setGeneralError(e.response.data.message);
+            toast.error(e.response.data.message);
           }
         } else {
-          setGeneralError(e.response.data.message);
+          toast.error(e.response.data.message);
         }
       } finally {
         setApiProgress(false);
@@ -83,8 +81,7 @@ export const SignUp = () => {
     setPassword("");
     setPasswordRepeat("");
     setApiProgress(false);
-    setResponMessage("");
-    setGeneralError("");
+    setErrorMessage({});
   };
 
   return (
@@ -132,12 +129,6 @@ export const SignUp = () => {
                   setEmail(e.target.value);
                 }}
               />
-
-              {responMessage && (
-                <Alert styleType="success">{responMessage}</Alert>
-              )}
-              {generalError && <Alert styleType="danger">{generalError}</Alert>}
-
               <Button
                 children={t("signUp")}
                 disabled={!password || password !== passwordRepeat}

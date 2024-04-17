@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
             inDb.setUsername(entity.getUsername());
         if (entity.getProfileDescription() != null)
             inDb.setProfileDescription(entity.getProfileDescription());
-        if (entity.getImage() != null) {
+        if (entity.getImage() != null && !entity.getImage().equals(inDb.getImage())) {
             fileService.deleteFile(inDb.getImage());
             String fileName = fileService.saveBase4StringAsFile(entity.getImage());
             inDb.setImage(fileName);
@@ -143,8 +143,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void resetPassword(PasswordResetRequest passwordResetRequest) {
-        User userInDb = userRepository.findByEmail(passwordResetRequest.getEmail()).orElseThrow(() -> new ResourceNotFoundException());
-        if (userInDb.isDeleted() || !userInDb.isActive()) throw new AuthenticationException(); //TODO: accessDenied exception class throw et
+        User userInDb = userRepository.findByEmail(passwordResetRequest.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException());
+        if (userInDb.isDeleted() || !userInDb.isActive())
+            throw new AuthenticationException(); // TODO: accessDenied exception class throw et
         userInDb.setPasswordResetToken(UUID.randomUUID().toString());
         userRepository.save(userInDb);
         emailService.sendTokenEmail(passwordResetRequest.getEmail(), userInDb.getPasswordResetToken(), 1);
@@ -153,7 +155,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String token, UpdatePasswordRequest request) {
         User userInDb = userRepository.findByPasswordResetToken(token).orElseThrow(() -> new InvalidTokenException());
-        if (userInDb == null) throw new InvalidTokenException();
+        if (userInDb == null)
+            throw new InvalidTokenException();
         userInDb.setPassword(passwordEncoder.encode(request.getPassword()));
         userInDb.setPasswordResetToken(null);
         userRepository.save(userInDb);

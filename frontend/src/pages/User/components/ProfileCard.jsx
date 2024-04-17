@@ -50,15 +50,15 @@ export const ProfileCard = ({ user, loadUser }) => {
       toast.success(response.data.message);
       refreshValues();
       setEditMode(false);
-    } catch (error) {
-      if (e.response.data?.data) {
-        if (e.response.data.status === 400) {
-          setErrorMessage(e.response.data.validationError);
+    } catch (err) {
+      if (err.response.data?.data) {
+        if (err.response.data.status === 400) {
+          setErrorMessage(err.response.data.validationError);
         } else {
-          toast.error(e.response.data.message);
+          toast.error(err.response.data.message);
         }
       } else {
-        toast.error(e.response.data.message);
+        toast.error(err.response.data.message);
       }
     } finally {
       setApiProgress(false);

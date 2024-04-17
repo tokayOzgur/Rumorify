@@ -1,10 +1,10 @@
 import { fetchUserById } from "@/api/userApi";
 import { Spinner } from "@/shared/components/Spinner";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { ProfileCard } from "./components/ProfileCard";
 import { toast } from "react-toastify";
+import { ProfileCard } from "./components/ProfileCard";
 
 export function User() {
   // TODO: use useRouteParamApiRequest hook
@@ -33,7 +33,7 @@ export function User() {
   return (
     <div className="container">
       {apiProgress && <Spinner size="lg m-auto" />}
-      {user && <ProfileCard user={user} loadUser={loadUser} />}
+      {user && <ProfileCard user={user} />}
     </div>
   );
 }

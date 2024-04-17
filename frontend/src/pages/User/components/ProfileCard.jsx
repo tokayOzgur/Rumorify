@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import { fetchUserById, updateUser } from "@/api/userApi";
+import { userUpdateSuccess } from "@/features/auth/authSlice";
 import { Button } from "@/shared/components/Button";
 import { Input } from "@/shared/components/Input";
-import { updateUser } from "@/api/userApi";
-import { Alert } from "@/shared/components/Alert";
-import { userUpdateSuccess } from "@/features/auth/authSlice";
 import { ProfileImage } from "@/shared/components/ProfileImage";
-import { UserDelete } from "./UserDelete";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { UserDelete } from "./UserDelete";
 
-// TODO handle the image upload
-export const ProfileCard = ({ user, loadUser }) => {
+export const ProfileCard = ({ user }) => {
   const authState = useSelector((store) => store.auth);
   const { t } = useTranslation();
   const [apiProgress, setApiProgress] = useState(false);
@@ -26,13 +24,7 @@ export const ProfileCard = ({ user, loadUser }) => {
   );
   const [newFirstName, setNewFirstName] = useState(user.firstName);
   const [newLastName, setNewLastName] = useState(user.lastName);
-  const [newImage, setNewImage] = useState(user.image);
-
-  const refreshValues = () => {
-    loadUser();
-    console.log(user);
-    dispatch(userUpdateSuccess(user));
-  };
+  const [newImage, setNewImage] = useState(null);
 
   const handleUpdate = async () => {
     try {
@@ -44,13 +36,16 @@ export const ProfileCard = ({ user, loadUser }) => {
         profileDescription: newProfileDescription,
         firstName: newFirstName,
         lastName: newLastName,
-        image: newImage,
+        image: newImage || user.image,
       };
       const response = await updateUser(user.id, updatedUser);
       toast.success(response.data.message);
-      refreshValues();
+
+      const userResponse = await fetchUserById(user.id);
+      dispatch(userUpdateSuccess(userResponse.data));
       setEditMode(false);
     } catch (err) {
+      console.log(err);
       if (err.response.data?.data) {
         if (err.response.data.status === 400) {
           setErrorMessage(err.response.data.validationError);
@@ -84,7 +79,7 @@ export const ProfileCard = ({ user, loadUser }) => {
     setNewProfileDescription(user.profileDescription);
     setNewFirstName(user.firstName);
     setNewLastName(user.lastName);
-    setNewImage(user.image);
+    setNewImage(null);
   };
 
   return (
@@ -96,6 +91,7 @@ export const ProfileCard = ({ user, loadUser }) => {
         <div className="col-md-4">
           <ProfileImage
             src={user.image}
+            newImage={newImage}
             alt={`image_${user.username}`}
             width={200}
             className="card-img"

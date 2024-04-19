@@ -47,5 +47,7 @@
   "forgotPassword": "Şiremi unuttum!",
   "resetPassword": "Şifre Sıfırlama",
   "updatePassword": "Şifre Güncelleme",
-  "update": "Güncelle"
+  "update": "Güncelle",
+  "pageNotFoundHeader": "404 Sayfa Bulunamadı",
+  "pageNotFoundText": "Aradığınız sayfa bulunamadı. Lütfe URL'yi kontrol edin veya ana sayfaya dönün."
 }

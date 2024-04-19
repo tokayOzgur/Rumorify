@@ -1,15 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
-import { Home } from "@/pages/Home";
-import { SignUp } from "@/pages/SignUp";
 import App from "@/App";
 import { Activation } from "@/pages/Activation";
-import { User } from "@/pages/User";
-import { Login } from "@/pages/Login";
+import { Home } from "@/pages/Home";
 import { Introduction } from "@/pages/Introduction";
-import { RequireAuth } from "./RequireAuth.jsx";
-import { Authenticated } from "./Authenticated.jsx";
-import { PasswordResetRequest } from "@/pages/PasswordReset/PasswordResetRequest";
+import { Login } from "@/pages/Login";
+import { NotFound } from "@/pages/NotFound";
 import { NewPassword } from "@/pages/PasswordReset/NewPassword";
+import { PasswordResetRequest } from "@/pages/PasswordReset/PasswordResetRequest";
+import { SignUp } from "@/pages/SignUp";
+import { User } from "@/pages/User";
+import { createBrowserRouter } from "react-router-dom";
+import { Authenticated } from "./Authenticated.jsx";
+import { RequireAuth } from "./RequireAuth.jsx";
 
 export default createBrowserRouter([
   {
@@ -68,6 +69,10 @@ export default createBrowserRouter([
             <Login />
           </Authenticated>
         ),
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

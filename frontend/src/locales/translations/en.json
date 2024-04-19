@@ -47,5 +47,7 @@
   "forgotPassword": "Forgot Password?",
   "resetPassword": "Reset Password",
   "updatePassword": "Update Password",
-  "update": "Update"
+  "update": "Update",
+  "pageNotFoundHeader": "Page Not Found",
+  "pageNotFoundText": "The page you are looking for does not exist. Please check the URL or go back to the homepage."
 }

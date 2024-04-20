@@ -19,6 +19,7 @@ import com.rumorify.ws.dto.responses.GetAllUserResponse;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.dto.responses.GetUserByIdResponse;
 import com.rumorify.ws.dto.responses.GetUserByUserNameResponse;
+import com.rumorify.ws.exception.AccessDeniedException;
 import com.rumorify.ws.exception.ActivationNotificationException;
 import com.rumorify.ws.exception.AuthenticationException;
 import com.rumorify.ws.exception.InvalidTokenException;
@@ -145,8 +146,7 @@ public class UserServiceImpl implements UserService {
     public void resetPassword(PasswordResetRequest passwordResetRequest) {
         User userInDb = userRepository.findByEmail(passwordResetRequest.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException());
-        if (userInDb.isDeleted() || !userInDb.isActive())
-            throw new AuthenticationException(); // TODO: accessDenied exception class throw et
+        if (userInDb.isDeleted() || !userInDb.isActive()) throw new AccessDeniedException();
         userInDb.setPasswordResetToken(UUID.randomUUID().toString());
         userRepository.save(userInDb);
         emailService.sendTokenEmail(passwordResetRequest.getEmail(), userInDb.getPasswordResetToken(), 1);

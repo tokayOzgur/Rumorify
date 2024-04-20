@@ -51,23 +51,24 @@ export const SignUp = () => {
     return undefined;
   }, [password, passwordRepeat, t]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     clearInput();
     e.preventDefault();
     if (password === passwordRepeat) {
       setApiProgress(true);
       try {
-        const response = addUser({ username, email, password });
+        const response = await addUser({ username, email, password });
         toast.success(response.data.message);
       } catch (err) {
-        if (e.response.data?.data) {
-          if (e.response.data.status === 400) {
-            setErrorMessage(e.response.data.validationError);
+        console.log(err);
+        if (err.response.data?.data) {
+          if (err.response.data.status === 400) {
+            setErrorMessage(err.response.data.validationError);
           } else {
-            toast.error(e.response.data.message);
+            toast.error(err.response.data.message);
           }
         } else {
-          toast.error(e.response.data.message);
+          toast.error(err.response.data.message);
         }
       } finally {
         setApiProgress(false);

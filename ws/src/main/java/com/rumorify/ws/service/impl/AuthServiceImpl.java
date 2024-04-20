@@ -7,6 +7,7 @@ import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.AuthResponse;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.dto.responses.GetUserByIdResponse;
+import com.rumorify.ws.exception.AccessDeniedException;
 import com.rumorify.ws.exception.AuthenticationException;
 import com.rumorify.ws.model.Token;
 import com.rumorify.ws.service.AuthService;
@@ -47,9 +48,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse getCurrentUser(String cookieValue) {
         Token token = tokenService.findToken(cookieValue);
-        if (token == null)
-            throw new AuthenticationException();
-
+        if (token == null) throw new AuthenticationException();
+        if (token.isExpired() && !token.isActive()) throw new AccessDeniedException();
         GetUserByIdResponse userResp = mapper.forResponse().map(token.getUser(), GetUserByIdResponse.class);
         return AuthResponse.builder().user(userResp).build();
     }

@@ -1,5 +1,7 @@
 package com.rumorify.ws.service.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +26,18 @@ public class AuthServiceImpl implements AuthService {
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapperService mapper;
+    private static final Logger logger = LogManager.getLogger(AuthServiceImpl.class);
 
     @Override
     public AuthResponse authenticate(CredentialsRequest credentials) {
         GetUserByEmailResponse inDB = userService.findByEmail(credentials.email());
-
-        if (inDB == null || !passwordEncoder.matches(credentials.password(), inDB.getPassword()))
+        if (inDB == null || !passwordEncoder.matches(credentials.password(), inDB.getPassword())) {
+            logger.error("Invalid credentials for user: {}", credentials.email());
             throw new AuthenticationException();
-
-        if (!inDB.isActive() || inDB.isDeleted())
+        } else if (!inDB.isActive() || inDB.isDeleted()) {
+            logger.error("User is not active or deleted: {}", credentials.email());
             throw new AuthenticationException();
-
+        }
         GetUserByIdResponse userResp = mapper.forResponse().map(inDB, GetUserByIdResponse.class);
         Token token = tokenService.generateToken(inDB, credentials);
         return AuthResponse.builder().token(token).user(userResp).build();
@@ -48,8 +51,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse getCurrentUser(String cookieValue) {
         Token token = tokenService.findToken(cookieValue);
-        if (token == null) throw new AuthenticationException();
-        if (token.isExpired() && !token.isActive()) throw new AccessDeniedException();
+        if (token == null) {
+            logger.error("Token not found");
+            throw new AuthenticationException();
+        } else if (token.isExpired() && !token.isActive()) {
+            logger.error("Token is expired or inactive");
+            throw new AccessDeniedException();
+        }
         GetUserByIdResponse userResp = mapper.forResponse().map(token.getUser(), GetUserByIdResponse.class);
         return AuthResponse.builder().user(userResp).build();
     }

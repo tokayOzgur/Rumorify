@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,7 +21,7 @@ public class StaticResourceConf implements WebMvcConfigurer {
     private final RumorifyProperties props;
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
         String rootPath = Paths.get(props.getStorage().getRoot()).toAbsolutePath().toString();
         registry.addResourceHandler("/assets/**").addResourceLocations("file:" + rootPath + "/")
                 .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));

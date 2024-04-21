@@ -45,10 +45,9 @@ export const ProfileCard = ({ user }) => {
       dispatch(userUpdateSuccess(userResponse.data));
       setEditMode(false);
     } catch (err) {
-      console.log(err);
-      if (err.response.data?.data) {
+      if (err.response.data) {
         if (err.response.data.status === 400) {
-          setErrorMessage(err.response.data.validationError);
+          setErrorMessage(err.response.data.validationErrors);
         } else {
           toast.error(err.response.data.message);
         }

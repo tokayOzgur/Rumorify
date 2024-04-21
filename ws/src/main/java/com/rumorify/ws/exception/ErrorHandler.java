@@ -2,6 +2,8 @@ package com.rumorify.ws.exception;
 
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,6 +20,9 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @RestControllerAdvice
 public class ErrorHandler {
+    private static final Logger logger = LogManager.getLogger(ErrorHandler.class);
+
+    
     @ExceptionHandler({
             MethodArgumentNotValidException.class,
             ActivationNotificationException.class,
@@ -34,6 +39,7 @@ public class ErrorHandler {
         ApiError error = new ApiError();
         error.setPath(request.getRequestURI());
         error.setMessage(exception.getMessage());
+        logger.error("Error: {}, Path: {}", exception.getMessage(), request.getRequestURI());
         if (exception instanceof MethodArgumentNotValidException) {
             String message = Messages.getMessageForLocale("rumorify.error.validation", LocaleContextHolder.getLocale());
             error.setMessage(message);

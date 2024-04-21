@@ -3,7 +3,6 @@ package com.rumorify.ws.service.impl;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
@@ -23,7 +22,6 @@ import com.rumorify.ws.exception.AccessDeniedException;
 import com.rumorify.ws.exception.ActivationNotificationException;
 import com.rumorify.ws.exception.AuthenticationException;
 import com.rumorify.ws.exception.InvalidTokenException;
-import com.rumorify.ws.exception.NotUniqueEmailException;
 import com.rumorify.ws.exception.ResourceNotFoundException;
 import com.rumorify.ws.exception.UserNotFoundException;
 import com.rumorify.ws.file.FileService;
@@ -61,14 +59,10 @@ public class UserServiceImpl implements UserService {
         try {
             userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
             User user = mapper.forRequest().map(userRequest, User.class);
-            if (user == null)
-                throw new ResourceNotFoundException();
             user.setActivationToken(UUID.randomUUID().toString());
             user.setActive(false);
             userRepository.saveAndFlush(user);
             emailService.sendTokenEmail(user.getEmail(), user.getActivationToken(), 0);
-        } catch (DataIntegrityViolationException e) {
-            throw new NotUniqueEmailException();
         } catch (MailException e) {
             throw new ActivationNotificationException();
         }

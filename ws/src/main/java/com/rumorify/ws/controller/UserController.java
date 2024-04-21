@@ -45,7 +45,7 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping
-	public GenericMessage createUser(@RequestBody CreateUserRequest userRequest) {
+	public GenericMessage createUser(@Valid @RequestBody CreateUserRequest userRequest) {
 		userService.save(userRequest);
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.create.user.success.message",
 				LocaleContextHolder.getLocale()));

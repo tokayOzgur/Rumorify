@@ -1,4 +1,4 @@
-package com.rumorify.ws.security;
+package com.rumorify.ws.config;
 
 import java.io.IOException;
 
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import com.rumorify.ws.config.CurrentUser;
 import com.rumorify.ws.model.User;
 import com.rumorify.ws.service.TokenService;
 

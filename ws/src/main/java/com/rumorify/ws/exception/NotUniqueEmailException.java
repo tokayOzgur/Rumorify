@@ -12,7 +12,7 @@ import com.rumorify.ws.shared.Messages;
  */
 public class NotUniqueEmailException extends RuntimeException {
     public NotUniqueEmailException() {
-        super(Messages.getMessageForLocale("rumorify.error.validation", LocaleContextHolder.getLocale()));
+        super(Messages.getMessageForLocale("rumorify.constraints.email.notunique", LocaleContextHolder.getLocale()));
     }
 
     public Map<String, String> getValidationErrors() {

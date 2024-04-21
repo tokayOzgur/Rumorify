@@ -76,7 +76,7 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	@PreAuthorize("#id == principal.id")
-	public GenericMessage updateUserById(@PathVariable int id, @RequestBody UpdateUserRequest entity) {
+	public GenericMessage updateUserById(@PathVariable int id,@Valid @RequestBody UpdateUserRequest entity) {
 		userService.updateByUserId(id, entity);
 		return new GenericMessage(Messages.getMessageForLocale("rumorify.update.user.success.message",
 				LocaleContextHolder.getLocale()));

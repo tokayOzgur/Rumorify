@@ -22,6 +22,7 @@ public class ErrorHandler {
             MethodArgumentNotValidException.class,
             ActivationNotificationException.class,
             NotUniqueEmailException.class,
+            NotUniqueUsernameException.class,
             InvalidTokenException.class,
             ResourceNotFoundException.class,
             UserNotFoundException.class,
@@ -46,6 +47,9 @@ public class ErrorHandler {
         } else if (exception instanceof NotUniqueEmailException) {
             error.setStatus(400);
             error.setValidationErrors(((NotUniqueEmailException) exception).getValidationErrors());
+        } else if (exception instanceof NotUniqueUsernameException) {
+            error.setStatus(400);
+            error.setValidationErrors(((NotUniqueUsernameException) exception).getValidationErrors());
         } else if (exception instanceof InvalidTokenException) {
             error.setStatus(400);
         } else if (exception instanceof ResourceNotFoundException) {

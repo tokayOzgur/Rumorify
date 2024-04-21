@@ -1,6 +1,7 @@
 package com.rumorify.ws.dto.requests;
 
 import com.rumorify.ws.validation.userValidation.UniqueEmail;
+import com.rumorify.ws.validation.userValidation.UniqueUsername;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ public class CreateUserRequest {
 
     @NotBlank(message = "{rumorify.constraints.username.notblank}")
     @Size(min = 3, max = 50)
+    @UniqueUsername
     private String username;
 
     @NotBlank(message = "{rumorify.constraints.email.notblank}")

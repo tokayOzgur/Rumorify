@@ -49,5 +49,6 @@
   "updatePassword": "Şifre Güncelleme",
   "update": "Güncelle",
   "pageNotFoundHeader": "404 Sayfa Bulunamadı",
-  "pageNotFoundText": "Aradığınız sayfa bulunamadı. Lütfe URL'yi kontrol edin veya ana sayfaya dönün."
+  "pageNotFoundText": "Aradığınız sayfa bulunamadı. Lütfe URL'yi kontrol edin veya ana sayfaya dönün.",
+  "unexpectedError": "Beklenmeyen bir hata oluştu!"
 }

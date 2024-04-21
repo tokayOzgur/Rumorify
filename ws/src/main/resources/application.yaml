@@ -38,8 +38,13 @@ rumorify:
   client:
     host: http://localhost:5173
 logging:
+  file:
+    name: ./logs/rumorify.log
   level:
+    root: info
+    com.rumorify: DEBUG
     org.springframework.security: DEBUG
+
 ---
 # Prod Profile Configuration
 spring:

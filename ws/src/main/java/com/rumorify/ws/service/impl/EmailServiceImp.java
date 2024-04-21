@@ -2,6 +2,8 @@ package com.rumorify.ws.service.impl;
 
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,7 +20,7 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImp implements EmailService {
-
+    private static final Logger logger = LogManager.getLogger(EmailServiceImp.class);
     private JavaMailSenderImpl mailSender;
     Dotenv dotenv = Dotenv.load();
 
@@ -56,6 +58,7 @@ public class EmailServiceImp implements EmailService {
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.smtp.starttls.enable", "true");
+        logger.debug("Email service initialized with properties");
     }
 
     @Override
@@ -80,9 +83,11 @@ public class EmailServiceImp implements EmailService {
             mailMessage.setSubject(mailSubject);
             mailMessage.setText(mailText, true);
         } catch (MessagingException e) {
+            logger.error("Error sending email to {}", email);
             throw new ActivationNotificationException();
         }
         this.mailSender.send(mimeMessage);
+        logger.info("Email sent to {}, email template: {}", email, templateId);
     }
 
 }

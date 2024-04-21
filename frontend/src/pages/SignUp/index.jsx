@@ -4,7 +4,7 @@ import { Button } from "@/shared/components/Button";
 import { Input } from "@/shared/components/Input";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 //TODO: test validation error and susccess message
@@ -16,6 +16,7 @@ export const SignUp = () => {
   const [apiProgress, setApiProgress] = useState(false);
   const [errorMessage, setErrorMessage] = useState({});
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setErrorMessage((lastErrors) => {
@@ -52,23 +53,24 @@ export const SignUp = () => {
   }, [password, passwordRepeat, t]);
 
   const handleSubmit = async (e) => {
-    clearInput();
     e.preventDefault();
+    setErrorMessage({});
     if (password === passwordRepeat) {
       setApiProgress(true);
       try {
         const response = await addUser({ username, email, password });
         toast.success(response.data.message);
+        clearInput();
+        navigate("/login");
       } catch (err) {
         console.log(err);
-        if (err.response.data?.data) {
+        if (err.response.data) {
+          toast.error(err.response.data.message);
           if (err.response.data.status === 400) {
-            setErrorMessage(err.response.data.validationError);
-          } else {
-            toast.error(err.response.data.message);
+            setErrorMessage(err.response.data.validationErrors);
           }
         } else {
-          toast.error(err.response.data.message);
+          toast.error(t("unexpectedError"));
         }
       } finally {
         setApiProgress(false);
@@ -81,8 +83,6 @@ export const SignUp = () => {
     setEmail("");
     setPassword("");
     setPasswordRepeat("");
-    setApiProgress(false);
-    setErrorMessage({});
   };
 
   return (

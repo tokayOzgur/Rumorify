@@ -49,4 +49,7 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Token> tokens;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+	private List<Post> posts;
 }

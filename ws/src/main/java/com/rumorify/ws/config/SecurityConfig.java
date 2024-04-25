@@ -31,6 +31,7 @@ public class SecurityConfig {
             .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/users/{id}")).authenticated()
             .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/auth")).authenticated()
             .requestMatchers(AntPathRequestMatcher.antMatcher("/assets/**")).authenticated()
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/posts/**")).authenticated()
             .anyRequest().permitAll());
 
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(new AuthEntryPoint()));

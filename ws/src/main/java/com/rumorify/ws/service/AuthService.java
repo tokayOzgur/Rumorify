@@ -14,4 +14,5 @@ public interface AuthService {
 
     AuthResponse getCurrentUser(String cookieValue);
 
+    int getCurrentUserId();
 }

@@ -32,7 +32,7 @@ public class Post {
 
     private String imageUrl;
     private String videoUrl;
-    private String isDeleted;
+    private boolean isDeleted = false;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationTime = new Date();

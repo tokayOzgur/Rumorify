@@ -16,4 +16,9 @@ public class ResourceNotFoundException extends RuntimeException {
         super(Messages.getMessageForLocale("rumorify.resource.notfound.error.message",
                 LocaleContextHolder.getLocale()));
     }
+
+    public ResourceNotFoundException(String meessageKey) {
+        super(Messages.getMessageForLocale(meessageKey,
+                LocaleContextHolder.getLocale()));
+    }
 }

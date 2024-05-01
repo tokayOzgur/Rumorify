@@ -1,6 +1,7 @@
 
 package com.rumorify.ws.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -24,5 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Optional<User> findByPasswordResetToken(String token);
 
 	Page<User> findAllByActiveAndIsDeletedAndIdNot(boolean active, boolean isDeleted, Pageable pageable, int id);
+
+	List<User> findByIdIn(List<Integer> userIds);
 
 }

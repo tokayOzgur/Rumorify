@@ -1,8 +1,6 @@
 
 package com.rumorify.ws.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,7 +31,7 @@ public interface UserService {
 
 	public Page<GetAllActiveUsersResponse> findAllByActive(Pageable pageable, int id);
 
-	public List<GetAllUserResponse> findAll();
+	public Page<GetAllUserResponse> findAll(Pageable pageable);
 
 	public GetUserByIdResponse findById(int id);
 

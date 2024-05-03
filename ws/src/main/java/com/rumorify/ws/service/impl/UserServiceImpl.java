@@ -1,6 +1,5 @@
 package com.rumorify.ws.service.impl;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -127,9 +126,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetAllUserResponse> findAll() {
-        return userRepository.findAll().stream()
-                .map(user -> this.mapper.forResponse().map(user, GetAllUserResponse.class)).toList();
+    public Page<GetAllUserResponse> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(user -> this.mapper.forResponse().map(user, GetAllUserResponse.class));
     }
 
     @Override

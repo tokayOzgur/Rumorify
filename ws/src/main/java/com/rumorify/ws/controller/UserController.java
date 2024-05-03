@@ -1,8 +1,6 @@
 
 package com.rumorify.ws.controller;
 
-import java.util.List;
-
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -59,8 +57,8 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/all")
-	public List<GetAllUserResponse> findAllUser() {
-		return userService.findAll();
+	public Page<GetAllUserResponse> findAllUser(Pageable pageable) {
+		return userService.findAll(pageable);
 	}
 
 	@GetMapping

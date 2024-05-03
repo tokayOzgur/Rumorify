@@ -7,11 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetAllPostResponse {
+public class GetAllPostByUserIdResponse {
     private String content;
     private String imageUrl;
     private String videoUrl;
     private Date creationTime;
-    private boolean isDeleted;
-    private int userId;
 }

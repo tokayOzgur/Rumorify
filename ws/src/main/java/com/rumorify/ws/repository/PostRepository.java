@@ -11,16 +11,12 @@ import com.rumorify.ws.model.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    Page<Post> findAllByUser_IdAndIsDeletedFalse(Long userId, Pageable pageable);
+    Optional<Post> findByIdAndIsDeleted(Long id, boolean isDeleted);
 
-    Optional<Post> findByIdAndIsDeletedFalse(Long id);
+    Page<Post> findAllByIsDeleted(boolean isDeleted, Pageable pageable);
 
-    Page<Post> findAllByIsDeletedFalse(Pageable pageable);
+    Page<Post> findByUserIdAndIsDeleted(int userId, boolean isDeleted, Pageable pageable);
 
-    Page<Post> findAllByIsDeletedFalseAndContentContainingIgnoreCase(String content, Pageable pageable);
-
-    Page<Post> findByUserId(int userId, Pageable pageable);
-
-    Page<Post> findByUserIdIn(List<Integer> userIds, Pageable pageable);
+    Page<Post> findByUserIdInAndIsDeleted(List<Integer> userIds, boolean isDeleted, Pageable pageable);
 
 }

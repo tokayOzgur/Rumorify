@@ -5,3 +5,4 @@ data/devdb.mv.db
 data/devdb.trace.db
 .env
 node_modules/*
+logs/

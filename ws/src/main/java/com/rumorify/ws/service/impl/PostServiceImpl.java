@@ -14,6 +14,7 @@ import com.rumorify.ws.dto.responses.GetAllActivePostResponse;
 import com.rumorify.ws.dto.responses.GetAllPostByUserIdResponse;
 import com.rumorify.ws.dto.responses.GetAllPostResponse;
 import com.rumorify.ws.dto.responses.GetPostByIdResponse;
+import com.rumorify.ws.exception.AccessDeniedException;
 import com.rumorify.ws.exception.ResourceNotFoundException;
 import com.rumorify.ws.exception.UserNotFoundException;
 import com.rumorify.ws.file.FileService;
@@ -21,6 +22,7 @@ import com.rumorify.ws.model.Post;
 import com.rumorify.ws.model.User;
 import com.rumorify.ws.repository.PostRepository;
 import com.rumorify.ws.repository.UserRepository;
+import com.rumorify.ws.service.AuthService;
 import com.rumorify.ws.service.ModelMapperService;
 import com.rumorify.ws.service.PostService;
 
@@ -37,6 +39,7 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
     private final FileService fileService;
     private final ModelMapperService mapper;
+    private final AuthService authService;
     private static final Logger logger = LogManager.getLogger(PostServiceImpl.class);
 
     @Override
@@ -58,6 +61,10 @@ public class PostServiceImpl implements PostService {
                     logger.error("Post not found with id: {}", id);
                     return new ResourceNotFoundException("rumorify.post.notfound.error.message");
                 });
+        if (post.getUser().getId() != authService.getCurrentUserId()) {
+            logger.error("User not authorized to update post with id: {}", id);
+            throw new AccessDeniedException();
+        }
         if (entity.getContent() != null) post.setContent(entity.getContent());
         if (entity.getImageUrl() != null) post.setImageUrl(entity.getImageUrl());
         if (entity.getVideoUrl() != null) post.setVideoUrl(entity.getVideoUrl());

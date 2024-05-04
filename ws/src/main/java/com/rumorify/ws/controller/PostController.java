@@ -44,7 +44,6 @@ public class PostController {
                 LocaleContextHolder.getLocale()));
     }
 
-    // TODO: Kullanıcılar sadece kendi postlarını güncelleyebilmeli
     @PutMapping("/{postId}")
     public GenericMessage updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest postRequest) {
         postService.updateByPostId(postId, postRequest);

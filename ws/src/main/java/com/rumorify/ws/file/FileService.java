@@ -37,7 +37,7 @@ public class FileService {
             return fileName;
         } catch (IOException e) {
             logger.error("Error saving file: " + fileName);
-            throw new FileServiceException("rumorify.error.file.save"); // TODO: test et
+            throw new FileServiceException("rumorify.error.file.save");
         }
     }
 
@@ -60,7 +60,7 @@ public class FileService {
             logger.info("File deleted: " + image);
         } catch (IOException e) {
             logger.error("Error deleting file: " + image);
-            throw new FileServiceException("rumorify.error.file.delete"); // TODO: test et
+            throw new FileServiceException("rumorify.error.file.delete");
         }
     }
 

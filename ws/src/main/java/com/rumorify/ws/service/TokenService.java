@@ -13,4 +13,6 @@ public interface TokenService {
     public void logout(String authorizationHeader);
 
     public Token findToken(String cookieValue);
+
+    public void updateExpirationDate(Token token);
 }

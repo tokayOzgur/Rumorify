@@ -61,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
             logger.error("Token is expired or inactive");
             throw new AccessDeniedException();
         }
+        tokenService.updateExpirationDate(token);
         GetUserByIdResponse userResp = mapper.forResponse().map(token.getUser(), GetUserByIdResponse.class);
         return AuthResponse.builder().user(userResp).build();
     }

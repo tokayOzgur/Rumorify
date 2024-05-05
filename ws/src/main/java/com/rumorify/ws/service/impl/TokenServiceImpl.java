@@ -33,7 +33,7 @@ public class TokenServiceImpl implements TokenService {
         });
         Token token = new Token();
         token.setUser(inDb);
-        token.setExpirationDate(OffsetDateTime.now().plusDays(1));
+        token.setExpirationDate(OffsetDateTime.now().plusHours(3));
         return tokenRepository.save(token);
     }
 
@@ -70,5 +70,11 @@ public class TokenServiceImpl implements TokenService {
             logger.error("Token not found: " + cookieValue);
             return null;
         });
+    }
+
+    @Override
+    public void updateExpirationDate(Token token) {
+        token.setExpirationDate(OffsetDateTime.now().plusHours(3));
+        tokenRepository.save(token);
     }
 }

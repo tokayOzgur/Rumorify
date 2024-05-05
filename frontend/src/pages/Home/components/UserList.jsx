@@ -3,6 +3,7 @@ import { Spinner } from "@/shared/components/Spinner";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserListItem } from "./UserListItem";
+import { Button } from "@/shared/components/Button";
 
 export const UserList = () => {
   const { t } = useTranslation();
@@ -37,31 +38,31 @@ export const UserList = () => {
       ) : (
         <div className="col-12">
           <div className="btn-group">
-            <button
-              className="btn btn-outline-secondary border-0"
+            <Button
+              btnClass="outline-secondary border-0"
+              apiProgress={apiProgress}
+              children={t("previous")}
               disabled={userPage.first}
               onClick={() => {
                 getUsers(--userPage.number);
               }}
-            >
-              {t("previous")}
-            </button>
-            <button
-              className="btn btn-outline-dark border-0"
+            />
+            <Button
+              btnClass="outline-dark border-0"
+              apiProgress={apiProgress}
+              children={t("next")}
               disabled={userPage.last}
               onClick={() => {
                 getUsers(++userPage.number);
               }}
-            >
-              {t("next")}
-            </button>
+            />
           </div>
         </div>
       )}
       {userPage &&
         userPage.content.map((user) => (
           <div className="col-12" key={user.id}>
-            <UserListItem  user={user} />
+            <UserListItem user={user} />
           </div>
         ))}
     </div>

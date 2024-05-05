@@ -1,4 +1,5 @@
 import { getAllPost } from "@/api/postApi";
+import { Button } from "@/shared/components/Button";
 import { PostListItem } from "@/shared/components/PostListItem";
 import { Spinner } from "@/shared/components/Spinner";
 import React, { useCallback, useEffect, useState } from "react";
@@ -38,24 +39,24 @@ export const PostList = () => {
       ) : (
         <div className="col-12">
           <div className="">
-            <button
-              className="btn btn-outline-secondary border-0"
+            <Button
+              btnClass="outline-secondary border-0"
+              apiProgress={apiProgress}
+              children={t("previous")}
               disabled={postPage.first}
               onClick={() => {
                 getPosts(--postPage.number);
               }}
-            >
-              {t("previous")}
-            </button>
-            <button
-              className="btn btn-outline-dark border-0"
+            />
+            <Button
+              btnClass="outline-dark border-0"
+              apiProgress={apiProgress}
+              children={t("next")}
               disabled={postPage.last}
               onClick={() => {
                 getPosts(++postPage.number);
               }}
-            >
-              {t("next")}
-            </button>
+            />
           </div>
         </div>
       )}

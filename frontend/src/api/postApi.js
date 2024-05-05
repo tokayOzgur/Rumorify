@@ -20,6 +20,6 @@ export const getPostByPostId = (id) => {
   return axiosInstance.get(`/posts/${id}`);
 };
 
-export const getPostListByUserId = (ids, page = 0, size = 5) => {
-  return axiosInstance.get(`/posts/users`, { params: { ids, page, size } });
+export const getPostListByUserId = (userIds, page = 0, size = 5) => {
+  return axiosInstance.get(`/posts/users`, { params: { userIds: userIds.join(','), page, size } });
 };

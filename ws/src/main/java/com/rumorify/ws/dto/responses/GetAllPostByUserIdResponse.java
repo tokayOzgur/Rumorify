@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetAllPostByUserIdResponse {
+    private Long id;
     private String content;
     private String imageUrl;
     private String videoUrl;

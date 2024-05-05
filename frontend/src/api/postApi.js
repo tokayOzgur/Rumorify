@@ -1,11 +1,5 @@
 import axiosInstance from "./axiosInstance";
 
-/*
-    export const fetchUsers = (page = 0, size = 3) => {
-  return axiosInstance.get("/users", { params: { page, size } });
-};
-*/
-
 export const createPost = (postData) => {
   return axiosInstance.post("/posts", postData);
 };

@@ -1,9 +1,8 @@
 import { fetchUsers } from "@/api/userApi";
 import { Spinner } from "@/shared/components/Spinner";
-import { Alert } from "@/shared/components/Alert";
 import { useCallback, useEffect, useState } from "react";
-import { UserListItem } from "./UserListItem";
 import { useTranslation } from "react-i18next";
+import { UserListItem } from "./UserListItem";
 
 export const UserList = () => {
   const { t } = useTranslation();
@@ -32,39 +31,39 @@ export const UserList = () => {
   }, [getUsers]);
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="list-group border p-2">
-          {userPage &&
-            userPage.content.map((user) => (
-              <UserListItem key={user.id} user={user} />
-            ))}
-          {apiProgress ? (
-            <Spinner size="lg m-auto" />
-          ) : (
-            <div className="btn-group m-1">
-              <button
-                className="btn btn-warning"
-                disabled={userPage.first}
-                onClick={() => {
-                  getUsers(--userPage.number);
-                }}
-              >
-                {t("previous")}
-              </button>
-              <button
-                className="btn btn-primary"
-                disabled={userPage.last}
-                onClick={() => {
-                  getUsers(++userPage.number);
-                }}
-              >
-                {t("next")}
-              </button>
-            </div>
-          )}
+    <div className="row">
+      {apiProgress ? (
+        <Spinner size="lg m-auto" />
+      ) : (
+        <div className="col-12">
+          <div className="btn-group">
+            <button
+              className="btn btn-outline-secondary border-0"
+              disabled={userPage.first}
+              onClick={() => {
+                getUsers(--userPage.number);
+              }}
+            >
+              {t("previous")}
+            </button>
+            <button
+              className="btn btn-outline-dark border-0"
+              disabled={userPage.last}
+              onClick={() => {
+                getUsers(++userPage.number);
+              }}
+            >
+              {t("next")}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+      {userPage &&
+        userPage.content.map((user) => (
+          <div className="col-12" key={user.id}>
+            <UserListItem  user={user} />
+          </div>
+        ))}
     </div>
   );
 };

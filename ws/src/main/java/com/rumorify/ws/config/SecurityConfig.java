@@ -34,7 +34,9 @@ public class SecurityConfig {
 
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(new AuthEntryPoint()));
         http.csrf(crsf -> crsf.disable());
-        http.headers(headers -> headers.disable());
+        http.headers(headers -> headers
+                .contentSecurityPolicy(csp -> csp
+                        .policyDirectives("script-src 'self'; object-src 'none';")));
 
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
 

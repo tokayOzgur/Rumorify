@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ProfileCard } from "./components/ProfileCard";
+import { PostList } from "./components/PostList";
 
 export function User() {
   // TODO: use useRouteParamApiRequest hook
@@ -32,8 +33,15 @@ export function User() {
 
   return (
     <div className="container">
-      {apiProgress && <Spinner size="lg m-auto" />}
-      {user && <ProfileCard user={user} />}
+      <div className="row">
+        <div className="col-12">
+          {apiProgress && <Spinner size="lg m-auto" />}
+        </div>
+        <div className="col-12">{user && <ProfileCard user={user} />}</div>
+        <div className="col-12">
+          <PostList userId={id} />
+        </div>
+      </div>
     </div>
   );
 }

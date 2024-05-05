@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.rumorify.ws.dto.requests.CreatePostRequest;
@@ -65,9 +67,12 @@ public class PostServiceImpl implements PostService {
             logger.error("User not authorized to update post with id: {}", id);
             throw new AccessDeniedException();
         }
-        if (entity.getContent() != null) post.setContent(entity.getContent());
-        if (entity.getImageUrl() != null) post.setImageUrl(entity.getImageUrl());
-        if (entity.getVideoUrl() != null) post.setVideoUrl(entity.getVideoUrl());
+        if (entity.getContent() != null)
+            post.setContent(entity.getContent());
+        if (entity.getImageUrl() != null)
+            post.setImageUrl(entity.getImageUrl());
+        if (entity.getVideoUrl() != null)
+            post.setVideoUrl(entity.getVideoUrl());
         postRepository.save(post);
     }
 
@@ -101,7 +106,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<GetAllPostByUserIdResponse> findByUserId(Pageable pageable ,int userId) {
+    public Page<GetAllPostByUserIdResponse> findByUserId(Pageable pageable, int userId) {
         userRepository.findById(userId).orElseThrow(() -> {
             logger.error("User not found with id: {}", userId);
             throw new UserNotFoundException(userId);
@@ -120,8 +125,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<GetAllActivePostResponse> findByIsDeletedFalse(Pageable pageable) {
-        return postRepository.findAllByIsDeleted(false, pageable)
-            .map(post -> this.mapper.forResponse().map(post, GetAllActivePostResponse.class));
+        Pageable sortedByCreationTimeDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by("creationTime").descending());
+        return postRepository.findAllByIsDeleted(false, sortedByCreationTimeDesc)
+                .map(post -> this.mapper.forResponse().map(post, GetAllActivePostResponse.class));
     }
 
 }

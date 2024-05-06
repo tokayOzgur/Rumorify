@@ -47,7 +47,6 @@ export const { loginSuccess, logoutSuccess, userUpdateSuccess } =
   authSlice.actions;
 export default authSlice.reducer;
 
-// TODO: Cookie ile State yönetimini araştır.
 export const fetchCurrentUser = () => async (dispatch) => {
   try {
     const response = await getCurrentUser();

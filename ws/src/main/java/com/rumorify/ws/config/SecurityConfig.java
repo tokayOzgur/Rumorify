@@ -36,8 +36,8 @@ public class SecurityConfig {
         http.csrf(crsf -> crsf.disable());
         http.headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp
-                        .policyDirectives("script-src 'self'; object-src 'none';")));
-
+                        .policyDirectives("script-src 'self'; object-src 'none'; frame-ancestors 'self'")));
+            
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

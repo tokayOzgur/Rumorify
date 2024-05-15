@@ -99,8 +99,8 @@ public class UserServiceImpl implements UserService {
         if (entity.getUsername() != null) inDb.setUsername(entity.getUsername());
         if (entity.getProfileDescription() != null) inDb.setProfileDescription(entity.getProfileDescription());
         if (entity.getImage() != null && !entity.getImage().equals(inDb.getImage())) {
-            fileService.deleteFile(inDb.getImage());
-            String fileName = fileService.saveBase4StringAsFile(entity.getImage());
+            fileService.deleteFile(inDb.getImage(), "user");
+            String fileName = fileService.saveBase4StringAsFile(entity.getImage(), "user");
             inDb.setImage(fileName);
         }
         userRepository.save(inDb);
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
             return new UserNotFoundException(id);
         });
         inDb.setDeleted(true);
-        fileService.deleteFile(inDb.getImage());
+        fileService.deleteFile(inDb.getImage(), "user");
         userRepository.save(inDb);
         logger.debug("User deleted successfully: {}", id);
     }

@@ -1,5 +1,6 @@
 import { UserList } from "@/pages/Home/components/UserList";
 import { PostList } from "./components/PostList";
+import { CreatePost } from "./components/CreatePost";
 
 export const Home = () => {
   return (
@@ -9,7 +10,12 @@ export const Home = () => {
           <UserList />
         </div>
         <div className="col-md-7 col-sm-12">
-          <PostList />
+          <div className="row">
+            <CreatePost />
+          </div>
+          <div className="row">
+            <PostList />
+          </div>
         </div>
       </div>
     </div>

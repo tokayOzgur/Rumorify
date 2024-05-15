@@ -25,13 +25,14 @@ public class FileService {
     private Tika tika = new Tika();
     private static final Logger logger = LogManager.getLogger(FileService.class);
 
-    public String saveBase4StringAsFile(String image) {
-        String fileName = UUID.randomUUID().toString() + "." + getFileType(image).split("/")[1];
-        Path path = getFilePath(fileName);
+    public String saveBase4StringAsFile(String bas64string, String type) {
+        String fileName = UUID.randomUUID().toString() + "." + getFileType(bas64string).split("/")[1];
+        logger.debug("File name:: {}", fileName);
+        Path path = getFilePath(fileName, type);
         try {
             Files.createDirectories(path.getParent());
             OutputStream os = new FileOutputStream(path.toFile());
-            os.write(decodedImage(image));
+            os.write(decodedImage(bas64string));
             os.close();
             logger.info("File saved: " + fileName);
             return fileName;
@@ -45,16 +46,16 @@ public class FileService {
         return tika.detect(decodedImage(value));
     }
 
-    private byte[] decodedImage(String image) {
-        return Base64.getDecoder().decode(image.split(",")[1]);
+    private byte[] decodedImage(String bas64string) {
+        return Base64.getDecoder().decode(bas64string.split(",")[1]);
     }
 
-    public void deleteFile(String image) {
+    public void deleteFile(String image, String type) {
         if (image == null || image.isEmpty()) {
             logger.warn("File name is null or empty");
             return;
         }
-        Path path = getFilePath(image);
+        Path path = getFilePath(image, type);
         try {
             Files.deleteIfExists(path);
             logger.info("File deleted: " + image);
@@ -64,7 +65,9 @@ public class FileService {
         }
     }
 
-    private Path getFilePath(String fileName) {
+    private Path getFilePath(String fileName, String type) {
+        if (type.equals("post"))
+            return Paths.get(props.getStorage().getRoot(), props.getStorage().getPost(), fileName);
         return Paths.get(props.getStorage().getRoot(), props.getStorage().getProfile(), fileName);
     }
 

@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
         }
         if (postRequest.getVideo() != null) {
             String fileName = fileService.saveBase4StringAsFile(postRequest.getVideo(), "post");
-            post.setImageUrl(fileName);
+            post.setVideoUrl(fileName);
         }
         post.setUser(user);
         postRepository.save(post);

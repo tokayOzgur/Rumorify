@@ -51,5 +51,9 @@
   "pageNotFoundHeader": "Page Not Found",
   "pageNotFoundText": "The page you are looking for does not exist. Please check the URL or go back to the homepage.",
   "unexpectedError": "An unexpected error occurred. Please try again later.",
-  "send": "Send"
+  "send": "Send",
+  "postCreated": "Post created successfully!",
+  "postFailed": "Post creation failed!",
+  "writePost": "Write a post...",
+  "postContentRequired": "Post content is required!"
 }

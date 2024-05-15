@@ -1,6 +1,7 @@
-import React from "react";
+import { PostMedia } from "./PostMedia";
 
 export const PostListItem = ({ post }) => {
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return new Intl.DateTimeFormat("tr-TR", {
@@ -12,32 +13,36 @@ export const PostListItem = ({ post }) => {
       hour12: false,
     }).format(date);
   };
-
+  console.log("post::", post)
   return (
-    <div className="row">
-      <div className="border rounded mb-1">
-        <div className="col-12">
-          {post.image && (
-            <img
-              src={post.image}
-              className="img-fluid mw-100"
-              alt={`post_${post.id}`}
-            />
-          )}
-        </div>
-        <div className="col-12">
-          {post.video && (
-            <video
-              src={post.video}
-              className="img-fluid mw-100"
-              controls
-            ></video>
-          )}
-        </div>
-        <div className="col-12">
+    <div className="border rounded mb-1">
+      <div className="row p-1">
+        <div className="col-6">
           <b>{post.username}</b>
           <p>{post.content}</p>
           <small>{formatDate(post.creationTime)}</small>
+        </div>
+        <div className="col-6">
+          {post.imageUrl && (
+            <div className={post.videoUrl ? "col-6" : "col-12"}>
+              <PostMedia
+                className="img-thumbnail"
+                alt={"postImage"}
+                width={"100%"}
+                src={post.imageUrl}
+              />
+            </div>
+          )}
+          {post.videoUrl && (
+            <div className={post.imageUrl ? "col-6" : "col-12"}>
+              <PostMedia
+                className="img-thumbnail"
+                alt={"postVideo"}
+                width={"100%"}
+                src={post.videoUrl}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

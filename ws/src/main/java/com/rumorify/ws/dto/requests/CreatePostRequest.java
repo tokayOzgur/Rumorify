@@ -14,9 +14,9 @@ public class CreatePostRequest {
     private String content;
 
     @FileType(types = { "jpeg", "png" })
-    private String imageUrl;
+    private String image;
 
     @FileType(types = { "mp4" })
-    private String videoUrl;
+    private String video;
 
 }

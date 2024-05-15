@@ -45,15 +45,23 @@ public class PostServiceImpl implements PostService {
     private static final Logger logger = LogManager.getLogger(PostServiceImpl.class);
 
     @Override
-    public void save(CreatePostRequest post, int currentUserId) {
+    public void save(CreatePostRequest postRequest, int currentUserId) {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> {
                     logger.error("User not found with id: {}", currentUserId);
                     return new UserNotFoundException(currentUserId);
                 });
-        Post newPost = mapper.forRequest().map(post, Post.class);
-        newPost.setUser(user);
-        postRepository.save(newPost);
+        Post post = mapper.forRequest().map(postRequest, Post.class);
+        if (postRequest.getImage() != null) {
+            String fileName = fileService.saveBase4StringAsFile(postRequest.getImage(), "post");
+            post.setImageUrl(fileName);
+        }
+        if (postRequest.getVideo() != null) {
+            String fileName = fileService.saveBase4StringAsFile(postRequest.getVideo(), "post");
+            post.setImageUrl(fileName);
+        }
+        post.setUser(user);
+        postRepository.save(post);
     }
 
     @Override
@@ -84,8 +92,8 @@ public class PostServiceImpl implements PostService {
                     return new ResourceNotFoundException("rumorify.post.notfound.error.message");
                 });
         post.setDeleted(true);
-        fileService.deleteFile(post.getImageUrl());
-        fileService.deleteFile(post.getVideoUrl());
+        fileService.deleteFile(post.getImageUrl(), "post");
+        fileService.deleteFile(post.getVideoUrl(), "post");
         postRepository.save(post);
     }
 

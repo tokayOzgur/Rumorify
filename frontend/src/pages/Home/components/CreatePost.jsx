@@ -62,20 +62,24 @@ export const CreatePost = () => {
             <div className="form-group">
               <div className="col-12 d-flex">
                 {postImage && (
-                  <PostMedia
-                    className="img-thumbnail"
-                    base64src={postImage}
-                    alt={"postImage"}
-                    width={"100px"}
-                  />
+                  <div className={postVideo ? "col-6" : "col-12"}>
+                    <PostMedia
+                      className="img-thumbnail"
+                      base64src={postImage}
+                      alt={"postImage"}
+                      width={"100%"}
+                    />
+                  </div>
                 )}
                 {postVideo && (
-                  <PostMedia
-                    className="img-thumbnail"
-                    base64src={postVideo}
-                    alt={"postVideo"}
-                    width={"100px"}
-                  />
+                  <div className={postImage ? "col-6" : "col-12"}>
+                    <PostMedia
+                      className="img-thumbnail"
+                      base64src={postVideo}
+                      alt={"postVideo"}
+                      width={"100%"}
+                    />
+                  </div>
                 )}
               </div>
               <textarea

@@ -42,7 +42,8 @@ export const CreatePost = () => {
     try {
       await createPost(postData);
       toast.success(t("postCreated"));
-
+      window.location.reload();
+      
       setPostContent("");
       setPostImage(null);
       setPostVideo(null);

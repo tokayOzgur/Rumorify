@@ -55,5 +55,7 @@
   "postCreated": "Gönderi oluşturuldu",
   "postFailed": "Gönderi oluşturulamadı",
   "writePost": "Gönderi Yaz",
-  "postContentRequired": "Gönderi içeriği gereklidir!"
+  "postContentRequired": "Gönderi içeriği gereklidir!",
+  "postDeleted": "Gönderi silindi!",
+  "postDeleteFailed": "Gönderi silinemedi!"
 }

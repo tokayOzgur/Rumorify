@@ -55,5 +55,7 @@
   "postCreated": "Post created successfully!",
   "postFailed": "Post creation failed!",
   "writePost": "Write a post...",
-  "postContentRequired": "Post content is required!"
+  "postContentRequired": "Post content is required!",
+  "postDeleted": "Post deleted successfully!",
+  "postDeleteFailed": "Post deletion failed!"
 }

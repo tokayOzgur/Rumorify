@@ -57,5 +57,7 @@
   "writePost": "Write a post...",
   "postContentRequired": "Post content is required!",
   "postDeleted": "Post deleted successfully!",
-  "postDeleteFailed": "Post deletion failed!"
+  "postDeleteFailed": "Post deletion failed!",
+  "postUpdated": "Post updated successfully!",
+  "postUpdateFailed": "Post update failed!"
 }

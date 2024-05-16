@@ -57,5 +57,7 @@
   "writePost": "Gönderi Yaz",
   "postContentRequired": "Gönderi içeriği gereklidir!",
   "postDeleted": "Gönderi silindi!",
-  "postDeleteFailed": "Gönderi silinemedi!"
+  "postDeleteFailed": "Gönderi silinemedi!",
+  "postUpdateFailed": "Gönderi güncellenemedi!",
+  "postUpdated": "Gönderi güncellendi!"
 }

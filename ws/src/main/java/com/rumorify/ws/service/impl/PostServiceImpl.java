@@ -91,6 +91,10 @@ public class PostServiceImpl implements PostService {
                     logger.error("Post not found with id: {}", id);
                     return new ResourceNotFoundException("rumorify.post.notfound.error.message");
                 });
+        if (post.getUser().getId() != authService.getCurrentUserId()) {
+            logger.error("User not authorized to update post with id: {}", id);
+            throw new AccessDeniedException();
+        }
         post.setDeleted(true);
         fileService.deleteFile(post.getImageUrl(), "post");
         fileService.deleteFile(post.getVideoUrl(), "post");

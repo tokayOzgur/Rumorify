@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  backend:
+    volumes:
+      - ./ws/src:/app/src
+      - ./ws/target:/app/target
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/.env:/app/.env
+    ports:
+      - "5173:5173"
+    command: ["npm", "run", "dev"]
+    networks:
+      - app-network
+      
+# To run the services with the override file, use the following command:
+# docker-compose -f docker-compose.yml -f docker-compose.override.yml up

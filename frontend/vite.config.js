@@ -10,4 +10,11 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    outDir: "dist",
+  },
+  server: {
+    host: "0.0.0.0", // Tüm ağ arayüzlerinden erişilebilir olacak şekilde yapılandırma
+    port: 5173,
+  },
 });

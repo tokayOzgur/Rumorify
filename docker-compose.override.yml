@@ -20,4 +20,4 @@ services:
       - app-network
       
 # To run the services with the override file, use the following command:
-# docker-compose -f docker-compose.yml -f docker-compose.override.yml up
+# docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build

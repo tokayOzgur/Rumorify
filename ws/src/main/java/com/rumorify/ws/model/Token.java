@@ -1,16 +1,12 @@
 package com.rumorify.ws.model;
 
-import java.time.OffsetDateTime;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import lombok.Getter;
@@ -19,24 +15,23 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Token {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String token;
 
     @Transient
     private String prefix = "Bearer";
 
     @Column(nullable = false)
-    private OffsetDateTime expirationDate;
+    private Long expirationDate;
 
     @Column(nullable = false)
     private boolean isActive = true;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     /**
@@ -46,7 +41,6 @@ public class Token {
      *         token
      */
     public boolean isExpired() {
-        return OffsetDateTime.now().isAfter(expirationDate);
+        return System.currentTimeMillis() > expirationDate;
     }
-
 }

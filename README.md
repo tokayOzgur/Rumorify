@@ -51,6 +51,13 @@
 - **Log4j2**: A logging framework.
 - **Thymeleaf**: A modern server-side Java template engine for web and standalone environments.
 
+### DevOps
+- **Docker**: A tool designed to make it easier to create, deploy, and run applications by using containers.
+- **Docker Compose**: A tool for defining and running multi-container Docker applications.
+
+### Database
+- **H2DB**: An in-memory database, useful for development and testing.
+- **Redis**: An in-memory data structure store, used as a database, cache, and message broker.
 
 ## Installation
 ### Prerequisites

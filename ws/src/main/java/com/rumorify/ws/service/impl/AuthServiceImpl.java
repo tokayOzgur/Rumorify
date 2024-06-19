@@ -62,8 +62,8 @@ public class AuthServiceImpl implements AuthService {
             throw new AccessDeniedException();
         }
         tokenService.updateExpirationDate(token);
-        GetUserByIdResponse userInDbByToken = userService.findById(token.getUser().getId());
-        return AuthResponse.builder().user(userInDbByToken).build();
+        GetUserByIdResponse userResp = mapper.forResponse().map(token.getUser(), GetUserByIdResponse.class);
+        return AuthResponse.builder().user(userResp).build();
     }
 
     public int getCurrentUserId() {

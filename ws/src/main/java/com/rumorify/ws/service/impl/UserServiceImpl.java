@@ -30,6 +30,7 @@ import com.rumorify.ws.model.User;
 import com.rumorify.ws.repository.UserRepository;
 import com.rumorify.ws.service.EmailService;
 import com.rumorify.ws.service.ModelMapperService;
+import com.rumorify.ws.service.TokenService;
 import com.rumorify.ws.service.UserService;
 
 import jakarta.transaction.Transactional;
@@ -46,10 +47,9 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
     private PasswordEncoder passwordEncoder;
     private final FileService fileService;
+    private final TokenService tokenService;
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class); 
     
-
-
     @Override
     public GetUserByUserNameResponse findByUsername(String username) {
         User user = userRepository.findByUsername(username)
@@ -104,6 +104,7 @@ public class UserServiceImpl implements UserService {
             inDb.setImage(fileName);
         }
         userRepository.save(inDb);
+        tokenService.updateTokenUser(id);
         logger.debug("User updated successfully: {}", id);
     }
 

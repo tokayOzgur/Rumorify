@@ -15,4 +15,8 @@ public interface TokenService {
     public Token findToken(String cookieValue);
 
     public void updateExpirationDate(Token token);
+
+    public void updateTokenUser(int userId);
+
+    public Token findTokenByUserId(int userId);
 }

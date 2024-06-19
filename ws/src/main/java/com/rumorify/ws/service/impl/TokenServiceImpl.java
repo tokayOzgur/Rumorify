@@ -1,18 +1,20 @@
 package com.rumorify.ws.service.impl;
 
-import java.time.OffsetDateTime;
+import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rumorify.ws.dto.requests.CredentialsRequest;
 import com.rumorify.ws.dto.responses.GetUserByEmailResponse;
 import com.rumorify.ws.exception.UserNotFoundException;
 import com.rumorify.ws.model.Token;
 import com.rumorify.ws.model.User;
-import com.rumorify.ws.repository.TokenRepository;
 import com.rumorify.ws.repository.UserRepository;
 import com.rumorify.ws.service.TokenService;
 
@@ -21,9 +23,10 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
-    private final TokenRepository tokenRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final UserRepository userRepository;
     private static final Logger logger = LogManager.getLogger(TokenServiceImpl.class);
+    private final ObjectMapper objectmapper;
 
     @Override
     public Token generateToken(GetUserByEmailResponse user, CredentialsRequest credentials) {
@@ -32,13 +35,17 @@ public class TokenServiceImpl implements TokenService {
             return new UserNotFoundException(user.getId());
         });
         Token token = new Token();
+        token.setToken(UUID.randomUUID().toString());
         token.setUser(inDb);
-        token.setExpirationDate(OffsetDateTime.now().plusHours(3));
-        return tokenRepository.save(token);
+        token.setExpirationDate(System.currentTimeMillis() + (3 * 60 * 60 * 1000));
+        redisTemplate.opsForValue().set(token.getToken(), token);
+        logger.info("Token generated: {}", token.getToken());
+        return token;
     }
 
     @Override
     public User verifyToken(String authorizationHeader) {
+        logger.debug("Authorization header: " + authorizationHeader);
         var tokenInDb = extractToken(authorizationHeader);
         if (tokenInDb.isPresent() && !tokenInDb.get().isExpired() && tokenInDb.get().isActive())
             return tokenInDb.get().getUser();
@@ -50,9 +57,10 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void logout(String authorizationHeader) {
         var tokenInDb = extractToken(authorizationHeader);
-        if (!tokenInDb.isPresent()) return;
+        if (!tokenInDb.isPresent())
+            return;
         tokenInDb.get().setActive(false);
-        tokenRepository.save(tokenInDb.get());
+        redisTemplate.opsForValue().set(tokenInDb.get().getToken(), tokenInDb.get());
     }
 
     private Optional<Token> extractToken(String authorizationHeader) {
@@ -61,20 +69,39 @@ public class TokenServiceImpl implements TokenService {
             return Optional.empty();
         }
         String token = authorizationHeader.split(" ")[1];
-        return tokenRepository.findById(token);
+        Object tokenData = redisTemplate.opsForValue().get(token);
+
+        if (tokenData instanceof LinkedHashMap) {
+            Token tokenInDb = this.objectmapper.convertValue(tokenData, Token.class);
+            return Optional.ofNullable(tokenInDb);
+        } else if (tokenData instanceof Token) {
+            return Optional.ofNullable((Token) tokenData);
+        } else {
+            logger.error("Token data is not in the expected format: " + tokenData);
+            return Optional.empty();
+        }
     }
 
     @Override
     public Token findToken(String cookieValue) {
-        return tokenRepository.findById(cookieValue).orElseGet(() -> {
+        Object tokenData = redisTemplate.opsForValue().get(cookieValue);
+        if (tokenData == null) {
             logger.error("Token not found: " + cookieValue);
             return null;
-        });
+        } else if (tokenData instanceof LinkedHashMap) {
+            Token token = this.objectmapper.convertValue(tokenData, Token.class);
+            return token;
+        } else if (tokenData instanceof Token) {
+            return (Token) tokenData;
+        } else {
+            logger.error("Token data is not in the expected format: " + tokenData);
+            return null;
+        }
     }
 
     @Override
     public void updateExpirationDate(Token token) {
-        token.setExpirationDate(OffsetDateTime.now().plusHours(3));
-        tokenRepository.save(token);
+        token.setExpirationDate(System.currentTimeMillis() + (3 * 60 * 60 * 1000));
+        redisTemplate.opsForValue().set(token.getToken(), token);
     }
 }
